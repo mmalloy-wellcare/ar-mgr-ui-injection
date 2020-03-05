@@ -1,0 +1,8 @@
+{
+    "project": "pb-rate-ui",
+    "buildToFolder": "/build/out/",
+    "copy": [
+        {"from": "{buildPath}/main.js", "to": "main.js"},
+        {"from": "./src/config/config.json", "to": "config.json"}
+    ]
+}

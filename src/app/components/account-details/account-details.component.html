@@ -1,0 +1,17 @@
+<mat-tab-group selectedIndex="1">
+    <mat-tab disabled>
+        <ng-template mat-tab-label>
+            <span class="tab-group-header">
+                <i class="fa fa-users" aria-hidden="true"></i> &nbsp;
+                <span class="tab-group-title">{{ accountName }}</span>    
+            </span>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Transactions">
+        <ng-template mat-tab-label>
+            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            Transactions
+        </ng-template>
+        <pb-ar-ui-transactions></pb-ar-ui-transactions>
+    </mat-tab>
+</mat-tab-group>

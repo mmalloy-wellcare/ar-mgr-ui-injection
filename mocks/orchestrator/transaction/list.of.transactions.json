@@ -1,0 +1,51 @@
+[
+    {
+        "SubscrbID": "CP88665",
+        "BillPerDt": "2020-03-03",
+        "CreatedDt": "2020-03-03",
+        "CvrgPerStartDt": "2020-03-03",
+        "CvrgPerEndDt": "2020-03-03",
+        "Liabilities": [
+            {
+                "LiabilityType": "cmsAmtTEMP",
+                "amt": 100
+            },
+            {
+                "LiabilityType": "spapRespAmtTEMP",
+                "amt": 75
+            },
+            {
+                "LiabilityType": "subAmtTEMP",
+                "amt": 50
+            }
+        ]
+    },
+    {
+        "SubscrbID": "KT19911117",
+        "BillPerDt": "2020-04-04",
+        "CreatedDt": "2020-05-05",
+        "CvrgPerStartDt": "2020-04-04",
+        "CvrgPerEndDt": "2020-05-05",
+        "Liabilities": [
+            {
+                "LiabilityType": "cmsAmtTEMP",
+                "amt": 999
+            },
+            {
+                "LiabilityType": "spapRespAmtTEMP",
+                "amt": 888
+            },
+            {
+                "LiabilityType": "subAmtTEMP",
+                "amt": 777
+            }
+        ]
+    },
+    {
+        "SubscrbID": "AI19960928",
+        "BillPerDt": "2020-06-06",
+        "CreatedDt": "2020-07-07",
+        "CvrgPerStartDt": "2020-06-06",
+        "CvrgPerEndDt": "2020-07-07"
+    }
+]

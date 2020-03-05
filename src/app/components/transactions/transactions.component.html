@@ -1,0 +1,47 @@
+<mat-toolbar><strong>Transactions</strong></mat-toolbar>
+<kendo-grid
+    [data]="gridData" 
+    [selectable]="selectableSettings"
+    [selectedKeys]="selectedKeys"
+    kendoGridSelectBy="SubscrbID"
+    sortable="true"
+    [sort]="sort"
+    (sortChange)="onSortChange($event)"  
+    (scrollBottom)="loadMoreGridData()"
+    [loading]="gridLoading"
+>
+    <kendo-grid-column field="BillPerDt" title="Bill Period">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ dataItem.BillPerDt | date: 'MM/dd/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CreatedDt" title="Create Date">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ dataItem.CreatedDt | date: 'MM/dd/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="periodStartEnd" title="Period Start - End">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ dataItem.CvrgPerStartDt === '1900-01-01' ? '' : dataItem.CvrgPerStartDt | date: 'MM/dd/yyyy' }}
+            -
+            {{ dataItem.CvrgPerEndDt === '9999-12-31' ? '' : dataItem.CvrgPerEndDt | date: 'MM/dd/yyyy' }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="SubscrbID" title="Subscriber ID">
+    </kendo-grid-column>
+    <kendo-grid-column field="subAmtTEMP" title="Subscriber">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ (dataItem.flattenedLiabilities ? dataItem.flattenedLiabilities.subAmtTEMP : 0) | currency: 'USD' }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="cmsAmtTEMP" title="CMS">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ (dataItem.flattenedLiabilities ? dataItem.flattenedLiabilities.cmsAmtTEMP : 0) | currency: 'USD' }}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="spapRespAmtTEMP" title="SPAP">
+        <ng-template kendoGridCellTemplate let-dataItem let-column="column">
+            {{ (dataItem.flattenedLiabilities ? dataItem.flattenedLiabilities.spapRespAmtTEMP : 0) | currency: 'USD' }}
+        </ng-template>
+    </kendo-grid-column>
+</kendo-grid>

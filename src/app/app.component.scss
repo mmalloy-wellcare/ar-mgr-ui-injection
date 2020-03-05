@@ -1,0 +1,112 @@
+@mixin flexColumn() {
+    display: flex;
+    flex-direction: column;
+}
+
+pb-ar-ui {
+    $brandColor: #107ba4;
+    $brandColorOne: #024069;
+
+    @include flexColumn();
+    height: 100%;
+
+    .web-component-flex {
+        @include flexColumn();
+        flex: 1;
+    }
+
+    .workbench-header {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 12px;
+
+        .workbench-title {
+            color: #fff;
+            background-color: $brandColorOne;
+            padding: 6px 30px 15px 30px;
+            border-radius: 0 0 40% 40%;
+            text-transform: uppercase;
+            font-weight: 100;
+            font-size: 24px;
+        }    
+    }
+    
+    .side-padding {
+        padding: 0 32px;
+    }
+
+    .side-padding {
+        padding: 0 32px;
+    }
+
+    mat-toolbar.mat-toolbar.mat-toolbar-single-row {
+        padding: 0;
+
+        .fa {
+            color: $brandColor;
+        }
+    }
+
+    kendo-grid {
+        // fixes flex to page issue
+        height: 0px;
+    }
+
+    mat-tab-group.mat-tab-group {
+        flex: 1;
+
+        .mat-tab-header .mat-tab-header-pagination.mat-tab-header-pagination {
+            display: none;
+        }
+
+        .mat-tab-body-wrapper {
+            flex: 1;
+
+            .mat-tab-body-content {
+                @include flexColumn();
+            }
+        }
+
+        .mat-tab-labels {
+            justify-content: flex-end;
+
+            .mat-tab-label {
+                font: 14px Calibri;
+                font-weight: 600;
+                padding: 0 12px;
+                min-width: 100px;
+                opacity: 1;
+    
+                .fa {
+                    color: $brandColor;
+                }
+
+                // for tab group header
+                &:first-child {
+                    flex: 1;
+                    justify-content: flex-start;
+                    padding: 0;
+                }
+            }
+    
+            .mat-tab-label-active {
+                color: $brandColorOne;
+            }
+
+            .tab-group-header {
+                font: 18px Calibri;
+                font-weight: 500;
+                color: #333;
+
+                .tab-group-title {
+                    font: 22px Calibri;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .mat-ink-bar {
+            height: 3px;
+        }
+    }
+}
