@@ -1,5 +1,5 @@
 {
-    "project": "pb-rate-ui",
+    "project": "pb-ar-ui",
     "buildToFolder": "/build/out/",
     "copy": [
         {"from": "{buildPath}/main.js", "to": "main.js"},
