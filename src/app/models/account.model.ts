@@ -4,13 +4,16 @@ import { Address} from './address.model';
 export interface Account {
     AccountID: string;
     SubscrbID: string;
-    medicareIdFORMTEMP: string;
-    ExchngSubID: string;
-    ssnID: string;
+    MedicareId: string;
+    ExChgSubID: string;
+    SSN: string;
     FirstName: string;
     LastName: string;
     Dob: string;
     Addresses: Array<Address>;
-    addressFORMTEMP?: any;
-    dependent?: Array<Dependent>;
+    AddrLine1?: string;
+    City?: string;
+    State?: string;
+    Zip?: string;
+    Members: Array<Dependent>;
 }

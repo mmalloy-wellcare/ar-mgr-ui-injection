@@ -18,9 +18,9 @@ export class AccountSearchComponent implements OnInit {
     primaryForm: new FormGroup({
       AccountID: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
       SubscrbID: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
-      medicareIdFORMTEMP: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
-      ExchngSubID: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
-      ssnID: new FormControl(String(), [this.ssnValidator, this.dirtyValidator])
+      MedicareId: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
+      ExChgSubID: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
+      SSN: new FormControl(String(), [this.ssnValidator, this.dirtyValidator])
     }),
     secondaryForm: new FormGroup({
       FirstName: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
@@ -86,14 +86,27 @@ export class AccountSearchComponent implements OnInit {
       if (!!childrenFormValues[fieldName]) {
         searchFilters.push({
           operator: 'EQ',
-          value: childrenFormValues[fieldName].toUpperCase(),
-          property: fieldName,
+          value: this.getFilterValue(childrenFormValues, fieldName),
+          property: fieldName === 'SubscrbID' ? 'IssuerSubID' : fieldName,
           dataType: fieldName === 'Dob' ? 'date' : 'character'
         });
       }
     }
 
     return searchFilters;
+  }
+
+  private getFilterValue(formValues: any, fieldName: string) {
+    let filterValue = formValues[fieldName].toUpperCase();
+
+    if (
+      fieldName === 'SubscrbID' || fieldName === 'MedicareId' || fieldName === 'ExChgSubID' ||
+      fieldName === 'FirstName' || fieldName === 'LastName' || fieldName === 'AddrLine1' || fieldName === 'City'
+    ) {
+      filterValue += '*';
+    }
+
+    return filterValue;
   }
 
   inputLengthValidator(control: AbstractControl) {

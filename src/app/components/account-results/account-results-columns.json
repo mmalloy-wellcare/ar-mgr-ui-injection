@@ -6,12 +6,12 @@
         "default": true
     },
     {
-        "field": "medicareIdFORMTEMP",
+        "field": "MedicareId",
         "title": "Medicare ID",
         "hidden": true
     },
     {
-        "field": "ExchngSubID",
+        "field": "ExChgSubID",
         "title": "Exchange ID",
         "hidden": true
     },

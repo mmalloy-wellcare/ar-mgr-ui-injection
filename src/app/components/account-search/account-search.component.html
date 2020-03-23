@@ -43,9 +43,9 @@
             matInput
             id="account-search-medicare-id"
             placeholder="Medicare ID"
-            [formControl]="accountSearchForm.get('primaryForm.medicareIdFORMTEMP')"
+            [formControl]="accountSearchForm.get('primaryForm.MedicareId')"
           >
-          <mat-error *ngIf="accountSearchForm.get('primaryForm.medicareIdFORMTEMP').hasError('invalidLength')">
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.MedicareId').hasError('invalidLength')">
             Input must be at least 2 characters
           </mat-error>
         </mat-form-field>
@@ -54,9 +54,9 @@
             matInput
             id="account-search-exchange-id"
             placeholder="Exchange ID"
-            [formControl]="accountSearchForm.get('primaryForm.ExchngSubID')"
+            [formControl]="accountSearchForm.get('primaryForm.ExChgSubID')"
           >
-          <mat-error *ngIf="accountSearchForm.get('primaryForm.ExchngSubID').hasError('invalidLength')">
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.ExChgSubID').hasError('invalidLength')">
             Input must be at least 2 characters
           </mat-error>
         </mat-form-field>
@@ -65,10 +65,10 @@
             matInput
             id="account-search-ssn"
             placeholder="Social Security #"
-            [formControl]="accountSearchForm.get('primaryForm.ssnID')"
+            [formControl]="accountSearchForm.get('primaryForm.SSN')"
             maxLength="9"
           >
-          <mat-error *ngIf="accountSearchForm.get('primaryForm.ssnID').hasError('invalidSSN')">
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.SSN').hasError('invalidSSN')">
             SSN must be either full 9 digits or last 4 digits
           </mat-error>
         </mat-form-field>  

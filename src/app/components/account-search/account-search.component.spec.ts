@@ -93,7 +93,7 @@ describe('AccountSearchComponent', () => {
     function testSubmitSearchCriteria(mockSSN, criteria?) {
       component.searchCriteria = [];
       component.accountSearchForm.reset();
-      component.accountSearchForm.get('primaryForm.ssnID').setValue(mockSSN);
+      component.accountSearchForm.get('primaryForm.SSN').setValue(mockSSN);
       component.accountSearchForm.get('secondaryForm.Dob').setValue(new Date());
       component.accountSearchForm.markAsDirty();
       component.submitSearchCriteria(criteria);
@@ -115,11 +115,11 @@ describe('AccountSearchComponent', () => {
 
   describe('ssnValidator', () => {
     it('should set ssn control as valid', () => {
-      testValidator('primaryForm', 'ssnID', '123456789', true);
+      testValidator('primaryForm', 'SSN', '123456789', true);
     });
 
     it('should set ssn control as invalid', () => {
-      testValidator('primaryForm', 'ssnID', '3', false);
+      testValidator('primaryForm', 'SSN', '3', false);
     });
   });
 
@@ -174,7 +174,7 @@ describe('AccountSearchComponent', () => {
       case 'Zip':
         component.zipCodeValidator(control);
         break;
-      case 'ssnID':
+      case 'SSN':
         component.ssnValidator(control);
         break;
       default:

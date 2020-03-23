@@ -22,7 +22,8 @@
     "paths": {
       "@config/*": ["src/config/*"],
       "@app/*": ["src/app/*"],
-      "@mockServices/*": ["server/mock-services/*"]
+      "@mockServices/*": ["server/mock-services/*"],
+      "@mocks/*": ["mocks/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
