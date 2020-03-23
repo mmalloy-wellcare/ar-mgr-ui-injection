@@ -10,15 +10,31 @@ import { GridModule } from '@progress/kendo-angular-grid';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { TransactionsService } from './services/transactions.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AccountSearchComponent } from './components/account-search/account-search.component';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { AccountResultsComponent } from './components/account-results/account-results.component';
+import { ColumnSelectionComponent } from './components/column-selection/column-selection.component';
+import { AccountDependentComponent } from './components/account-dependent/account-dependent.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AccountDetailsComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    AccountSearchComponent,
+    AccountResultsComponent,
+    ColumnSelectionComponent,
+    AccountDependentComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +45,16 @@ import { HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatSnackBarModule,
     MatTabsModule,
-    HttpClientModule
+    MatCheckboxModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatSelectModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     AlertsService,

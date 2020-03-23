@@ -1,0 +1,9 @@
+<ng-container *ngFor="let column of columns">
+  <mat-checkbox
+    [id]="'column-'+column.field+'-chkbox'"
+    color="primary"
+    [checked]="!column.hidden"
+    [disabled]="column.default"
+    (change)="onColumnSelectionChange($event.checked, column.field)"
+  >{{ column.title }}</mat-checkbox>
+</ng-container>

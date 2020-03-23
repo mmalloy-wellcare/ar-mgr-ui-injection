@@ -1,0 +1,238 @@
+[
+    {
+        "Key": "Alabama",
+        "Value": "AL"
+    },
+    {
+        "Key": "Alaska",
+        "Value": "AK"
+    },
+    {
+        "Key": "American Samoa",
+        "Value": "AS"
+    },
+    {
+        "Key": "Arizona",
+        "Value": "AZ"
+    },
+    {
+        "Key": "Arkansas",
+        "Value": "AR"
+    },
+    {
+        "Key": "California",
+        "Value": "CA"
+    },
+    {
+        "Key": "Colorado",
+        "Value": "CO"
+    },
+    {
+        "Key": "Connecticut",
+        "Value": "CT"
+    },
+    {
+        "Key": "Delaware",
+        "Value": "DE"
+    },
+    {
+        "Key": "District Of Columbia",
+        "Value": "DC"
+    },
+    {
+        "Key": "Federated States Of Micronesia",
+        "Value": "FM"
+    },
+    {
+        "Key": "Florida",
+        "Value": "FL"
+    },
+    {
+        "Key": "Georgia",
+        "Value": "GA"
+    },
+    {
+        "Key": "Guam Gu",
+        "Value": "GU"
+    },
+    {
+        "Key": "Hawaii",
+        "Value": "HI"
+    },
+    {
+        "Key": "Idaho",
+        "Value": "ID"
+    },
+    {
+        "Key": "Illinois",
+        "Value": "IL"
+    },
+    {
+        "Key": "Indiana",
+        "Value": "IN"
+    },
+    {
+        "Key": "Iowa",
+        "Value": "IA"
+    },
+    {
+        "Key": "Kansas",
+        "Value": "KS"
+    },
+    {
+        "Key": "Kentucky",
+        "Value": "KY"
+    },
+    {
+        "Key": "Louisiana",
+        "Value": "LA"
+    },
+    {
+        "Key": "Maine",
+        "Value": "ME"
+    },
+    {
+        "Key": "Marshall Islands",
+        "Value": "MH"
+    },
+    {
+        "Key": "Maryland",
+        "Value": "MD"
+    },
+    {
+        "Key": "Massachusetts",
+        "Value": "MA"
+    },
+    {
+        "Key": "Michigan",
+        "Value": "MI"
+    },
+    {
+        "Key": "Minnesota",
+        "Value": "MN"
+    },
+    {
+        "Key": "Mississippi",
+        "Value": "MS"
+    },
+    {
+        "Key": "Missouri",
+        "Value": "MO"
+    },
+    {
+        "Key": "Montana",
+        "Value": "MT"
+    },
+    {
+        "Key": "Nebraska",
+        "Value": "NE"
+    },
+    {
+        "Key": "Nevada",
+        "Value": "NV"
+    },
+    {
+        "Key": "New Hampshire",
+        "Value": "NH"
+    },
+    {
+        "Key": "New Jersey",
+        "Value": "NJ"
+    },
+    {
+        "Key": "New Mexico",
+        "Value": "NM"
+    },
+    {
+        "Key": "New York",
+        "Value": "NY"
+    },
+    {
+        "Key": "North Carolina",
+        "Value": "NC"
+    },
+    {
+        "Key": "North Dakota",
+        "Value": "ND"
+    },
+    {
+        "Key": "Northern Mariana Islands",
+        "Value": "MP"
+    },
+    {
+        "Key": "Ohio",
+        "Value": "OH"
+    },
+    {
+        "Key": "Oklahoma",
+        "Value": "OK"
+    },
+    {
+        "Key": "Oregon",
+        "Value": "OR"
+    },
+    {
+        "Key": "Palau",
+        "Value": "PW"
+    },
+    {
+        "Key": "Pennsylvania",
+        "Value": "PA"
+    },
+    {
+        "Key": "Puerto Rico",
+        "Value": "PR"
+    },
+    {
+        "Key": "Rhode Island",
+        "Value": "RI"
+    },
+    {
+        "Key": "South Carolina",
+        "Value": "SC"
+    },
+    {
+        "Key": "South Dakota",
+        "Value": "SD"
+    },
+    {
+        "Key": "Tennessee",
+        "Value": "TN"
+    },
+    {
+        "Key": "Texas",
+        "Value": "TX"
+    },
+    {
+        "Key": "Utah",
+        "Value": "UT"
+    },
+    {
+        "Key": "Vermont",
+        "Value": "VT"
+    },
+    {
+        "Key": "Virgin Islands",
+        "Value": "VI"
+    },
+    {
+        "Key": "Virginia",
+        "Value": "VA"
+    },
+    {
+        "Key": "Washington",
+        "Value": "WA"
+    },
+    {
+        "Key": "West Virginia",
+        "Value": "WV"
+    },
+    {
+        "Key": "Wisconsin",
+        "Value": "WI"
+    },
+    {
+        "Key": "Wyoming",
+        "Value": "WY"
+    }
+]

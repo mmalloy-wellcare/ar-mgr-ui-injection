@@ -1,0 +1,191 @@
+<mat-toolbar>
+  <i 
+    class="fa expansion-toggle"
+    id="account-search-toggle"
+    [class.expanded]="expandSearchCard"
+    aria-label="Expand user card"
+    (click)="toggleSearchCard()"
+  ></i>
+  <span class="toolbar-title">Account Search</span>
+</mat-toolbar>
+<div class="account-search-container" [class.expanded]="expandSearchCard">
+  <div class="account-search-card">
+    <form [formGroup]="accountSearchForm" (keydown.enter)="submitSearchCriteria($event)">
+      <mat-error *ngIf="accountSearchForm.hasError('searchCriteria')">
+        *If the search criteria fields on the top row are blank, you need at least one other search criteria field
+        filled out
+      </mat-error>
+      <div class="account-search-field-row">
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-system-id"
+            placeholder="System ID" 
+            [formControl]="accountSearchForm.get('primaryForm.AccountID')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.AccountID').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-subscriber-id"
+            placeholder="Subscriber ID"
+            [formControl]="accountSearchForm.get('primaryForm.SubscrbID')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.SubscrbID').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-medicare-id"
+            placeholder="Medicare ID"
+            [formControl]="accountSearchForm.get('primaryForm.medicareIdFORMTEMP')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.medicareIdFORMTEMP').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-exchange-id"
+            placeholder="Exchange ID"
+            [formControl]="accountSearchForm.get('primaryForm.ExchngSubID')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.ExchngSubID').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-ssn"
+            placeholder="Social Security #"
+            [formControl]="accountSearchForm.get('primaryForm.ssnID')"
+            maxLength="9"
+          >
+          <mat-error *ngIf="accountSearchForm.get('primaryForm.ssnID').hasError('invalidSSN')">
+            SSN must be either full 9 digits or last 4 digits
+          </mat-error>
+        </mat-form-field>  
+      </div>
+      <div class="account-search-field-row">
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-first-name"
+            placeholder="First Name"
+            [formControl]="accountSearchForm.get('secondaryForm.FirstName')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('secondaryForm.FirstName').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>      
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-last-name"
+            placeholder="Last Name"
+            [formControl]="accountSearchForm.get('secondaryForm.LastName')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('secondaryForm.LastName').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>      
+        <mat-form-field>
+          <input
+            matInput 
+            id="account-search-dob"
+            placeholder="Date of Birth"
+            id="account-search-dob"
+            [matDatepicker]="accountSearchDOB"
+            [formControl]="accountSearchForm.get('secondaryForm.Dob')"
+          >
+          <mat-datepicker-toggle matSuffix [for]="accountSearchDOB"></mat-datepicker-toggle>
+          <mat-datepicker #accountSearchDOB></mat-datepicker>
+          <mat-error *ngIf="accountSearchForm.get('secondaryForm.Dob').hasError('matDatepickerParse')">
+            Input must be in required format (mm/dd/yyyy)
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="account-search-field-row">
+        <mat-form-field class="long-field">
+          <input
+            matInput
+            id="account-search-address"
+            placeholder="Address"
+            [formControl]="accountSearchForm.get('secondaryForm.AddrLine1')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('secondaryForm.AddrLine1').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>      
+        <mat-form-field>
+          <input
+            matInput
+            id="account-search-city"
+            placeholder="City"
+            [formControl]="accountSearchForm.get('secondaryForm.City')"
+          >
+          <mat-error *ngIf="accountSearchForm.get('secondaryForm.City').hasError('invalidLength')">
+            Input must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+        <span class="account-search-field-row long-field">
+          <mat-form-field class="last-form-field">
+            <mat-label>State</mat-label>
+            <mat-select id="account-search-state" [formControl]="accountSearchForm.get('secondaryForm.State')">
+              <mat-option *ngFor="let state of states" [value]="state.Value">
+                {{ state.Value }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>      
+          <mat-form-field class="last-form-field">
+            <input
+              matInput
+              id="account-search-zip"
+              placeholder="Zip Code"
+              [formControl]="accountSearchForm.get('secondaryForm.Zip')"
+              maxLength="5"
+            >
+            <mat-error *ngIf="accountSearchForm.get('secondaryForm.Zip').hasError('invalidZipCode')">
+              Zip Code must be 5 digits
+            </mat-error>
+          </mat-form-field>
+          <span class="spacer"></span>
+          <span class="button-group-horizontal">
+            <button 
+              mat-button 
+              id="account-search-clear-btn" 
+              type="button"
+              (click)="resetSearchCriteria()" 
+              [disabled]="!accountSearchForm.dirty || accountSearchForm.disabled"
+            >
+              <i class="fa fa-times" aria-hidden="true"></i> Clear All</button>
+            <button 
+              mat-raised-button
+              id="account-search-submit-btn"
+              type="submit"
+              color="primary"
+              (click)="submitSearchCriteria()"
+              [disabled]="!accountSearchForm.dirty || accountSearchForm.invalid || accountSearchForm.disabled"
+            >
+              <i class="fa" aria-hidden="true" [class.fa-search]="!accountSearchForm.disabled" [class.fa-spinner]="accountSearchForm.disabled"
+                [class.fa-spin]="accountSearchForm.disabled"></i>
+              Search
+            </button>
+          </span>    
+        </span>
+      </div>
+    </form>
+  </div>
+</div>
+<pb-ar-ui-account-results
+  [searchCriteria]="searchCriteria"
+  [showResults]="showResults"
+  (accountsLoaded)="onAccountsLoaded($event)"
+></pb-ar-ui-account-results>

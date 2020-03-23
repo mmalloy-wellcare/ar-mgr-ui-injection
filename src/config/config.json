@@ -5,7 +5,7 @@
             "classes": ["fa", "fa-address-book"]
         },
         "tooltip": "Accounts Receivable",
-        "route": "pb-ar-ui/account-details"
+        "route": "pb-ar-ui/account-search"
     },
     "menuItems": []
 }

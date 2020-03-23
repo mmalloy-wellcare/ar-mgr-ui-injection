@@ -1,0 +1,26 @@
+<kendo-grid
+  [data]="dependents"
+  scrollable="none"
+>
+  <kendo-grid-column field="MbrID" title="Issuer Member ID">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <a
+          [id]="'account-issuer-id-' + dataItem.MbrID"
+          routerLink="/pb-ar-ui/account-details"
+        >{{ dataItem.MbrID }}</a>
+      </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="ExchngMbrID" title="Exchange Member ID">
+  </kendo-grid-column>
+  <kendo-grid-column field="FirstName" title="First Name">
+  </kendo-grid-column>
+  <kendo-grid-column field="LastName" title="Last Name">
+  </kendo-grid-column>
+  <kendo-grid-column field="Dob" title="Date of Birth">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.Dob | date: 'MM/dd/yyyy' }}
+      </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column field="Relationship" title="Relationship">
+  </kendo-grid-column>
+</kendo-grid>

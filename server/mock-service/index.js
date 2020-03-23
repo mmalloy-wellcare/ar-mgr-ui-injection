@@ -11,6 +11,9 @@ module.exports = (app) => {
   // serve orchestrator service mocks
   app.use('/premium-billing/orchestrator/v1', require('./orchestrator'));
 
+  // serve acounts receivable mocks
+  app.use('/premium-billing/ar-mgr/v1', require('./ar-mgr'));
+
   // catch all errors block
   app.use((data, req, res, next) => {
 

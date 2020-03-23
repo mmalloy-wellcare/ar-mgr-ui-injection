@@ -4,8 +4,7 @@ import { TransactionsService } from 'src/app/services/transactions.service';
 
 @Component({
   selector: 'pb-ar-ui-transactions',
-  templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.scss']
+  templateUrl: './transactions.component.html'
 })
 export class TransactionsComponent extends GridComponent implements OnInit {
   @HostBinding('class') componentClass = 'web-component-flex';

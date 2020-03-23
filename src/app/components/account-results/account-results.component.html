@@ -1,0 +1,38 @@
+<mat-toolbar *ngIf="showResults">
+    <span class="toolbar-title">Account Search Results</span>
+    <span class="spacer"></span>
+    <button mat-button #columnsDropdownButton id="columns-dropdown-btn" (click)="showColumnsDropdown()">
+        <i class="fa fa-eye" aria-hidden="true"></i> Columns
+    </button>
+    <ng-template #columnsDropdownTemplate>
+        <pb-ar-ui-column-selection [columns]="columns" (selectionChange)="onColumnSelectionChange($event)">
+        </pb-ar-ui-column-selection>
+    </ng-template>
+</mat-toolbar>
+<kendo-grid
+    id="account-search-results"
+    *ngIf="showResults"
+    [data]="gridData"
+    [selectable]="selectableSettings" 
+    sortable="true" 
+    [sort]="sort"
+    (sortChange)="onSortChange($event)"
+    (scrollBottom)="loadMoreGridData()"
+>
+    <ng-container *ngFor="let column of columns">
+        <kendo-grid-column [field]="column.field" [title]="column.title" [hidden]="isHiddenColumn(column.field)">
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Dob'">
+                {{ dataItem.Dob | date: 'MM/dd/yyyy' }}
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'SubscrbID'">
+                <a
+                    [id]="'account-sub-id-' + dataItem.SubscrbID"
+                    routerLink="/pb-ar-ui/account-details"
+                >{{ dataItem.SubscrbID }}</a>
+            </ng-template>
+        </kendo-grid-column>
+    </ng-container>
+    <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showDependents">
+        <pb-ar-ui-account-dependent [dependents]="dataItem.Members"></pb-ar-ui-account-dependent>
+    </ng-template>
+</kendo-grid>

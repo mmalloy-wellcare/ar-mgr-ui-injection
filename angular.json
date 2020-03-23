@@ -68,8 +68,7 @@
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "port": 8200,
-            "browserTarget": "pb-ar-ui:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "browserTarget": "pb-ar-ui:build"
           },
           "configurations": {
             "production": {

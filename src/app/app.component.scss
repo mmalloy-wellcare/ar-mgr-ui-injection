@@ -1,14 +1,20 @@
-@mixin flexColumn() {
-    display: flex;
-    flex-direction: column;
-}
-
 pb-ar-ui {
-    $brandColor: #107ba4;
-    $brandColorOne: #024069;
+    @mixin flexColumn() {
+        display: flex;
+        flex-direction: column;
+    }
 
     @include flexColumn();
+    $brandColor: #107ba4;
+    $brandColorOne: #024069;
+    $grayLightest: #f2f2f2;
+    $grayLight: #e0e0e0;
+    $gray: #bdbdbd;
     height: 100%;
+
+    .mat-raised-button.mat-primary:hover:not([disabled]) {
+        background-color: $brandColorOne;
+    }
 
     .web-component-flex {
         @include flexColumn();
@@ -17,24 +23,27 @@ pb-ar-ui {
 
     .workbench-header {
         display: flex;
-        justify-content: center;
-        margin-bottom: 12px;
+        flex-direction: column;
+        margin: 0 auto 8px auto;
+        user-select: none;
 
         .workbench-title {
             color: #fff;
             background-color: $brandColorOne;
-            padding: 6px 30px 15px 30px;
-            border-radius: 0 0 40% 40%;
+            padding: 8px 28px 5px 28px;
             text-transform: uppercase;
             font-weight: 100;
             font-size: 24px;
+        } 
+        
+        .workbench-curve {
+            background-color: $brandColorOne;
+            padding: 11px;
+            border-radius: 0 0 100% 100%;
+            margin-top: -10px;
         }    
     }
     
-    .side-padding {
-        padding: 0 32px;
-    }
-
     .side-padding {
         padding: 0 32px;
     }
@@ -107,6 +116,167 @@ pb-ar-ui {
 
         .mat-ink-bar {
             height: 3px;
+        }
+    }
+    
+    .account-search-container {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.2s;
+
+        &.expanded {
+            max-height: 300px;
+            transition: all 0.2s;
+        }
+
+        .account-search-card {
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background-color: $grayLightest;
+            padding: 12px;
+
+            .account-search-field-row {
+                display: flex;
+                align-items: baseline;
+
+                &:first-child {
+                    padding-top: 6px;
+                }
+
+                .mat-form-field {
+                    flex: 0 20%;
+                    font: 16px Calibri;
+                    box-sizing: border-box;
+                    padding: 6px 12px;
+    
+                    .mat-form-field-infix {
+                        width: auto;
+                    }
+                }
+    
+                .last-form-field {
+                    padding: 6px 0 6px 12px;
+                }
+    
+                &.long-field, .long-field {
+                    flex: 0 40%;
+                }
+    
+                .button-group-horizontal {
+                    padding: 6px 12px 6px 0;
+                }
+            }    
+        }
+    }
+
+    .fa.expansion-toggle {
+        transition: transform 0.2s;
+        cursor: pointer;
+
+        &:after {
+            content: '\f138';
+            font-size: 22px;
+            margin: 0 6px;            
+        }
+
+        &.expanded {
+            transform: rotate(90deg);
+            transition: transform 0.2s;
+        }
+    }
+
+    .k-grid {
+        tr.k-detail-row {
+            background-color: $grayLight;
+
+            &:hover {
+                background-color: $grayLight;
+            }
+
+            tr:last-child td {
+                border-bottom-width: 0;
+            }
+
+            td {
+                border-bottom-width: 1px;
+
+                &.k-detail-cell {
+                    padding: 12px 0;
+
+                    .detail-card {
+                        .k-grid {
+                            height: auto;
+                            margin-right: 12px;
+                        }
+                    }
+                }
+
+                thead {
+                    tr:hover {
+                        background-color: darken($grayLightest, 2%);
+                    }
+                }
+            }
+        }
+        td.k-hierarchy-cell {
+            .k-icon {
+                color: $brandColor;
+            }
+    
+            .k-plus:before, .k-minus:before {
+                content: '\f054';
+                font-family: FontAwesome;                   
+            }
+    
+            .k-plus, .k-minus {
+                transition: all 0.2s; 
+            }
+
+            .k-minus {
+                transform: rotate(90deg);
+            }
+        }
+        // adding user icon to account search results dependent hierarchy cell
+        &.k-grid#account-search-results {
+            tr.k-detail-row {
+                td.k-hierarchy-cell {
+                    vertical-align: top;
+                    padding-top: 23px;
+
+                    &:after {
+                        content: '\f2c0';
+                        font-family: FontAwesome;
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// overlays are outside of the pb-ar-ui element
+// added 'pb-ar-ui' text to checkbox dropdown class so it won't affect anything outside of pb-ar-ui
+.pb-ar-ui-checkbox-dropdown {
+    background-color: white;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+
+    .mat-checkbox {
+        padding: 0px 64px 8px 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+        &:first-child {
+            padding: 8px 64px 8px 16px;
+        }
+
+        &:last-child {
+            border: none;
+        }
+        
+        .mat-checkbox-label {
+            font-weight: 600;
+            color: #024069;
         }
     }
 }

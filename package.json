@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently \"npm run mock-services\" \"npm run ui\"",
-    "ui": "ng serve --aot=true --extraWebpackConfig=webpack.externals.js --single-bundle=true",
+    "ui": "ng serve --aot=true --proxyConfig=src/proxy.conf.local.json --extraWebpackConfig=webpack.externals.js --single-bundle=true",
     "start:local": "concurrently \"npm run mock-services\" \"npm run ui:local\"",
-    "ui:local": "ng serve",
+    "start:dev": "ng serve --proxyConfig=src/proxy.conf.dev.json",
+    "start:qa": "ng serve --proxyConfig=src/proxy.conf.qa.json",
+    "ui:local": "ng serve --proxyConfig=src/proxy.conf.local.json",
     "mock-services": "nodemon server/webserver.js --watch server",
     "bundle-web-component": "ng build --prod=true --extraWebpackConfig=webpack.externals.js --output-hashing=none --single-bundle=true",
     "build": "npm run bundle-web-component && node -e 'require(\"@nextgen/node-support\").deploy.microBundle()'",
@@ -47,7 +49,7 @@
     "@progress/kendo-drawing": "^1.0.0",
     "@progress/kendo-theme-default": "latest",
     "@progress/kendo-theme-material": "^2.5.1",
-    "@nextgen/web-care-portal-core-library": "^0.1.1-9"
+    "@nextgen/web-care-portal-core-library": "^0.1.1-14"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.801.0",

@@ -1,0 +1,63 @@
+[
+    {
+        "field": "SubscrbID",
+        "title": "Subscriber ID",
+        "hidden": false,
+        "default": true
+    },
+    {
+        "field": "medicareIdFORMTEMP",
+        "title": "Medicare ID",
+        "hidden": true
+    },
+    {
+        "field": "ExchngSubID",
+        "title": "Exchange ID",
+        "hidden": true
+    },
+    {
+        "field": "planIdFORMTEMP",
+        "title": "Plan ID",
+        "hidden": true
+    },
+    {
+        "field": "transactionIDFORMTEMP",
+        "title": "Transaction ID",
+        "hidden": true
+    },
+    {
+        "field": "FirstName",
+        "title": "First Name",
+        "hidden": false
+    },
+    {
+        "field": "LastName",
+        "title": "Last Name",
+        "hidden": false
+    },
+    {
+        "field": "Dob",
+        "title": "Date of Birth",
+        "hidden": false
+    },
+    {
+        "field": "AddrLine1",
+        "title": "Address",
+        "hidden": false
+    },
+    {
+        "field": "City",
+        "title": "City",
+        "hidden": false
+    },
+    {
+        "field": "State",
+        "title": "State",
+        "hidden": false
+    },
+    {
+        "field": "Zip",
+        "title": "Zip Code",
+        "hidden": false
+    }
+]
