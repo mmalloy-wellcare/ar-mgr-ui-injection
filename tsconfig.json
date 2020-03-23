@@ -11,9 +11,6 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "paths": {
-      "@mocks/*": ["mocks/*"],
-    },
     "typeRoots": [
       "node_modules/@types",
       "src/json.typings.d.ts"
@@ -21,7 +18,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@config/*": ["src/config/*"],
+      "@app/*": ["src/app/*"],
+      "@mockServices/*": ["server/mock-services/*"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

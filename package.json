@@ -16,6 +16,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "browserslist": [
+    "> 5%"
+  ],
   "private": true,
   "dependencies": {
     "@angular/animations": "8.x",
@@ -30,9 +33,9 @@
     "@angular/platform-browser-dynamic": "8.x",
     "@angular/router": "8.x",
     "document-register-element": "^1.7.2",
-    "ngx-build-plus": "^9.0.6",
+    "ngx-build-plus": "^9.0.2",
     "rxjs": "~6.4.0",
-    "tslib": "^1.9.0",
+    "tslib": "^1.10.0",
     "zone.js": "~0.9.1",
     "rxjs-compat": "^6.0.0",
     "@progress/kendo-angular-buttons": "^4.0.0",
@@ -52,10 +55,10 @@
     "@nextgen/web-care-portal-core-library": "^0.1.1-14"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.801.0",
-    "@angular/cli": "~8.1.0",
-    "@angular/compiler-cli": "~8.1.0",
-    "@angular/language-service": "~8.1.0",
+    "@angular-devkit/build-angular": "~0.803.25",
+    "@angular/cli": "8.x",
+    "@angular/compiler-cli": "8.x",
+    "@angular/language-service": "8.x",
     "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
@@ -71,6 +74,7 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.4.3",
+    "@babel/compat-data": "~7.8.0",
     "@angular-devkit/build-ng-packagr": "~0.801.3",
     "ng-packagr": "^5.1.0",
     "tsickle": "^0.35.0",
