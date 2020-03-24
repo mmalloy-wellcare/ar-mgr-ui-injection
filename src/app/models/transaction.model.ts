@@ -6,6 +6,6 @@ export interface Transaction {
     CreatedDt: string;
     CvrgPerStartDt: string;
     CvrgPerEndDt: string;
-    Liabilities: Array<Liability>;
+    Liabilities?: Array<Liability>;
     flattenedLiabilities?: any;
 }

@@ -23,7 +23,7 @@ describe('AccountResultsComponent', () => {
   const accountsService: Partial<AccountsService> = {
     getAccounts(restartRowId, sort, filter) {
       return of({
-        data: [],
+        data: mockAccounts,
         restartRowId: '0'
       });
     }
@@ -64,9 +64,8 @@ describe('AccountResultsComponent', () => {
 
   describe('loadGridData', () => {
     it('should load grid data', () => {
-      // TODO: this isn't right. fix test after demo.
       component.loadGridData();
-      expect(component.gridData.length).toEqual(0);
+      expect(component.gridData.length).toEqual(4);
     });
 
     it('show error if loadGridData fails', inject([AccountsService, AlertsService], (accountsServiceInject, alertsServiceInject) => {

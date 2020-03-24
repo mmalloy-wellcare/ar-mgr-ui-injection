@@ -44,6 +44,21 @@ describe('AccountSearchComponent', () => {
       testSearchCriteriaWarning(false);
     });
 
+    it('should set wildcard filter', () => {
+      const expectedWildcardFilter = [{
+        operator: 'EQ',
+        value: 'TEST*',
+        property: 'IssuerSubID',
+        dataType: 'character'
+      }];
+
+      component.resetSearchCriteria();
+      component.accountSearchForm.get('primaryForm').get('SubscrbID').setValue('test');
+      component.accountSearchForm.markAsDirty();
+      component.submitSearchCriteria();
+      expect(component.searchCriteria).toEqual(expectedWildcardFilter);
+    });
+
     function testSearchCriteriaWarning(hasError) {
       component.resetSearchCriteria();
       if (hasError) {
