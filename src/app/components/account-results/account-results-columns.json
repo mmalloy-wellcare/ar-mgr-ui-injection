@@ -11,18 +11,13 @@
         "hidden": true
     },
     {
-        "field": "ExChgSubID",
+        "field": "ExchngSubID",
         "title": "Exchange ID",
         "hidden": true
     },
     {
         "field": "planIdFORMTEMP",
         "title": "Plan ID",
-        "hidden": true
-    },
-    {
-        "field": "transactionIDFORMTEMP",
-        "title": "Transaction ID",
         "hidden": true
     },
     {
