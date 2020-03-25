@@ -12,6 +12,9 @@ router.get('/member/search', (req, res) => {
         // backend requires operator to be uppercase
         // node support requires operator to be lowercase
         filters[index].operator = filter.operator.toLowerCase();
+        // backend requires '*' for wildcard search
+        // node support filter doesn't have wildcard
+        filters[index].value = filter.value.split('*')[0];
     });
 
     // set filter

@@ -97,13 +97,22 @@ export class AccountSearchComponent implements OnInit {
   }
 
   private getFilterValue(formValues: any, fieldName: string) {
-    let filterValue = formValues[fieldName].toUpperCase();
+    let filterValue: string;
 
-    if (
-      fieldName === 'SubscrbID' || fieldName === 'MedicareId' || fieldName === 'ExChgSubID' ||
-      fieldName === 'FirstName' || fieldName === 'LastName' || fieldName === 'AddrLine1' || fieldName === 'City'
-    ) {
-      filterValue += '*';
+    switch (fieldName) {
+      case 'SubscrbID':
+      case 'MedicareId':
+      case 'ExChgSubID':
+      case 'FirstName':
+      case 'LastName':
+      case 'AddrLine1':
+      case 'City':
+        // add asterisk at the end for wildcard search
+        filterValue = `${formValues[fieldName].toUpperCase()}*`;
+        break;
+      default:
+        filterValue = formValues[fieldName].toUpperCase();
+        break;
     }
 
     return filterValue;

@@ -10,10 +10,10 @@ export interface Account {
     FirstName: string;
     LastName: string;
     Dob: string;
-    Addresses: Array<Address>;
+    Addresses?: Array<Address>;
     AddrLine1?: string;
     City?: string;
     State?: string;
     Zip?: string;
-    Members: Array<Dependent>;
+    Members?: Array<Dependent>;
 }
