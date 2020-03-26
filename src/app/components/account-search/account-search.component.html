@@ -11,10 +11,6 @@
 <div class="account-search-container" [class.expanded]="expandSearchCard">
   <div class="account-search-card">
     <form [formGroup]="accountSearchForm" (keydown.enter)="submitSearchCriteria($event)">
-      <mat-error *ngIf="accountSearchForm.hasError('searchCriteria')">
-        *If the search criteria fields on the top row are blank, you need at least one other search criteria field
-        filled out
-      </mat-error>
       <div class="account-search-field-row">
         <mat-form-field>
           <input
@@ -165,19 +161,24 @@
               (click)="resetSearchCriteria()" 
               [disabled]="!accountSearchForm.dirty || accountSearchForm.disabled"
             >
-              <i class="fa fa-times" aria-hidden="true"></i> Clear All</button>
-            <button 
+              <i class="fa fa-times" aria-hidden="true"></i> Clear All
+            </button>
+            <span
+              [matTooltip]="accountSearchForm.hasError('searchCriteria') ? 'User must enter either a unique identifier or at least two member information values' : ''"
+            >
+              <button 
               mat-raised-button
               id="account-search-submit-btn"
               type="submit"
               color="primary"
               (click)="submitSearchCriteria()"
               [disabled]="!accountSearchForm.dirty || accountSearchForm.invalid || accountSearchForm.disabled"
-            >
-              <i class="fa" aria-hidden="true" [class.fa-search]="!accountSearchForm.disabled" [class.fa-spinner]="accountSearchForm.disabled"
-                [class.fa-spin]="accountSearchForm.disabled"></i>
-              Search
-            </button>
+              >
+                <i class="fa" aria-hidden="true" [class.fa-search]="!accountSearchForm.disabled" [class.fa-spinner]="accountSearchForm.disabled"
+                  [class.fa-spin]="accountSearchForm.disabled"></i>
+                Search
+              </button>
+            </span>
           </span>    
         </span>
       </div>

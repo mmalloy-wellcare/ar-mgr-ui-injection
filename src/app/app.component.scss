@@ -163,6 +163,10 @@ pb-ar-ui {
     
                 .button-group-horizontal {
                     padding: 6px 12px 6px 0;
+
+                    button ~ span {
+                        margin-left: 8px;
+                    }
                 }
             }    
         }
