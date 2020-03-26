@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { TransactionsService } from './services/transactions.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -52,6 +53,7 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
     MatNativeDateModule,
     MatInputModule,
     MatSelectModule,
+    MatTooltipModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule
