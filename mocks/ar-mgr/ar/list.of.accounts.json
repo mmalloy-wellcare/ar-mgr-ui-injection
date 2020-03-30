@@ -44,7 +44,7 @@
 	"LastName": "SMITH",
     "Dob": "1990-10-18",
     "CvrgStartDt": "2020-01-01",
-    "CvrgEndDt": "2020-010-01",
+    "CvrgEndDt": "2020-10-01",
     "Addresses": [{
         "AddrLine1": "78926 FALSE AVENUE",
         "City": "NEW YORK",
