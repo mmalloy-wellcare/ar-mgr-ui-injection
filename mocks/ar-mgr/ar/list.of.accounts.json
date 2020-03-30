@@ -7,6 +7,8 @@
     "FirstName": "JOHN",
     "LastName": "JOHNSON",
     "Dob": "1979-09-08",
+    "CvrgStartDt": "2020-03-01",
+    "CvrgEndDt": "2020-05-01",
     "Addresses": [{
         "AddrLine1": "12345 FAKE STREET",
         "City": "LOS ANGELES",
@@ -41,6 +43,8 @@
 	"FirstName": "MICHAEL",
 	"LastName": "SMITH",
     "Dob": "1990-10-18",
+    "CvrgStartDt": "2020-01-01",
+    "CvrgEndDt": "2020-010-01",
     "Addresses": [{
         "AddrLine1": "78926 FALSE AVENUE",
         "City": "NEW YORK",
@@ -68,6 +72,8 @@
     "FirstName": "JENNIFER",
     "LastName": "COOK",
     "Dob": "1985-03-25",
+    "CvrgStartDt": "2020-02-01",
+    "CvrgEndDt": "2020-08-01",
     "Addresses": [{
         "AddrLine1": "38476 FAUX ROAD",
         "City": "TAMPA",
@@ -86,5 +92,7 @@
     "SSN": "34768978697",
     "FirstName": "HARRY",
     "LastName": "WILLIAMS",
-    "Dob": "1963-08-01"
+    "Dob": "1963-08-01",
+    "CvrgStartDt": "2020-03-01",
+    "CvrgEndDt": "2020-12-01"
 }]

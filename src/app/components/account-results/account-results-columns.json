@@ -54,5 +54,10 @@
         "field": "Zip",
         "title": "Zip Code",
         "hidden": false
+    },
+    {
+        "field": "EnrollmentSpan",
+        "title": "Enrollment Span",
+        "hidden": false
     }
 ]
