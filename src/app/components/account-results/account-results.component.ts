@@ -20,6 +20,8 @@ export class AccountResultsComponent extends GridComponent {
   @Input() set searchCriteria(value: Array<Filter>) {
     // if filters from account search, then get accounts with filter
     this.searchCriteriaInput = value;
+    // reset restartRowId since it's a new search
+    this.restartRowId = '0';
 
     if (value) {
       this.selectedKeys = [];
