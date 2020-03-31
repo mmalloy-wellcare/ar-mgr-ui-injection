@@ -20,7 +20,7 @@
     (scrollBottom)="loadMoreGridData()"
 >
     <ng-container *ngFor="let column of columns">
-        <kendo-grid-column [field]="column.field" [title]="column.title" [hidden]="isHiddenColumn(column.field)">
+        <kendo-grid-column [field]="column.field" [title]="column.title" [hidden]="isHiddenColumn(column.field)" width="160">
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'Dob'">
                 {{ dataItem.Dob | date: 'MM/dd/yyyy' }}
             </ng-template>
@@ -29,6 +29,9 @@
                     [id]="'account-sub-id-' + dataItem.SubscrbID"
                     routerLink="/pb-ar-ui/account-details"
                 >{{ dataItem.SubscrbID }}</a>
+            </ng-template>
+            <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'EnrollmentSpan'">
+                {{ dataItem.CvrgStartDt | date: 'MM/dd/yyyy' }} - {{ dataItem.CvrgEndDt | date: 'MM/dd/yyyy' }}
             </ng-template>
         </kendo-grid-column>
     </ng-container>
