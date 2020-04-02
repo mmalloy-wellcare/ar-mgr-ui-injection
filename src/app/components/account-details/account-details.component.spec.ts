@@ -21,10 +21,10 @@ describe('AccountDetailsComponent', () => {
       return subscriberId === 123 ? of(singleAccount) : of(undefined);
     }
   };
-
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() {}
   };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AccountDetailsComponent],

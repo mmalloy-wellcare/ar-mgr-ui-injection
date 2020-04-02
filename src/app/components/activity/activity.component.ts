@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { GridComponent, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
 import { TransactionsService } from 'src/app/services/transactions.service';
 
