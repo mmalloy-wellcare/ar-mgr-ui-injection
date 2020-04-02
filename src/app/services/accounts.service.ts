@@ -26,6 +26,10 @@ export class AccountsService {
     }));
   }
 
+  getAccountById(subscriberId: number) {
+    return this.dataService.getSingleRecord(`premium-billing/ar-mgr/v1/ar/accounts/${subscriberId}`);
+  }
+
   private flattenAddresses(accounts: Array<Account>) {
     const updatedAccounts: Array<Account> = [];
 

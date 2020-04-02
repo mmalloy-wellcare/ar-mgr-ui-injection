@@ -23,4 +23,9 @@ router.get('/member/search', (req, res) => {
     mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.accounts.json');
 });
 
+// get account by id
+router.get('/accounts/:SubscrbId', (req, res) => {
+    mockLib.serveMockById(req, res, 'ar-mgr/ar/list.of.account.details.json', 'SubscrbId', req.params.SubscrbId);
+});
+
 module.exports = router;

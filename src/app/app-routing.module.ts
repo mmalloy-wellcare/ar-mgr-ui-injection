@@ -8,7 +8,7 @@ const routes: Routes = [{
   path: 'pb-ar-ui/account-search',
   component: AccountSearchComponent
 }, {
-  path: 'pb-ar-ui/account-details',
+  path: 'pb-ar-ui/account-details/:subscriberId',
   component: AccountDetailsComponent
 }, {
   path: '**',

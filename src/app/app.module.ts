@@ -18,7 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TransactionsComponent } from './components/transactions/transactions.component';
+import { ActivityComponent } from './components/activity/activity.component';
 import { TransactionsService } from './services/transactions.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AccountSearchComponent } from './components/account-search/account-search.component';
@@ -31,7 +31,7 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
   declarations: [
     AppComponent,
     AccountDetailsComponent,
-    TransactionsComponent,
+    ActivityComponent,
     AccountSearchComponent,
     AccountResultsComponent,
     ColumnSelectionComponent,

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
-import { TransactionsComponent } from './transactions.component';
+import { ActivityComponent } from './activity.component';
 import { TransactionsService } from 'src/app/services/transactions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -8,9 +8,9 @@ import { AlertsService, SortService, Sort } from '@nextgen/web-care-portal-core-
 import { of, throwError } from 'rxjs';
 import mockTransactions from '@mocks/orchestrator/transaction/list.of.transactions.json';
 
-describe('TransactionsComponent', () => {
-  let component: TransactionsComponent;
-  let fixture: ComponentFixture<TransactionsComponent>;
+describe('ActivityComponent', () => {
+  let component: ActivityComponent;
+  let fixture: ComponentFixture<ActivityComponent>;
   const transactionsService: Partial<TransactionsService> = {
     getTransactions(restartRowId: string, sort: Array<Sort>) {
       return of({
@@ -26,7 +26,7 @@ describe('TransactionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TransactionsComponent ],
+      declarations: [ ActivityComponent ],
       imports: [HttpClientTestingModule],
       providers: [{
         provide: TransactionsService,
@@ -44,7 +44,7 @@ describe('TransactionsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TransactionsComponent);
+    fixture = TestBed.createComponent(ActivityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -53,21 +53,23 @@ describe('TransactionsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load transactions', () => {
-    component.gridData = [];
-    component.loadGridData();
-    expect(component.gridData.length).toEqual(3);
-  });
-
-  it('should show error if load transactions fails',
-    inject([AlertsService, TransactionsService], (alertsServiceInject, transactionsServiceInject) => {
-      spyOn(transactionsServiceInject, 'getTransactions').and.returnValue(throwError({
-        status: 404
-      }));
-      spyOn(alertsServiceInject, 'showErrorSnackbar');
+  describe('load transactions', () => {
+    it('should load transactions', () => {
+      component.gridData = [];
       component.loadGridData();
-      expect(transactionsServiceInject.getTransactions).toHaveBeenCalled();
-      expect(alertsServiceInject.showErrorSnackbar).toHaveBeenCalled();
-    }
-  ));
+      expect(component.gridData.length).toEqual(3);
+    });
+
+    it('should show error if load transactions fails',
+      inject([AlertsService, TransactionsService], (alertsServiceInject, transactionsServiceInject) => {
+        spyOn(transactionsServiceInject, 'getTransactions').and.returnValue(throwError({
+          status: 404
+        }));
+        spyOn(alertsServiceInject, 'showErrorSnackbar');
+        component.loadGridData();
+        expect(transactionsServiceInject.getTransactions).toHaveBeenCalled();
+        expect(alertsServiceInject.showErrorSnackbar).toHaveBeenCalled();
+      }
+    ));
+  });
 });
