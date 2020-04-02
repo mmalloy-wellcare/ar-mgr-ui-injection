@@ -7,18 +7,27 @@ import { of } from 'rxjs';
 
 describe('AccountsService', () => {
   let service: Partial<AccountsService>;
+  const singleAccount = {
+    SubscrbId: 111213,
+    AccountName: 'William Fancyson'
+  };
   const dataService: Partial<DataService> = {
     getAllRecords(url, pageSize, restartRowId, sort) {
       return of({
         data: [{
-          account: 1,
+          SubscrbId: '12345',
           Addresses: [{
             address: 1
           }]
         }, {
-          account: 2
+          SubscrbId: '67891'
         }],
         restartRowId: '0'
+      });
+    },
+    getSingleRecord(url) {
+      return of({
+        data: singleAccount
       });
     }
   };
@@ -43,6 +52,14 @@ describe('AccountsService', () => {
       expect(response).toBeDefined();
       expect(response.data).toBeDefined();
       expect(response.data.length).toEqual(2);
+    });
+  });
+
+  it('should get account by subscriber id', () => {
+    service.getAccountById(111213).subscribe((response) => {
+      expect(response).toBeDefined();
+      expect(response.data).toBeDefined();
+      expect(response.data).toEqual(singleAccount);
     });
   });
 });

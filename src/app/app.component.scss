@@ -108,7 +108,7 @@ pb-ar-ui {
                 color: #333;
 
                 .tab-group-title {
-                    font: 22px Calibri;
+                    font: 20px Calibri;
                     font-weight: 600;
                 }
             }
@@ -118,7 +118,29 @@ pb-ar-ui {
             height: 3px;
         }
     }
-    
+
+    .mat-form-field {
+        font: 16px Calibri;
+        box-sizing: border-box;
+
+        .mat-form-field-infix {
+            width: auto;
+        }
+    }
+
+    .account-ribbon {
+        display: flex;
+        padding-top: 24px;
+
+        .mat-form-field {
+            flex: 1;
+
+            ~ .mat-form-field {
+                padding-left: 24px;
+            }
+        }
+    }
+
     .account-search-container {
         max-height: 0;
         overflow: hidden;
@@ -144,13 +166,7 @@ pb-ar-ui {
 
                 .mat-form-field {
                     flex: 0 20%;
-                    font: 16px Calibri;
-                    box-sizing: border-box;
                     padding: 6px 12px;
-    
-                    .mat-form-field-infix {
-                        width: auto;
-                    }
                 }
     
                 .last-form-field {

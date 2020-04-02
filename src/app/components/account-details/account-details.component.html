@@ -3,15 +3,42 @@
         <ng-template mat-tab-label>
             <span class="tab-group-header">
                 <i class="fa fa-users" aria-hidden="true"></i> &nbsp;
-                <span class="tab-group-title">{{ accountName }}</span>    
+                <span class="tab-group-title">{{ accountData.AccountName }}</span>
+                 - {{ accountData.AccountID }}
             </span>
         </ng-template>
     </mat-tab>
-    <mat-tab label="Transactions">
+    <mat-tab label="Activity">
         <ng-template mat-tab-label>
             <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
-            Transactions
+            Activity
         </ng-template>
-        <pb-ar-ui-transactions></pb-ar-ui-transactions>
+        <div class="account-ribbon">
+            <mat-form-field>
+                <input
+                    matInput
+                    placeholder="Current Balance Due"
+                    [value]="accountData.TtlAmntDue | currency: 'USD'"
+                    [readonly]="true"
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    placeholder="Issuer Subscriber ID"
+                    [value]="accountData.SubscrbId || ''"
+                    [readonly]="true"
+                >
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                    matInput
+                    placeholder="Exchange Subscriber ID"
+                    [value]="accountData.ExchngSubID || ''"
+                    [readonly]="true"
+                >
+            </mat-form-field>
+        </div>
+        <pb-ar-ui-activity></pb-ar-ui-activity>
     </mat-tab>
 </mat-tab-group>
