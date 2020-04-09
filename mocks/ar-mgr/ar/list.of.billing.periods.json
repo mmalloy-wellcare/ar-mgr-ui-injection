@@ -1,0 +1,189 @@
+[
+    {
+        "blngStmtDt": "2020-01-01",
+        "BillPerDt": "2020-10-01",
+        "CreatedDt": "2020-03-31",
+        "UpdatedDt": "2020-04-05",
+        "BlngPerSpans": [
+            {
+                "CvrgPerStartDt": "2020-10-01",
+                "CvrgPerEndDt": "2020-10-15",
+                "Rates": [
+                    {
+                        "RateType": "TOTAL_MEDICAL",
+                        "Amt": 123,
+                        "MnthlyAmt": 234
+                    }
+                ],
+                "Liabilities": [
+                    {
+                        "LiabilityType": "APTC",
+                        "Amt": 45,
+                        "MnthlyAmt": 46
+                    },
+                    {
+                        "LiabilityType": "FRP",
+                        "Amt": 756,
+                        "MnthlyAmt": 5675
+                    },
+                    {
+                        "LiabilityType": "OTHER_1",
+                        "Amt": 457,
+                        "MnthlyAmt": 12
+                    },
+                    {
+                        "LiabilityType": "OTHER_2",
+                        "Amt": 192,
+                        "MnthlyAmt": 1
+                    }
+                ],
+                "TxnSmrys": [
+                    {
+                        "BilleeTypeCode": "APTC",
+                        "Rundown": "EXPECTED",
+                        "Amt": 89
+                    },
+                    {
+                        "BilleeTypeCode": "SUBSCRIBER",
+                        "Rundown": "EXPECTED",
+                        "Amt": 10
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_1",
+                        "Rundown": "EXPECTED",
+                        "Amt": 24
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_2",
+                        "Rundown": "EXPECTED",
+                        "Amt": 78
+                    }
+                ]
+            },
+            {
+                "CvrgPerStartDt": "2020-10-16",
+                "CvrgPerEndDt": "2020-10-30",
+                "Rates": [
+                    {
+                        "RateType": "TOTAL_MEDICAL",
+                        "Amt": 345,
+                        "MnthlyAmt": 31
+                    }
+                ],
+                "Liabilities": [
+                    {
+                        "LiabilityType": "APTC",
+                        "Amt": 83,
+                        "MnthlyAmt": 471
+                    },
+                    {
+                        "LiabilityType": "FRP",
+                        "Amt": 142,
+                        "MnthlyAmt": 3
+                    },
+                    {
+                        "LiabilityType": "OTHER_1",
+                        "Amt": 22,
+                        "MnthlyAmt": 298
+                    },
+                    {
+                        "LiabilityType": "OTHER_2",
+                        "Amt": 377,
+                        "MnthlyAmt": 1
+                    }
+                ],
+                "TxnSmrys": [
+                    {
+                        "BilleeTypeCode": "APTC",
+                        "Rundown": "EXPECTED",
+                        "Amt": 12
+                    },
+                    {
+                        "BilleeTypeCode": "SUBSCRIBER",
+                        "Rundown": "EXPECTED",
+                        "Amt": 128
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_1",
+                        "Rundown": "EXPECTED",
+                        "Amt": 927
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_2",
+                        "Rundown": "EXPECTED",
+                        "Amt": 785
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "blngStmtDt": "2020-01-01",
+        "BillPerDt": "2020-11-01",
+        "CreatedDt": "2020-03-31",
+        "UpdatedDt": "2020-04-01",
+        "BlngPerSpans": [
+            {
+                "CvrgPerStartDt": "2020-11-01",
+                "CvrgPerEndDt": "2020-11-31",
+                "Rates": [
+                    {
+                        "RateType": "TOTAL_MEDICAL",
+                        "Amt": 300,
+                        "MnthlyAmt": 321
+                    }
+                ],
+                "Liabilities": [
+                    {
+                        "LiabilityType": "APTC",
+                        "Amt": 239,
+                        "MnthlyAmt": 352
+                    },
+                    {
+                        "LiabilityType": "FRP",
+                        "Amt": 1,
+                        "MnthlyAmt": 2
+                    },
+                    {
+                        "LiabilityType": "OTHER_1",
+                        "Amt": 125,
+                        "MnthlyAmt": 523
+                    },
+                    {
+                        "LiabilityType": "OTHER_2",
+                        "Amt": 324,
+                        "MnthlyAmt": 23
+                    }
+                ],
+                "TxnSmrys": [
+                    {
+                        "BilleeTypeCode": "OTHER_2",
+                        "Rundown": "EXPECTED",
+                        "Amt": 111
+                    },
+                    {
+                        "BilleeTypeCode": "APTC",
+                        "Rundown": "EXPECTED",
+                        "Amt": 123
+                    },
+                    {
+                        "BilleeTypeCode": "SUBSCRIBER",
+                        "Rundown": "EXPECTED",
+                        "Amt": 321
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_1",
+                        "Rundown": "EXPECTED",
+                        "Amt": 2398
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "blngStmtDt": "2020-01-01",
+        "BillPerDt": "2020-12-01",
+        "CreatedDt": "2020-04-01",
+        "UpdatedDt": "2020-04-01"
+    }
+]

@@ -1,10 +1,4 @@
 {
-    "/premium-billing/orchestrator/v1": {
-        "target": "https://apidev-nextgen.mhplan.com",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true
-    },
     "/premium-billing/ar-mgr/v1": {
         "target": "https://apidev-nextgen.mhplan.com",
         "secure": false,

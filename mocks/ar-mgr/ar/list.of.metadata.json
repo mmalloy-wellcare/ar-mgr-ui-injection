@@ -1,0 +1,449 @@
+[{
+    "lob": "marketplace",
+    "TopHeader": [
+        {
+            "Name": "MONTHLY_PREMIUM",
+            "Label": "Monthly Premium",
+            "SubHeader": [
+                {
+                    "Name": "PREMIUM_RATE",
+                    "Label": "Premium Rate",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Rates.RateType",
+                                    "FieldVal": "TOTAL_MEDICAL"
+                                }
+                            ],
+                            "DataFieldName": "Rates.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "APTC",
+                    "Label": "APTC",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "APTC"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "OTHER_PAY",
+                    "Label": "Other Pay",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "OTHER_1"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.Amt"
+                        },
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "OTHER_2"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "SUBSCRIBER",
+                    "Label": "Subscriber Rate",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "FRP"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.Amt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "PERIOD_SPAN",
+            "Label": "Period Span",
+            "SubHeader": [
+                {
+                    "Name": "PREMIUM_RATE",
+                    "Label": "Premium Rate",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Rates.RateType",
+                                    "FieldVal": "TOTAL_MEDICAL"
+                                }
+                            ],
+                            "DataFieldName": "Rates.MnthlyAmt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "APTC",
+                    "Label": "APTC",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "APTC"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.MnthlyAmt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "OTHER_PAY",
+                    "Label": "Other Pay",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "OTHER_1"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.MnthlyAmt"
+                        },
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "OTHER_2"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.MnthlyAmt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "SUBSCRIBER",
+                    "Label": "Subscriber Rate",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "Liabilities.LiabilityType",
+                                    "FieldVal": "FRP"
+                                }
+                            ],
+                            "DataFieldName": "Liabilities.MnthlyAmt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "SUBSCRIBER",
+            "Label": "Subscriber",
+            "SubHeader": [
+                {
+                    "Name": "BALANCE",
+                    "Label": "Balance",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "SUBSCRIBER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        },
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "SUBSCRIBER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "EXPECTED",
+                    "Label": "Billed",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "SUBSCRIBER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "ADJUSTED",
+                    "Label": "Adj",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "SUBSCRIBER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "ADJUSTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "PAID",
+                    "Label": "Paid",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "SUBSCRIBER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "FUNDED",
+                    "Label": "Funded",
+                    "Mapping": [
+                        {
+                            "Filter": [],
+                            "DataFieldName": "TxnSmrys.Funded"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "APTC",
+            "Label": "APTC",
+            "SubHeader": [
+                {
+                    "Name": "BALANCE",
+                    "Label": "Balance",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "APTC"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        },
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "APTC"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "EXPECTED",
+                    "Label": "Expected",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "APTC"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "ADJUSTED",
+                    "Label": "Adj",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "APTC"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "ADJUSTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "PAID",
+                    "Label": "Paid",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "APTC"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "OTHER",
+            "Label": "Other Pay",
+            "SubHeader": [
+                {
+                    "Name": "BALANCE",
+                    "Label": "Balance",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "OTHER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        },
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "OTHER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "EXPECTED",
+                    "Label": "Expected",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "OTHER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "EXPECTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "ADJUSTED",
+                    "Label": "Adj",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "OTHER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "ADJUSTED"
+                                }
+                            ],
+                            "DataFieldName": "TxnSmrys.Amt"
+                        }
+                    ]
+                },
+                {
+                    "Name": "PAID",
+                    "Label": "Paid",
+                    "Mapping": [
+                        {
+                            "Filter": [
+                                {
+                                    "FieldName": "TxnSmrys.BilleeTypeCode",
+                                    "FieldVal": "OTHER"
+                                },
+                                {
+                                    "FieldName": "TxnSmrys.Rundown",
+                                    "FieldVal": "PAID"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}]

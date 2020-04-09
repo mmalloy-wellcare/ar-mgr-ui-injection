@@ -13,3 +13,4 @@ Premium Billing Accounts Receivable MicroFrontend
 **Make sure you have the node package installed**
 1. Run "npm run start:local" in "pb-ar-ui". This should run both the application and the AR mock server concurenntly.
 2. Route to http://localhost:8200/#/pb-ar-ui/account-search to see the Account Search screen.
+3. To see account details, search for an account and click the 'Subscriber ID' on the results OR route to http://localhost:8200/#/pb-ar-ui/account-details/:SubscriberID where ':SubscriberID' is the account's Subscriber ID, (ex: 827321841).

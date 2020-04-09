@@ -3,6 +3,10 @@ pb-ar-ui {
         display: flex;
         flex-direction: column;
     }
+    @mixin fillerCell() {
+        padding: 20px 200px 20px 12px;
+        margin-left: -12px;
+    }
 
     @include flexColumn();
     $brandColor: #107ba4;
@@ -10,6 +14,9 @@ pb-ar-ui {
     $grayLightest: #f2f2f2;
     $grayLight: #e0e0e0;
     $gray: #bdbdbd;
+    $grayOpacityLight: rgba(0, 0, 0, 0.05);
+    $grayOpacity: rgba(0, 0, 0, 0.12);
+    $cellBorder: 1px solid $gray;
     height: 100%;
 
     .mat-raised-button.mat-primary:hover:not([disabled]) {
@@ -152,7 +159,7 @@ pb-ar-ui {
         }
 
         .account-search-card {
-            border: 1px solid rgba(0, 0, 0, 0.12);
+            border: $cellBorder;
             background-color: $grayLightest;
             padding: 12px;
 
@@ -205,54 +212,112 @@ pb-ar-ui {
     }
 
     .k-grid {
-        tr.k-detail-row {
-            background-color: $grayLight;
-
-            &:hover {
+        .k-grid-header .k-header {
+            border-color: $gray;
+        }
+        .k-grid-header-locked, .k-grid-content-locked {
+            border-right: $cellBorder;
+            margin-left: -33px;
+        }
+        tr {
+            &.k-detail-row {
                 background-color: $grayLight;
-            }
-
-            tr:last-child td {
-                border-bottom-width: 0;
-            }
-
-            td {
-                border-bottom-width: 1px;
-
-                &.k-detail-cell {
-                    padding: 12px 0;
-
-                    .detail-card {
-                        .k-grid {
-                            height: auto;
-                            margin-right: 12px;
+    
+                &:hover {
+                    background-color: $grayLight;
+                }
+    
+                tr:last-child td {
+                    border-bottom-width: 0;
+                }
+    
+                td {
+                    border-bottom-width: 1px;
+    
+                    &.k-detail-cell {
+                        padding: 12px 0;
+    
+                        .detail-card {
+                            .k-grid {
+                                height: auto;
+                                margin-right: 12px;
+                            }
+                        }
+                    }
+    
+                    thead {
+                        tr:hover {
+                            background-color: darken($grayLightest, 2%);
                         }
                     }
                 }
+            }
+            &.k-grouping-row {
+                td {
+                    padding: 0 0 0 12px;
 
-                thead {
-                    tr:hover {
-                        background-color: darken($grayLightest, 2%);
+                    .k-reset {
+                        margin-left: -4px;
+
+                        .k-icon {
+                            color: $brandColor;
+                            outline: none;
+                            margin: 0;
+                        }
+                
+                        .k-i-expand:before, .k-i-collapse:before {
+                            content: '\f054';
+                            font-family: FontAwesome;                   
+                        }
+                
+                        .k-i-expand, .k-i-collapse {
+                            transition: all 0.2s;
+                            transform-origin: 35% 65%;
+                        }
+            
+                        .k-i-collapse {
+                            transform: rotate(90deg);
+                            transform-origin: 35% 65%;
+                            margin-top: -5px;
+                        }
+
+                        .mat-checkbox {
+                            margin: 0 8px;
+                            border-right: $cellBorder;
+                            border-left: $cellBorder;
+                            padding: 12px 8px 12px 7px;
+
+                            &.secondary-grouping-chkbox {
+                                margin: 0 1px 0 7px;
+                                padding: 12px 7px 12px 9px;
+                                border-right: none;
+                            }
+                        }
                     }
                 }
             }
         }
-        td.k-hierarchy-cell {
-            .k-icon {
-                color: $brandColor;
-            }
-    
-            .k-plus:before, .k-minus:before {
-                content: '\f054';
-                font-family: FontAwesome;                   
-            }
-    
-            .k-plus, .k-minus {
-                transition: all 0.2s; 
-            }
+        td {
+            // border colors have been updated, will need to change in core
+            border-color: $gray;
 
-            .k-minus {
-                transform: rotate(90deg);
+            &.k-hierarchy-cell {
+                .k-icon {
+                    color: $brandColor;
+                }
+        
+                .k-plus:before, .k-minus:before {
+                    content: '\f054';
+                    font-family: FontAwesome;                   
+                }
+        
+                .k-plus, .k-minus {
+                    transition: all 0.2s; 
+                }
+    
+                .k-minus {
+                    transform: rotate(90deg);
+                }
             }
         }
         // adding user icon to account search results dependent hierarchy cell
@@ -267,6 +332,62 @@ pb-ar-ui {
                         font-family: FontAwesome;
                         font-size: 18px;
                         font-weight: 600;
+                    }
+                }
+            }
+        }
+        &#account-billing-periods-grid {
+            thead tr {
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.02);
+                }
+                .spanned-column-header {
+                    background-color: rgba(0, 0, 0, 0.075);
+                }
+            }
+            td {
+                overflow: hidden;
+                text-overflow: clip;
+
+                .primary-group {
+                    background-color: $grayOpacity;
+                    @include fillerCell();
+                }
+                .secondary-group {
+                    background-color: $grayOpacityLight;
+                    @include fillerCell();
+                }
+                .date-cell {
+                    padding: 20px 13px 20px 12px;
+                }
+                .number-cell {
+                    position: relative;
+                    padding: 20px 107px 20px 12px;
+                    
+                    &:not(.primary-group), &:not(.secondary-group) {
+                        margin-left: -12px;
+                    }
+                    span {
+                        position: absolute;
+                        right: 12px;
+                    }
+                }
+                .initial-sub-column-cell {
+                    font-weight: 600;
+                    background-color: $grayOpacity;
+
+                    &.data-cell {
+                        background-color: $grayOpacityLight;
+                    }
+                    &.secondary-group {
+                        background-color: rgba(0, 0, 0, 0.097);
+                    }
+                }
+            }
+            tr {
+                &.k-grouping-row {
+                    + tr:not(.k-grouping-row) {
+                        display: none;
                     }
                 }
             }
