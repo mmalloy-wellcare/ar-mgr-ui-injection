@@ -21,6 +21,11 @@
         "hidden": true
     },
     {
+        "field": "AccountID",
+        "title": "System ID",
+        "hidden": true
+    },
+    {
         "field": "FirstName",
         "title": "First Name",
         "hidden": false
