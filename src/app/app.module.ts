@@ -19,7 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivityComponent } from './components/activity/activity.component';
-import { TransactionsService } from './services/transactions.service';
+import { BillingPeriodsService } from './services/billing-periods.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AccountSearchComponent } from './components/account-search/account-search.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
@@ -61,7 +61,7 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
   providers: [
     AlertsService,
     SortService,
-    TransactionsService
+    BillingPeriodsService
   ],
   bootstrap: [],
   entryComponents: [AppComponent]

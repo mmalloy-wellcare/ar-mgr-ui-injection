@@ -1,10 +1,4 @@
 {
-    "/premium-billing/orchestrator/v1": {
-        "target": "http://localhost:8300",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true
-    },
     "/premium-billing/ar-mgr/v1": {
         "target": "http://localhost:8300",
         "secure": false,
