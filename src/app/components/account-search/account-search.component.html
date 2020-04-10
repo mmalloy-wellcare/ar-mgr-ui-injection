@@ -147,6 +147,7 @@
               placeholder="Zip Code"
               [formControl]="accountSearchForm.get('secondaryForm.Zip')"
               maxLength="5"
+              mask="00000"
             >
             <mat-error *ngIf="accountSearchForm.get('secondaryForm.Zip').hasError('invalidZipCode')">
               Zip Code must be 5 digits
