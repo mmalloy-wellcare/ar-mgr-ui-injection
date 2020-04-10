@@ -26,7 +26,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { AccountResultsComponent } from './components/account-results/account-results.component';
 import { ColumnSelectionComponent } from './components/column-selection/column-selection.component';
 import { AccountDependentComponent } from './components/account-dependent/account-dependent.component';
-
+import { NgxMaskModule } from 'ngx-mask';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +56,8 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
     MatTooltipModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     AlertsService,
