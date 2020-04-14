@@ -93,19 +93,25 @@
           </mat-error>
         </mat-form-field>      
         <mat-form-field>
+          <mat-label>Date of Birth</mat-label>
+          <!-- hidden input for datepicker input -->
           <input
-            matInput 
-            id="account-search-dob"
-            placeholder="Date of Birth"
-            id="account-search-dob"
             [matDatepicker]="accountSearchDOB"
+            [hidden]="true"
+            (dateChange)="onDateChange($event)"
             [formControl]="accountSearchForm.get('secondaryForm.Dob')"
+          >
+          <!-- visible input for mask input-->
+          <input
+            matInput
+            [value]="dobValue"
+            placeholder="MM/DD/YYYY"
+            [specialCharacters]="['/']" 
+            mask="00/00/0000"
+            (blur)="onDateBlur($event)"
           >
           <mat-datepicker-toggle matSuffix [for]="accountSearchDOB"></mat-datepicker-toggle>
           <mat-datepicker #accountSearchDOB></mat-datepicker>
-          <mat-error *ngIf="accountSearchForm.get('secondaryForm.Dob').hasError('matDatepickerParse')">
-            Input must be in required format (mm/dd/yyyy)
-          </mat-error>
         </mat-form-field>
       </div>
       <div class="account-search-field-row">

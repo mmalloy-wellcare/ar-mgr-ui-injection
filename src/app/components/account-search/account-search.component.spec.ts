@@ -182,6 +182,24 @@ describe('AccountSearchComponent', () => {
     }
   });
 
+  describe('onDateChange', () => {
+    const mockDateChangeEvent = {value: new Date('04/15/2020')};
+    it('should set date to DOB field', () => {
+      component.onDateChange(mockDateChangeEvent);
+      expect(component.dobValue).toEqual('04/15/2020');
+    });
+  });
+
+  describe('onDateBlur', () => {
+    const mockDateChangeEvent = {target: { value: '04/14/2020'}};
+    const expectedValue = new Date ('04/14/2020');
+    it('should set date to DOB Date Picker', () => {
+      component.onDateBlur(mockDateChangeEvent);
+      expect(component.accountSearchForm.get('secondaryForm').get('Dob').value)
+      .toEqual(expectedValue);
+    });
+  });
+
   function testValidator(formType, controlName, controlValue, controlValid) {
     const control = component.accountSearchForm.get(`${formType}.${controlName}`);
     control.setValue(controlValue);

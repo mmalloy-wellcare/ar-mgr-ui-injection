@@ -13,6 +13,7 @@ export class AccountSearchComponent implements OnInit {
   states: Array<any> = accountSearchStates;
   showResults: boolean;
   expandSearchCard = true;
+  dobValue: string;
   searchCriteria: Array<Filter>;
   accountSearchForm: FormGroup = new FormGroup({
     primaryForm: new FormGroup({
@@ -182,5 +183,16 @@ export class AccountSearchComponent implements OnInit {
     if (accountsLoaded) {
       this.showResults = true;
     }
+  }
+
+  onDateChange(event) {
+    // to set value to the DOB field when date selected on the Date Picker
+    const dateISOString = event.value.toISOString().split('T')[0].split('-');
+    this.dobValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
+  }
+  onDateBlur(event) {
+    // to set value to the date picker on Blur event
+    const dateString = event.target.value;
+    this.accountSearchForm.get('secondaryForm').get('Dob').setValue(new Date(dateString));
   }
 }
