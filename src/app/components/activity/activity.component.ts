@@ -105,7 +105,7 @@ export class ActivityComponent extends GridComponent implements OnInit {
     mutationObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
   }
 
-  addMutualHoverEvents(primaryRow, secondaryRow) {
+  addMutualHoverEvents(primaryRow: HTMLElement, secondaryRow: HTMLElement) {
     // add mouseover listener to highlight rows when hovered
     primaryRow.addEventListener('mouseover', () => {
       secondaryRow.classList.add('mutual-highlight');
