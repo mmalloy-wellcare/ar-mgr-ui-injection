@@ -390,6 +390,9 @@ pb-ar-ui {
                         display: none;
                     }
                 }
+                &.mutual-highlight {
+                    background-color: rgba(16, 123, 164, 0.1);
+                }
             }
         }
     }
