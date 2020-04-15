@@ -30,8 +30,22 @@ describe('ActivityComponent', () => {
     showErrorSnackbar() {}
   };
   const sortService: Partial<SortService> = {};
+  const mockElement = document.createElement('div');
   const mockAccountBillingPeriodsGrid: Partial<KendoGridComponent> = {
-    collapseGroup(groupIndex: string) {}
+    collapseGroup(groupIndex: string) {},
+    wrapper: {
+      nativeElement: {
+        querySelectorAll() {
+          return [{
+            name: 'locked-table',
+            rows: [mockElement]
+          }, {
+            name: 'content-table',
+            rows: [mockElement]
+          }];
+        }
+      }
+    }
   };
 
   beforeEach(async(() => {
@@ -172,6 +186,23 @@ describe('ActivityComponent', () => {
       };
       const summaryAmount = component.getSummaryAmount(mockGroupItems, mockSubColumn);
       expect(summaryAmount).toEqual(expectedAmount);
+    }
+  });
+
+  describe('addMutualHoverEvents', () => {
+    it('should add mutual-highlight class to secondary row if primary row is highlighted', () => {
+      testAddMutualHoverEvents('mouseover', 'mutual-highlight');
+    });
+
+    it('should remove mutual-highlight class to secondary row if primary row is not highlighted', () => {
+      testAddMutualHoverEvents('mouseleave', undefined);
+    });
+
+    function testAddMutualHoverEvents(eventName, expectedClass) {
+      const event = new Event(eventName);
+      component.addMutualHoverEvents(mockElement, mockElement);
+      mockElement.dispatchEvent(event);
+      expect(mockElement.classList[0]).toEqual(expectedClass);
     }
   });
 });

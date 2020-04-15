@@ -54,6 +54,7 @@ export class ActivityComponent extends GridComponent implements OnInit {
     this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort).subscribe(response => {
       this.gridData = this.gridData.concat(response.data);
       this.gridView = process(this.gridData, { group: this.rowGroups });
+      this.updateGridRows();
       // there's no collapse all grouping method in kendo api, need to collapse children grouping manually by default
       this.collapsePeriodSpans(this.gridView.data);
       this.restartRowId = response.restartRowId;
@@ -71,6 +72,47 @@ export class ActivityComponent extends GridComponent implements OnInit {
       this.dynamicColumnGroups = response.data;
     }, (error) => {
       this.alertsService.showErrorSnackbar(error);
+    });
+  }
+
+  updateGridRows() {
+    /* this function makes it so that if you hover over a locked table row, it will highlight
+    the adjacent row on the content table as well, and vice-versa
+    /* watch for changes made to DOM tree using MutationObserver. in this case, watch for new rows to be added to
+    the locked table and the content table */
+    // once new rows are added to the tables, update rows
+    const mutationObserver = new MutationObserver(() => {
+      // get grid tables (locked and content tables)
+      const gridTables = this.accountBillingPeriodsGrid.wrapper.nativeElement.querySelectorAll('.k-grid-table');
+      const lockedRows = gridTables[0].rows;
+      const contentRows = gridTables[1].rows;
+      let rowIndex = 0;
+
+      // cannot use forEach on an html collection. using forOf instead
+      for (const row of lockedRows) {
+        const contentRow = contentRows[rowIndex];
+
+        /* add mouseover and mouseleave listeners to locked and content rows so when a user hovers
+        on a row, it hightlights both the locked table and content table's row, and when the user leaves
+        it removes that higlight*/
+        this.addMutualHoverEvents(contentRow, row);
+        this.addMutualHoverEvents(row, contentRow);
+        rowIndex++;
+      }
+      mutationObserver.disconnect();
+    });
+
+    mutationObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
+  }
+
+  addMutualHoverEvents(primaryRow, secondaryRow) {
+    // add mouseover listener to highlight rows when hovered
+    primaryRow.addEventListener('mouseover', () => {
+      secondaryRow.classList.add('mutual-highlight');
+    });
+    // add mouseleave listener to remove highlight when user leaves row
+    primaryRow.addEventListener('mouseleave', () => {
+      secondaryRow.classList.remove('mutual-highlight');
     });
   }
 
