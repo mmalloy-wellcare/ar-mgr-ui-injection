@@ -62,7 +62,8 @@
             id="account-search-ssn"
             placeholder="Social Security #"
             [formControl]="accountSearchForm.get('primaryForm.SSN')"
-            maxLength="9"
+            [validation]="false"
+            [mask]="accountSearchForm.get('primaryForm.SSN').value && accountSearchForm.get('primaryForm.SSN').value.length > 4 ? '000-00-0000' : '00000'"
           >
           <mat-error *ngIf="accountSearchForm.get('primaryForm.SSN').hasError('invalidSSN')">
             SSN must be either full 9 digits or last 4 digits
