@@ -86,10 +86,8 @@ export class ActivityComponent extends GridComponent implements OnInit {
       const gridTables = this.accountBillingPeriodsGrid.wrapper.nativeElement.querySelectorAll('.k-grid-table');
       const lockedRows = gridTables[0].rows;
       const contentRows = gridTables[1].rows;
-      let rowIndex = 0;
 
-      // cannot use forEach on an html collection. using forOf instead
-      for (const row of lockedRows) {
+      Array.from(lockedRows).forEach((row: HTMLElement, rowIndex: number) => {
         const contentRow = contentRows[rowIndex];
 
         /* add mouseover and mouseleave listeners to locked and content rows so when a user hovers
@@ -97,8 +95,8 @@ export class ActivityComponent extends GridComponent implements OnInit {
         it removes that higlight*/
         this.addMutualHoverEvents(contentRow, row);
         this.addMutualHoverEvents(row, contentRow);
-        rowIndex++;
-      }
+      });
+
       mutationObserver.disconnect();
     });
 
