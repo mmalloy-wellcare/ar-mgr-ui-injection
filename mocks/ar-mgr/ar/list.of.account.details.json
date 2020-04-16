@@ -4,27 +4,31 @@
         "AccountName": "JOHN JOHNSON",
         "ExchngSubID": "829857235",
         "SubscrbId": "827321841",
-        "TtlAmntDue":1238
+        "TtlAmntDue":1238,
+        "LobTypeCode": "MARKETPLACE"
     },
     {
         "AccountID": 7894797897,
         "AccountName": "MICHAEL SMITH",
-        "ExchngSubID": "37849789957",
+        "MedicareID": "875897898",
         "SubscrbId": "1267823657",
-        "TtlAmntDue": 676
+        "TtlAmntDue": 676,
+        "LobTypeCode": "MEDICARE"
     },
     {
         "AccountID": 89080970980,
         "AccountName": "JENNIFER COOK",
         "ExchngSubID": "9876892732",
         "SubscrbId": "478927589698",
-        "TtlAmntDue": 1088
+        "TtlAmntDue": 1088,
+        "LobTypeCode": "MARKETPLACE"
     },
     {
         "AccountID": 2347897899,
         "AccountName": "HARRY WILLIAMS",
-        "ExchngSubID": "485976897",
+        "MedicaidID": "898972366554",
         "SubscrbId": "12489578957",
-        "TtlAmntDue": 33
+        "TtlAmntDue": 33,
+        "LobTypeCode": "MEDICAID"
     }
 ]

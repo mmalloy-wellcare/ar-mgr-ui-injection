@@ -13,7 +13,7 @@
             <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
             Activity
         </ng-template>
-        <div class="account-ribbon">
+        <div class="account-ribbon" *ngIf="accountData.LobTypeCode">
             <mat-form-field>
                 <input
                     matInput
@@ -30,11 +30,11 @@
                     [readonly]="true"
                 >
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field *ngIf="accountData.LobTypeCode.toLowerCase() !== 'medicaid'">
                 <input
                     matInput
-                    placeholder="Exchange Subscriber ID"
-                    [value]="accountData.ExchngSubID || ''"
+                    [placeholder]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? 'Medicare ID' : 'Exchange Subscriber ID'"
+                    [value]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? accountData.MedicareID : accountData.ExchngSubID"
                     [readonly]="true"
                 >
             </mat-form-field>
