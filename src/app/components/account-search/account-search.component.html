@@ -108,10 +108,16 @@
             [value]="dobValue"
             placeholder="MM/DD/YYYY"
             [specialCharacters]="['/']" 
+            [disabled]="accountSearchForm.get('secondaryForm.Dob').disabled"
             mask="00/00/0000"
-            (blur)="onDateBlur($event)"
+            (keyup)="onDateKeyUp($event)"
           >
-          <mat-datepicker-toggle matSuffix [for]="accountSearchDOB"></mat-datepicker-toggle>
+          <mat-datepicker-toggle 
+            matSuffix 
+            [for]="accountSearchDOB"
+            [disabled]="accountSearchForm.get('secondaryForm.Dob').disabled"
+          >
+          </mat-datepicker-toggle>
           <mat-datepicker #accountSearchDOB></mat-datepicker>
         </mat-form-field>
       </div>

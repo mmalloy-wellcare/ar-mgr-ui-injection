@@ -191,13 +191,26 @@ describe('AccountSearchComponent', () => {
   });
 
   describe('onDateBlur', () => {
-    const mockDateChangeEvent = {target: { value: '04/14/2020'}};
     const expectedValue = new Date ('04/14/2020');
     it('should set date to DOB Date Picker', () => {
-      component.onDateBlur(mockDateChangeEvent);
-      expect(component.accountSearchForm.get('secondaryForm').get('Dob').value)
-      .toEqual(expectedValue);
+      component.onDateKeyUp({target: { value: '04/14/2020'}});
+      expect(component.accountSearchForm.get('secondaryForm').get('Dob').value).toEqual(expectedValue);
+      expect(component.dobValue).toEqual('04/14/2020');
     });
+
+    it('should set error if the date is invalid', () => {
+      dobValidity({target: { value: '04/14/20'}}, {dateFormControl: true});
+    });
+
+    it('should remove error if the dob field is empty', () => {
+      dobValidity({target: { value: ''}}, null);
+    });
+
+    function dobValidity(mockData, result) {
+      component.onDateKeyUp(mockData);
+      expect(component.accountSearchForm.get('secondaryForm').get('Dob').value).toEqual('');
+      expect(component.accountSearchForm.get('secondaryForm').get('Dob').errors).toEqual(result);
+    }
   });
 
   function testValidator(formType, controlName, controlValue, controlValid) {

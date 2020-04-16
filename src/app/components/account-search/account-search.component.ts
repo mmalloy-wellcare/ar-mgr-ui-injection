@@ -59,6 +59,7 @@ export class AccountSearchComponent implements OnInit {
 
   resetSearchCriteria() {
     this.showResults = false;
+    this.dobValue = '';
     this.accountSearchForm.reset();
   }
 
@@ -190,9 +191,17 @@ export class AccountSearchComponent implements OnInit {
     const dateISOString = event.value.toISOString().split('T')[0].split('-');
     this.dobValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
   }
-  onDateBlur(event) {
+  onDateKeyUp(event) {
     // to set value to the date picker on Blur event
+    const dateFormControl = this.accountSearchForm.get('secondaryForm').get('Dob');
     const dateString = event.target.value;
-    this.accountSearchForm.get('secondaryForm').get('Dob').setValue(new Date(dateString));
+    this.dobValue = dateString;
+    if (dateString.length === 10) {
+      dateFormControl.markAsDirty();
+      dateFormControl.setValue(new Date(dateString));
+    } else {
+      dateFormControl.setValue('');
+      dateFormControl.setErrors(!!dateString ? { dateFormControl: true } : null);
+    }
   }
 }
