@@ -348,6 +348,7 @@ pb-ar-ui {
             td {
                 overflow: hidden;
                 text-overflow: clip;
+                white-space: nowrap;
 
                 .primary-group {
                     background-color: $grayOpacity;
@@ -356,9 +357,6 @@ pb-ar-ui {
                 .secondary-group {
                     background-color: $grayOpacityLight;
                     @include fillerCell();
-                }
-                .date-cell {
-                    padding: 20px 13px 20px 12px;
                 }
                 .number-cell {
                     position: relative;

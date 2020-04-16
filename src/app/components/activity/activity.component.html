@@ -38,7 +38,7 @@
             </ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
-                <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group date-cell">
+                <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
                     {{ group.items[0].billPeriodSpan }}
                 </span>
             </ng-template>
