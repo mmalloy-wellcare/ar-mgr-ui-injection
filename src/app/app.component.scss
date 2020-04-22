@@ -60,6 +60,12 @@ pb-ar-ui {
 
         .fa {
             color: $brandColor;
+            transition: all 0.2s;
+
+            &.flip {
+                transform: rotate(180deg);
+                transition: all 0.2s;
+            }
         }
     }
 
@@ -217,7 +223,6 @@ pb-ar-ui {
         }
         .k-grid-header-locked, .k-grid-content-locked {
             border-right: $cellBorder;
-            margin-left: -33px;
         }
         tr {
             &.k-detail-row {
@@ -254,8 +259,6 @@ pb-ar-ui {
             }
             &.k-grouping-row {
                 td {
-                    padding: 0 0 0 12px;
-
                     .k-reset {
                         margin-left: -4px;
 
@@ -337,12 +340,78 @@ pb-ar-ui {
             }
         }
         &#account-billing-periods-grid {
+            .k-grid-aria-root {
+                margin-left: -33px;
+            }
+            .k-grid-header {
+                border-bottom: 1px solid $gray;
+
+                .k-grid-header-locked, .k-grid-header-wrap {
+                    background-color: white;
+                }
+                .k-grid-header-locked {
+                    tr {
+                        &:first-child, &:nth-child(3) {
+                            th:nth-child(3), td:nth-child(3) {
+                                border-left: none;
+                            }
+                        }
+                    }
+                }
+                .k-grid-header-wrap {
+                    table {
+                        border-right: $cellBorder;
+                    }
+                }
+            }
             thead tr {
                 &:hover {
                     background-color: rgba(0, 0, 0, 0.02);
                 }
+                .collapsible-column-group {
+                    display: flex;
+                    align-items: center;
+                    .fa {
+                        color: $brandColor;
+                        cursor: pointer;
+
+                        &.hidden {
+                            display: none;
+                        }
+                    }
+                }
                 .spanned-column-header {
-                    background-color: rgba(0, 0, 0, 0.075);
+                    background-color: rgba(0, 0, 0, 0.12);
+                }
+                th {
+                    background-color: rgba(0, 0, 0, 0.050);
+                }
+            }
+            .k-grid-content-locked {
+                tr {
+                    td {
+                        background-color: $grayOpacity;
+                    }
+                    &.k-grouping-row {
+                        td:nth-child(3) {
+                            background-color: rgba(0, 0, 0, 0.097);
+                        }
+                    }
+                    &:not(.k-grouping-row) {
+                        td {
+                            &:nth-child(3) {
+                                border-left: none;
+                            }
+                            &:nth-child(4) {
+                                background-color: rgba(0, 0, 0, 0.097);
+                            }
+                        }
+                    }
+                }
+            }
+            .k-grid-content {
+                .k-grid-table {
+                    border-right: $cellBorder;
                 }
             }
             td {
@@ -360,7 +429,7 @@ pb-ar-ui {
                 }
                 .number-cell {
                     position: relative;
-                    padding: 20px 107px 20px 12px;
+                    padding: 20px 108px 20px 12px;
                     
                     &:not(.primary-group), &:not(.secondary-group) {
                         margin-left: -12px;
@@ -372,7 +441,6 @@ pb-ar-ui {
                 }
                 .initial-sub-column-cell {
                     font-weight: 600;
-                    background-color: $grayOpacity;
 
                     &.data-cell {
                         background-color: $grayOpacityLight;
@@ -386,6 +454,13 @@ pb-ar-ui {
                 &.k-grouping-row {
                     + tr:not(.k-grouping-row) {
                         display: none;
+                    }
+                    td {
+                        padding: 3px 0 3px 12px;
+
+                        .secondary-row {
+                            height: 33px;
+                        }
                     }
                 }
                 &.mutual-highlight {
@@ -405,20 +480,37 @@ pb-ar-ui {
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 
     .mat-checkbox {
-        padding: 0px 64px 8px 16px;
+        margin-top: 4px;
+        padding: 0px 64px 4px 16px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-        &:first-child {
-            padding: 8px 64px 8px 16px;
-        }
 
         &:last-child {
             border: none;
         }
-        
+
+        &.child-checkbox {
+            padding-left: 40px;
+        }
+
         .mat-checkbox-label {
             font-weight: 600;
             color: #024069;
+        }
+    }
+    button.mat-button {
+        text-align: left;
+        padding-left: 16px;
+        color: #024069;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+        .fa {
+            font-size: 18px;
+            margin-right: 5px;
+            color: #107ba4;
+        }
+
+        &:hover {
+            background: none;
         }
     }
 }

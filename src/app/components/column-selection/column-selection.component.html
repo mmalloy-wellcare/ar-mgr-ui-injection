@@ -1,9 +1,27 @@
+<button mat-button id="expand-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('expand')">
+    <i class="fa fa-plus-square" aria-hidden="true"></i> {{ showColumnsText || 'Show All Columns' }}
+</button>
+<button mat-button id="collapse-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('collapse')">
+    <i class="fa fa-minus-square" aria-hidden="true"></i> {{ hideColumnsText || 'Hide All Columns' }}
+</button>
 <ng-container *ngFor="let column of columns">
   <mat-checkbox
-    [id]="'column-'+column.field+'-chkbox'"
+    [id]="'column-' + column.field + '-chkbox'"
     color="primary"
     [checked]="!column.hidden"
     [disabled]="column.default"
-    (change)="onColumnSelectionChange($event.checked, column.field)"
+    (change)="updateParentColumns($event.checked, column.field)"
   >{{ column.title }}</mat-checkbox>
+  <ng-container *ngIf="column.children">
+    <ng-container *ngFor="let childColumn of column.children">
+      <mat-checkbox
+        class="child-checkbox"
+        [id]="'child-column-' + column.field + childColumn.field + '-chkbox'"
+        color="primary"
+        [checked]="!childColumn.hidden"
+        [disabled]="childColumn.default"
+        (change)="updateChildColumns($event.checked, childColumn.field, column.children, false, column.field)"
+      >{{ childColumn.title }}</mat-checkbox>
+    </ng-container>   
+  </ng-container> 
 </ng-container>

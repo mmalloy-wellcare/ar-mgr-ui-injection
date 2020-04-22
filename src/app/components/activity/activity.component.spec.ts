@@ -3,10 +3,11 @@ import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing'
 import { ActivityComponent } from './activity.component';
 import { BillingPeriodsService } from '@app/services/billing-periods.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ViewContainerRef } from '@angular/core';
 import { AlertsService, SortService, Sort } from '@nextgen/web-care-portal-core-library';
 import { of, throwError } from 'rxjs';
 import { GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
+import { Overlay } from '@angular/cdk/overlay';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
 
@@ -61,7 +62,9 @@ describe('ActivityComponent', () => {
       }, {
         provide: SortService,
         useValue: sortService
-      }],
+      },
+      Overlay,
+      ViewContainerRef],
       schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();

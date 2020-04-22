@@ -1,0 +1,23 @@
+[{
+    "field": "TRANSACTION_DATES",
+    "title": "Transaction Dates",
+    "hidden": false,
+    "children": [{
+        "field": "BillPerDt",
+        "title": "Bill Period",
+        "hidden": false,
+        "default": true
+    }, {
+        "field": "billPeriodSpan",
+        "title": "Period Span",
+        "hidden": false
+    }, {
+        "field": "CreatedDt",
+        "title": "Record Creation",
+        "hidden": false
+    }, {
+        "field": "UpdatedDt",
+        "title": "Updated",
+        "hidden": false
+    }]
+}]

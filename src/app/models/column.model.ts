@@ -3,4 +3,5 @@ export interface Column {
     title: string;
     hidden: boolean;
     default?: boolean;
+    children?: Array<Column>;
 }

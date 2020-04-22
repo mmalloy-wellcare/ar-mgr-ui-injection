@@ -1,15 +1,19 @@
-import { Component, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
-import { GridComponent, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
+import { Component, HostBinding, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
 import { BillingPeriodsService } from '@app/services/billing-periods.service';
 import { DataResult, GroupDescriptor, process, GroupResult } from '@progress/kendo-data-query';
 import { SelectableSettings, GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
 import { SubColumn } from '@app/models/subcolumn.model';
+import { Column } from '@app/models/column.model.js';
+import { Overlay } from '@angular/cdk/overlay';
+import { ToggleableColumnsGridComponent } from '../toggleable-columns-grid/toggleable-columns-grid.component';
+import activityColumns from './activity-columns.json';
 
 @Component({
   selector: 'pb-ar-ui-activity',
   templateUrl: './activity.component.html'
 })
-export class ActivityComponent extends GridComponent implements OnInit {
+export class ActivityComponent extends ToggleableColumnsGridComponent implements OnInit {
   @HostBinding('class') componentClass = 'web-component-flex';
   @ViewChild('accountBillingPeriodsGrid', { static: false }) accountBillingPeriodsGrid: KendoGridComponent;
   accountIdInput: string;
@@ -34,13 +38,18 @@ export class ActivityComponent extends GridComponent implements OnInit {
     mode: 'single'
   };
   dynamicColumnGroups: Array<SubColumn> = [];
+  // make deep copy of activity columns so it doesn't affect original json when columns array is updated
+  columns: Array<Column> = JSON.parse(JSON.stringify(activityColumns));
+  columnsDropdownShown: boolean;
 
   constructor(
     public alertsService: AlertsService,
     public sortService: SortService,
-    private billingPeriodsService: BillingPeriodsService
+    public overlay: Overlay,
+    public viewContainerRef: ViewContainerRef,
+    public billingPeriodsService: BillingPeriodsService
   ) {
-    super(sortService, alertsService);
+    super(sortService, alertsService, overlay, viewContainerRef);
   }
 
   ngOnInit() {
@@ -70,6 +79,7 @@ export class ActivityComponent extends GridComponent implements OnInit {
     // 'marketplace' is hardcoded for now until account api can pass back LOB
     this.billingPeriodsService.getBillingPeriodsMetadata('marketplace').subscribe((response) => {
       this.dynamicColumnGroups = response.data;
+      this.updateActivityColumns(this.dynamicColumnGroups);
     }, (error) => {
       this.alertsService.showErrorSnackbar(error);
     });
@@ -147,5 +157,34 @@ export class ActivityComponent extends GridComponent implements OnInit {
     }
 
     return 0;
+  }
+
+  updateActivityColumns(groups: Array<SubColumn>) {
+    // update columns array based off metadata from backend
+    groups.forEach((column, columnIndex) => {
+      const parentColumn = {
+        field: column.Name,
+        title: column.Label,
+        hidden: false,
+        children: []
+      };
+
+      // loop through sub-columns in column group and add child column to children of parent column
+      column.SubHeader.forEach((subColumn, subColumnIndex) => {
+        const childColumn = {
+          field: subColumn.Name,
+          title: subColumn.Label,
+          hidden: false
+        };
+
+        if (subColumnIndex === 0) {
+          childColumn[`default`] = true;
+        }
+
+        parentColumn.children.push(childColumn);
+      });
+
+      this.columns.push(parentColumn);
+    });
   }
 }
