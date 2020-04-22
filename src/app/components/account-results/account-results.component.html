@@ -1,8 +1,8 @@
 <mat-toolbar *ngIf="showResults">
     <span class="toolbar-title">Account Search Results</span>
     <span class="spacer"></span>
-    <button mat-button #columnsDropdownButton id="columns-dropdown-btn" (click)="showColumnsDropdown()">
-        <i class="fa fa-eye" aria-hidden="true"></i> Columns
+    <button mat-button #columnsDropdownButton id="results-columns-dropdown-btn" (click)="showColumnsDropdown()">
+        <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down" [class.flip]="columnsDropdownShown" aria-hidden="true"></i>
     </button>
     <ng-template #columnsDropdownTemplate>
         <pb-ar-ui-column-selection [columns]="columns" (selectionChange)="onColumnSelectionChange($event)">

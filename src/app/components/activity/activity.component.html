@@ -1,4 +1,19 @@
-<mat-toolbar><strong>Activity</strong></mat-toolbar>
+<mat-toolbar>
+    <strong>Activity</strong>
+    <span class="spacer"></span>
+    <button mat-button #columnsDropdownButton id="activity-columns-dropdown-btn" (click)="showColumnsDropdown()">
+        <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down" [class.flip]="columnsDropdownShown" aria-hidden="true"></i>
+    </button>
+    <ng-template #columnsDropdownTemplate>
+        <pb-ar-ui-column-selection
+            [columns]="columns"
+            [columnsToggle]="true"
+            showColumnsText="Expand All Columns"
+            hideColumnsText="Collapse All Columns"
+            (selectionChange)="onColumnSelectionChange($event)">
+        </pb-ar-ui-column-selection>
+    </ng-template>
+</mat-toolbar>
 <kendo-grid
     #accountBillingPeriodsGrid
     id="account-billing-periods-grid"
@@ -13,29 +28,48 @@
     (sortChange)="onSortChange($event)"
     (scrollBottom)="loadMoreGridData()"
 >
-    <kendo-grid-column [locked]="true" width="34"></kendo-grid-column>
+    <kendo-grid-column [locked]="true" width="1"></kendo-grid-column>
     <!-- static groups -->
     <kendo-grid-column-group [locked]="true" headerClass="spanned-column-header">
-        <kendo-grid-column field="BillPerDt" title="Bill Period" [locked]="true" width="100">
-            <ng-template kendoGridGroupHeaderTemplate let-group let-field="field" let-value="value">
-                <mat-checkbox [id]="'group-' + field + value + '-chkbox'" color="primary"></mat-checkbox>
-            </ng-template>
+        <ng-template kendoGridHeaderTemplate>
+            <div class="collapsible-column-group">
+                Transaction Dates
+                <span class="spacer"></span>
+                <i
+                    id="show-transaction-dates-group"
+                    [ngClass]="{'fa fa-plus-square': true, hidden: !isHiddenColumn('TRANSACTION_DATES')}"
+                    aria-label="Toggle Transaction Dates group"
+                    (click)="toggleColumnGroup('TRANSACTION_DATES')"
+                ></i>
+            </div>
+        </ng-template>        
+        <kendo-grid-column field="BillPerDt" title="Bill Period" [locked]="true" width="132">
+            <ng-template kendoGridGroupHeaderTemplate></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                <span *ngIf="group.field === 'BillPerDt'" class="initial-sub-column-cell primary-group">
+                <span *ngIf="group.field === 'BillPerDt'" class="initial-sub-column-cell">
                     {{ group.value.split('-')[1] + '/' + group.value.split('-')[0] }}
                 </span>
-                <span *ngIf="group.field === 'billPeriodSpan'" class="initial-sub-column-cell secondary-group"></span>
+                <span *ngIf="group.field === 'billPeriodSpan'" class="initial-sub-column-cell"></span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem>
-                <span class="initial-sub-column-cell secondary-group"></span>
+                <span class="initial-sub-column-cell"></span>
             </ng-template>
         </kendo-grid-column>            
     </kendo-grid-column-group>
-    <kendo-grid-column-group headerClass="spanned-column-header" title="Transaction Dates">
-        <kendo-grid-column field="billPeriodSpan" title="Period Span" width="150">
-            <ng-template kendoGridGroupHeaderTemplate let-group let-field="field" let-value="value">
-                <mat-checkbox class="secondary-grouping-chkbox" [id]="'group-' + field + value + '-chkbox'" color="primary"></mat-checkbox>
-            </ng-template>
+    <kendo-grid-column-group headerClass="spanned-column-header">
+        <ng-template kendoGridHeaderTemplate>
+            <div class="collapsible-column-group">
+                <span class="spacer"></span>
+                <i
+                    id="hide-transaction-dates-group"
+                    class="fa fa-minus-square"
+                    aria-label="Toggle Transaction Dates group"
+                    (click)="toggleColumnGroup('TRANSACTION_DATES')"
+                ></i>
+            </div>
+        </ng-template>
+        <kendo-grid-column field="billPeriodSpan" title="Period Span" width="150" [hidden]="isHiddenColumn('billPeriodSpan', 'TRANSACTION_DATES')">
+            <ng-template kendoGridGroupHeaderTemplate><div class="secondary-row"></div></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
@@ -46,7 +80,7 @@
                 <span class="secondary-group"></span>
             </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="CreatedDt" title="Record Creation" width="120">
+        <kendo-grid-column field="CreatedDt" title="Record Creation" width="120" [hidden]="isHiddenColumn('CreatedDt', 'TRANSACTION_DATES')">
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
@@ -57,7 +91,7 @@
                 {{ dataItem.CreatedDt | date: 'MM/dd/yyyy' }}
             </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="UpdatedDt" title="Updated" width="120">
+        <kendo-grid-column field="UpdatedDt" title="Updated" width="120" [hidden]="isHiddenColumn('UpdatedDt', 'TRANSACTION_DATES')">
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
@@ -72,8 +106,25 @@
     <!-- dynamic columns -->
     <ng-container *ngFor="let columnGroup of dynamicColumnGroups">
         <kendo-grid-column-group headerClass="spanned-column-header" [title]="columnGroup.Label">
+            <ng-template kendoGridHeaderTemplate>
+                <div class="collapsible-column-group">
+                    {{ columnGroup.Label }}
+                    <span class="spacer"></span>
+                    <i
+                        [id]="'toggle-' + columnGroup.Name + '-group'"
+                        [ngClass]="{'fa': true, 'fa-plus-square': isHiddenColumn(columnGroup.Name), 'fa-minus-square': !isHiddenColumn(columnGroup.Name)}"
+                        [attr.aria-label]="'Toggle ' + columnGroup.Label + ' group'"
+                        (click)="toggleColumnGroup(columnGroup.Name)"
+                    ></i>
+                </div>
+            </ng-template>
             <ng-container *ngFor="let subColumn of columnGroup.SubHeader, let i = index">
-                <kendo-grid-column [field]="subColumn.Name" [title]="subColumn.Label" width="120">
+                <kendo-grid-column
+                    [field]="subColumn.Name"
+                    [title]="subColumn.Label"
+                    width="120"
+                    [hidden]="isHiddenColumn(subColumn.Name, columnGroup.Name)"
+                >
                     <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                         <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'primary-group': group.field === 'BillPerDt', 'secondary-group': group.field === 'billPeriodSpan'}">
                             <span>{{ (group.field === 'BillPerDt' ? '' : getSummaryAmount(group, subColumn)) | currency: 'USD' }}</span>

@@ -9,7 +9,6 @@ import { NO_ERRORS_SCHEMA, ViewContainerRef } from '@angular/core';
 import { DetailTemplateDirective } from '@progress/kendo-angular-grid';
 import { Overlay } from '@angular/cdk/overlay';
 import mockAccounts from '@mocks/ar-mgr/ar/list.of.accounts.json';
-import mockColumns from './account-results-columns.json';
 
 describe('AccountResultsComponent', () => {
   let component: AccountResultsComponent;
@@ -53,7 +52,6 @@ describe('AccountResultsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AccountResultsComponent);
     component = fixture.componentInstance;
-    component.columns = mockColumns;
     component.showResults = true;
     fixture.detectChanges();
   });
@@ -97,38 +95,6 @@ describe('AccountResultsComponent', () => {
         expect(component.loadGridData).toHaveBeenCalled() :
         expect(component.loadGridData).not.toHaveBeenCalled();
     }
-  });
-
-  describe('isHiddenColumn', () => {
-    it('should return hidden', () => {
-      const isHidden = component.isHiddenColumn('MedicareId');
-      expect(isHidden).toEqual(true);
-    });
-  });
-
-  describe('showColumnsDropdown', () => {
-    it('should create overlay with dropdowns', () => {
-      const overlayRef = jasmine.createSpyObj({
-        backdropClick: of({}),
-        dispose() {},
-        attach(element) {}
-      });
-      component.columnsDropdownButton = {
-        _elementRef: {
-          nativeElement: component.columnsDropdownButton.nativeElement
-        }
-      };
-      spyOn(component.overlay, 'create').and.returnValue(overlayRef);
-      component.showColumnsDropdown();
-      expect(component.overlay.create).toHaveBeenCalled();
-    });
-  });
-
-  describe('onColumnSelectionChange', () => {
-    it('should set columns with new columns', () => {
-      component.onColumnSelectionChange(mockColumns);
-      expect(component.columns).toEqual(mockColumns);
-    });
   });
 
   describe('showDependents', () => {
