@@ -73,7 +73,7 @@
     "LastName": "COOK",
     "Dob": "1985-03-25",
     "CvrgStartDt": "2020-02-01",
-    "CvrgEndDt": "2020-08-01",
+    "CvrgEndDt": "0001-01-01",
     "Addresses": [{
         "AddrLine1": "38476 FAUX ROAD",
         "City": "TAMPA",
