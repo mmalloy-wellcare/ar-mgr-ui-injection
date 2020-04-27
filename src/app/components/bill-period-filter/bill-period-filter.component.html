@@ -1,0 +1,42 @@
+<div class="filter-section">
+  <ng-container  *ngIf="availableYears.length > 0">
+    <input 
+      id="account-year-input"
+      mask="0000"
+      [formControl]="yearControl"
+    >
+  </ng-container>
+  {{ availableYears.length === 0 ? 'No Bill Periods to filter' : '' }}
+</div>
+<div class="checkbox-group-vertical selection-container">
+    <ng-container *ngFor="let availableYear of availableYears">
+        <mat-checkbox
+          *ngIf="!availableYear.hidden"
+          color="primary"
+          [id]="'account-year-' + availableYear.year"
+          [(ngModel)]="availableYear.filter"
+        >
+          {{ availableYear.year }}
+        </mat-checkbox>
+      </ng-container>      
+</div>
+<div class="filter-section" *ngIf="getFilteredYears().length > 0">
+  {{ getFilteredYears().length }} {{ getFilteredYears().length > 1 ? 'items' : 'item' }} selected
+</div>
+<div class="button-group-horizontal filter-section">
+  <button 
+    mat-button (click)="sendFilter('clear')"
+    [disabled]="getFilteredYears().length === 0"
+  >
+    <i class="fa fa-times" aria-hidden="true"></i> Clear
+  </button>
+  <!-- TODO: Update disabled to remove check if length is > 1 when API gets updated to support multi-year -->
+  <button
+    mat-flat-button
+    (click)="sendFilter('filter')"
+    color="primary"
+    [disabled]="getFilteredYears().length === 0 || getFilteredYears().length > 1"
+  >
+    <i class="fa fa-filter" aria-hidden="true"></i> Filter
+  </button>
+</div>

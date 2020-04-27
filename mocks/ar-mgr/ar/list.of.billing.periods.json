@@ -1,6 +1,6 @@
 [
     {
-        "blngStmtDt": "2020-01-01",
+        "blngStmtDt": "2020-10-01",
         "BillPerDt": "2020-10-01",
         "CreatedDt": "2020-03-31",
         "UpdatedDt": "2020-04-05",
@@ -118,7 +118,7 @@
         ]
     },
     {
-        "blngStmtDt": "2020-01-01",
+        "blngStmtDt": "2020-11-01",
         "BillPerDt": "2020-11-01",
         "CreatedDt": "2020-03-31",
         "UpdatedDt": "2020-04-01",
@@ -185,5 +185,68 @@
         "BillPerDt": "2020-12-01",
         "CreatedDt": "2020-04-01",
         "UpdatedDt": "2020-04-01"
+    },
+    {
+        "blngStmtDt": "1999-01-01",
+        "BillPerDt": "1999-01-01",
+        "CreatedDt": "1999-01-01",
+        "UpdatedDt": "1999-01-01",
+        "BlngPerSpans": [
+            {
+                "CvrgPerStartDt": "1999-01-01",
+                "CvrgPerEndDt": "1999-01-31",
+                "Rates": [
+                    {
+                        "RateType": "TOTAL_MEDICAL",
+                        "Amt": 785,
+                        "MnthlyAmt": 435
+                    }
+                ],
+                "Liabilities": [
+                    {
+                        "LiabilityType": "APTC",
+                        "Amt": 98,
+                        "MnthlyAmt": 44
+                    },
+                    {
+                        "LiabilityType": "FRP",
+                        "Amt": 876,
+                        "MnthlyAmt": 342
+                    },
+                    {
+                        "LiabilityType": "OTHER_1",
+                        "Amt": 123,
+                        "MnthlyAmt": 998
+                    },
+                    {
+                        "LiabilityType": "OTHER_2",
+                        "Amt": 667,
+                        "MnthlyAmt": 887
+                    }
+                ],
+                "TxnSmrys": [
+                    {
+                        "BilleeTypeCode": "APTC",
+                        "Rundown": "EXPECTED",
+                        "Amt": 2
+                    },
+                    {
+                        "BilleeTypeCode": "SUBSCRIBER",
+                        "Rundown": "EXPECTED",
+                        "Amt": 3
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_1",
+                        "Rundown": "EXPECTED",
+                        "Amt": 1
+                    },
+                    {
+                        "BilleeTypeCode": "OTHER_2",
+                        "Rundown": "EXPECTED",
+                        "Amt": 55
+                    }
+                ]
+            }
+        ]
     }
 ]

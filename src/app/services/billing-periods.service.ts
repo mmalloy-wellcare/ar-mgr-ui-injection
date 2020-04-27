@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Sort } from '@nextgen/web-care-portal-core-library';
+import { Sort, Filter } from '@nextgen/web-care-portal-core-library';
 import { DataService } from '@nextgen/web-care-portal-core-library';
 import { map } from 'rxjs/operators';
 
@@ -10,19 +10,14 @@ export class BillingPeriodsService {
 
   constructor(private dataService: DataService) { }
 
-  public getBillingPeriods(accountId: string, restartRowId: string, sort: Array<Sort> = []) {
+  public getBillingPeriods(accountId: string, restartRowId: string, sort: Array<Sort> = [], filter: Array<Filter> = []) {
     return this.dataService.getAllRecords({
       url: `${this.billingPeriodURI}/${accountId}`,
       pageSize: this.pageSize,
       restartRowId,
       sort,
       search: '',
-      filter: [{
-        operator: 'LE',
-        value: '2020-12-31',
-        property: 'blngStmtDt',
-        dataType: 'Date'
-      }]
+      filter
     }).pipe(map((response) => {
       return {
         data: this.flattenBillingPeriods(response.data),
@@ -55,6 +50,8 @@ export class BillingPeriodsService {
           flattenedBillingPeriod[`billPeriodSpan`] =
             `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
           delete flattenedBillingPeriod.BlngPerSpans;
+          flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
+          delete flattenedBillingPeriod.BillPerDt;
 
           // flatten children data of flattened billing period
           flattenedBillingPeriods.push(this.flattenChildData(flattenedBillingPeriod));

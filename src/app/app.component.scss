@@ -61,11 +61,6 @@ pb-ar-ui {
         .fa {
             color: $brandColor;
             transition: all 0.2s;
-
-            &.flip {
-                transform: rotate(180deg);
-                transition: all 0.2s;
-            }
         }
     }
 
@@ -217,6 +212,15 @@ pb-ar-ui {
         }
     }
 
+    .custom-dropdown-trigger {
+        &.custom-dropdown-opened {
+            .icon-flip {
+                transform: rotate(180deg);
+                transition: all 0.2s;
+            }
+        }
+    }
+
     .k-grid {
         .k-grid-header .k-header {
             border-color: $gray;
@@ -356,6 +360,17 @@ pb-ar-ui {
                                 border-left: none;
                             }
                         }
+                        &.k-filter-row {
+                            td {
+                                &:nth-child(2):after {
+                                    content: '\f0b0';
+                                    font-family: FontAwesome;
+                                    font-size: 16px;
+                                    color: #828282;
+                                    margin-left: -3px;
+                                }
+                            }
+                        }
                     }
                 }
                 .k-grid-header-wrap {
@@ -367,6 +382,24 @@ pb-ar-ui {
             thead tr {
                 &:hover {
                     background-color: rgba(0, 0, 0, 0.02);
+                }
+                &.k-filter-row {
+                    background-color: rgba(16, 123, 164, 0.1);
+                    box-shadow: inset 0 -19px 5px -15px rgba(0,0,0,0.14);
+                    text-align: right;
+                    color: #333;
+
+                    td {
+                        padding: 6px 12px;
+
+                        .filter-input {
+                            text-align: left;
+                            border: $cellBorder;
+                            background-color: white;
+                            padding: 5px;
+                            box-sizing: border-box;
+                        }
+                    }
                 }
                 .collapsible-column-group {
                     display: flex;
@@ -381,10 +414,32 @@ pb-ar-ui {
                     }
                 }
                 .spanned-column-header {
-                    background-color: rgba(0, 0, 0, 0.12);
+                    background-color: $grayOpacity;
                 }
                 th {
-                    background-color: rgba(0, 0, 0, 0.050);
+                    background-color: $grayOpacityLight;
+
+                    .k-i-sort-asc-sm, .k-i-sort-desc-sm {
+                        vertical-align: bottom;
+                    }
+                    
+                    .fa {
+                        color: $brandColor;  
+                    }
+
+                    button.filter-menu-button {
+                        position: absolute;
+                        right: 6px;
+                        top: 11px;
+                        padding: 3px 8px;
+                        border: none;
+                        cursor: pointer;
+
+                        &:focus, &:hover {
+                            background-color: $grayOpacityLight;
+                            outline: none;
+                        }
+                    }
                 }
             }
             .k-grid-content-locked {
@@ -479,6 +534,28 @@ pb-ar-ui {
     overflow-y: auto;
     box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 
+    &.bill-period-filter {
+        overflow: inherit;
+
+        .selection-container {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .filter-section {
+            padding: 10px;
+            text-align: center;
+
+            input {
+                font: 12px Calibri;
+                border: 1px solid #bdbdbd;
+                background-color: white;
+                width: 100%;
+                padding: 5px;
+                box-sizing: border-box;
+            }
+        }
+    }
     .mat-checkbox {
         margin-top: 4px;
         padding: 0px 64px 4px 16px;
@@ -494,23 +571,32 @@ pb-ar-ui {
 
         .mat-checkbox-label {
             font-weight: 600;
+            font-family: Calibri;
             color: #024069;
+        }
+
+        .mat-checkbox-ripple {
+            display: none;
         }
     }
     button.mat-button {
-        text-align: left;
-        padding-left: 16px;
-        color: #024069;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        font-family: Calibri;
 
-        .fa {
-            font-size: 18px;
-            margin-right: 5px;
-            color: #107ba4;
-        }
+        &.selection-item {
+            text-align: left;
+            padding-left: 16px;
+            color: #024069;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-        &:hover {
-            background: none;
+            .fa {
+                font-size: 18px;
+                margin-right: 5px;
+                color: #107ba4;
+            }
+    
+            &:hover {
+                background: none;
+            }    
         }
     }
 }

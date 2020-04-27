@@ -1,7 +1,7 @@
-<button mat-button id="expand-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('expand')">
+<button mat-button class="selection-item" id="expand-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('expand')">
     <i class="fa fa-plus-square" aria-hidden="true"></i> {{ showColumnsText || 'Show All Columns' }}
 </button>
-<button mat-button id="collapse-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('collapse')">
+<button mat-button class="selection-item" id="collapse-all-btn" *ngIf="columnsToggle" (click)="toggleColumns('collapse')">
     <i class="fa fa-minus-square" aria-hidden="true"></i> {{ hideColumnsText || 'Hide All Columns' }}
 </button>
 <ng-container *ngFor="let column of columns">

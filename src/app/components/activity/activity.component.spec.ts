@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, tick, fakeAsync } from '@angular/core/testing';
 
 import { ActivityComponent } from './activity.component';
 import { BillingPeriodsService } from '@app/services/billing-periods.service';
@@ -7,7 +7,7 @@ import { NO_ERRORS_SCHEMA, ViewContainerRef } from '@angular/core';
 import { AlertsService, SortService, Sort } from '@nextgen/web-care-portal-core-library';
 import { of, throwError } from 'rxjs';
 import { GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
 
@@ -30,7 +30,11 @@ describe('ActivityComponent', () => {
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() {}
   };
-  const sortService: Partial<SortService> = {};
+  const sortService: Partial<SortService> = {
+    convertSort() {
+      component.loadGridData();
+    }
+  };
   const mockElement = document.createElement('div');
   const mockAccountBillingPeriodsGrid: Partial<KendoGridComponent> = {
     collapseGroup(groupIndex: string) {},
@@ -48,6 +52,20 @@ describe('ActivityComponent', () => {
       }
     }
   };
+  const mockOverlayRef = {
+    dispose() {}
+  };
+  const mockFilter = [{
+    operator: 'GE',
+    value: '2020-01-01',
+    property: 'blngStmtDt',
+    dataType: 'Date'
+  }, {
+    operator: 'LE',
+    value: '2020-12-31',
+    property: 'blngStmtDt',
+    dataType: 'Date'
+  }];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -73,6 +91,7 @@ describe('ActivityComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ActivityComponent);
     component = fixture.componentInstance;
+    component.overlayRef = mockOverlayRef as OverlayRef;
     fixture.detectChanges();
   });
 
@@ -85,7 +104,7 @@ describe('ActivityComponent', () => {
       component.gridData = [];
       component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
       component.loadGridData();
-      expect(component.gridData.length).toEqual(3);
+      expect(component.gridData.length).toEqual(4);
     });
 
     it('should show error if loading billing periods fails',
@@ -134,6 +153,27 @@ describe('ActivityComponent', () => {
       expect(component.accountId).toEqual(accountId);
       accountId ?
         expect(component.loadGridData).toHaveBeenCalled() : expect(component.loadGridData).not.toHaveBeenCalled();
+    }
+  });
+
+  describe('getBillPeriodYears', () => {
+    it('should add bill period years if there are no years', () => {
+      testGetBillPeriodYears([], 2);
+    });
+
+    it('should NOT add bill period years if there are existing years', () => {
+      testGetBillPeriodYears([2022], 1);
+    });
+
+    function testGetBillPeriodYears(years: Array<number>, expectedLength: number) {
+      component.gridData = [{
+        blngStmtDt: '2020-01-01'
+      }, {
+        blngStmtDt: '2021-01-01'
+      }];
+      component.billPeriodYears = years;
+      component.getBillPeriodYears();
+      expect(component.billPeriodYears.length).toEqual(expectedLength);
     }
   });
 
@@ -206,6 +246,63 @@ describe('ActivityComponent', () => {
       component.addMutualHoverEvents(mockElement, mockElement);
       mockElement.dispatchEvent(event);
       expect(mockElement.classList[0]).toEqual(expectedClass);
+    }
+  });
+
+  describe('openFilterMenu', () => {
+    it('should open custom dropdown for filter menu', () => {
+      spyOn(component, 'showCustomDropdown');
+      const mockTriggerElement = document.createElement('button');
+      component.openFilterMenu(mockTriggerElement);
+      expect(component.showCustomDropdown).toHaveBeenCalled();
+    });
+  });
+
+  describe('onFilterChange', () => {
+    it('should call filterBillPeriod on filter change', () => {
+      testFilterChange('onFilterChange');
+    });
+  });
+
+  describe('billPeriodControl', () => {
+    it('should call filterBillPeriod on input value change', fakeAsync(() => {
+      testFilterChange('valueChange');
+    }));
+  });
+
+  function testFilterChange(action) {
+    spyOn(component, 'filterBillPeriod');
+    component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
+    switch (action) {
+      case 'onFilterChange':
+        component.onFilterChange();
+        break;
+      case 'valueChange':
+        component.billPeriodFilterControl.setValue('');
+        tick(500);
+        break;
+    }
+    expect(component.filterBillPeriod).toHaveBeenCalled();
+  }
+
+  describe('filterBillPeriod', () => {
+    it('should set current filter to range if year length is 4 (custom filter)', () => {
+      testFilterBillPeriod('2020', mockFilter);
+    });
+
+    it('should set current filter to default filter if year length is 0 (filter reset)', () => {
+      testFilterBillPeriod(undefined, component.defaultFilter);
+    });
+
+    it('should not set current filter if year length is not 4 or 0 (invalid year)', () => {
+      testFilterBillPeriod('19', undefined);
+    });
+
+    function testFilterBillPeriod(year, expectedFilter) {
+      component.currentFilter = undefined;
+      component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
+      component.filterBillPeriod(year);
+      expect(component.currentFilter).toEqual(expectedFilter);
     }
   });
 });

@@ -1,5 +1,5 @@
 import { GridComponent, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ViewContainerRef, ViewChild } from '@angular/core';
 import { Column } from '@app/models/column.model';
 import { TemplatePortal } from '@angular/cdk/portal';
@@ -9,6 +9,7 @@ export abstract class ToggleableColumnsGridComponent extends GridComponent {
   @ViewChild('columnsDropdownButton', { static: false}) columnsDropdownButton;
   columns: Array<Column> = [];
   columnsDropdownShown: boolean;
+  overlayRef: OverlayRef;
 
   constructor(
     public sortService: SortService,
@@ -62,19 +63,20 @@ export abstract class ToggleableColumnsGridComponent extends GridComponent {
     }
   }
 
-  showColumnsDropdown() {
-    // get columns button (#columnsDropdownButton)
-    const columnsDropdownButton = this.columnsDropdownButton._elementRef.nativeElement;
+  showCustomDropdown(targetElement: HTMLElement, targetTemplate: any) {
+    // get trigger element from event
+    const trigger = this.getTriggerElement(targetElement);
+    trigger.classList.add('custom-dropdown-opened');
 
     // create overlay
-    const overlayRef = this.overlay.create({
+    this.overlayRef = this.overlay.create({
       maxHeight: 400,
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
-      // set dropdown position to columns button
-      positionStrategy: this.overlay.position().flexibleConnectedTo(columnsDropdownButton)
+      // set dropdown position to trigger element
+      positionStrategy: this.overlay.position().flexibleConnectedTo(trigger)
         .withPositions([{
-          // position to end and bottom of columns dropdown button
+          // position to end and bottom of trigger elment
           originX: 'end',
           originY: 'bottom',
           overlayX: 'end',
@@ -84,19 +86,30 @@ export abstract class ToggleableColumnsGridComponent extends GridComponent {
       scrollStrategy: this.overlay.scrollStrategies.reposition()
     });
 
-    // get columns dropdown template
-    // template portal represents embedded template (#columnsDropdownTemplate)
-    const columnsDropdown = new TemplatePortal(this.columnsDropdownTemplate, this.viewContainerRef);
+    // get target template
+    // template portal represents embedded template
+    const customDropdown = new TemplatePortal(targetTemplate, this.viewContainerRef);
 
-    // attach columns dropdown to overlay
-    overlayRef.attach(columnsDropdown);
-    this.columnsDropdownShown = true;
+    // attach custom dropdown to overlay
+    this.overlayRef.attach(customDropdown);
 
     // subscribe to backdropClick so when user clicks outside dropdown, it closes
-    overlayRef.backdropClick().subscribe(() => {
-      this.columnsDropdownShown = false;
-      overlayRef.dispose();
+    this.overlayRef.backdropClick().subscribe(() => {
+      trigger.classList.remove('custom-dropdown-opened');
+      this.overlayRef.dispose();
     });
   }
-}
 
+  getTriggerElement(element: HTMLElement) {
+    let buttonElement: HTMLElement;
+
+    if (element.classList.contains('custom-dropdown-trigger')) {
+      buttonElement = element;
+    } else {
+      // go up one node until trigger element is found
+      buttonElement = this.getTriggerElement(element.parentElement);
+    }
+
+    return buttonElement;
+  }
+}
