@@ -36,7 +36,9 @@
                 >{{ dataItem.SubscrbID }}</a>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'EnrollmentSpan'">
-                {{ dataItem.CvrgStartDt | date: 'MM/dd/yyyy' }} - {{ dataItem.CvrgEndDt | date: 'MM/dd/yyyy' }}
+                <!-- null date in Golang is returned as '0001-01-01' from what I'm told... so if it's "null", display blank -->
+                {{ dataItem.CvrgStartDt | date: 'MM/dd/yyyy' }} - 
+                {{ dataItem.CvrgEndDt === '0001-01-01' ? '' : dataItem.CvrgEndDt | date: 'MM/dd/yyyy' }}
             </ng-template>
         </kendo-grid-column>
     </ng-container>
