@@ -63,23 +63,33 @@ describe('ToggleableColumnsGridComponent', () => {
     }
   ));
 
-  describe('showColumnsDropdown', () => {
-    it('should create overlay with dropdowns', () => {
+  describe('showCustomDropdown', () => {
+    it('should create overlay with dropdown when trigger element is clicked', () => {
+      testShowCustomDropdown(true);
+    });
+
+    it('should create overlay with dropdown when inner element of trigger element is clicked', () => {
+      testShowCustomDropdown(false);
+    });
+
+    function testShowCustomDropdown(triggerElement: boolean) {
       const overlayRef = jasmine.createSpyObj({
         backdropClick: of({}),
         dispose() {},
         attach() {}
       });
       const mockButton = document.createElement('button');
-      component.columnsDropdownButton = {
-        _elementRef: {
-          nativeElement: mockButton
-        }
-      };
+      const mockChildNode = document.createElement('span');
+      mockButton.classList.add('custom-dropdown-trigger');
+      mockButton.appendChild(mockChildNode);
+
       spyOn(component.overlay, 'create').and.returnValue(overlayRef);
-      component.showColumnsDropdown();
+      component.showCustomDropdown(
+        triggerElement ? mockButton : mockButton.firstChild as HTMLElement,
+        component.columnsDropdownTemplate
+      );
       expect(component.overlay.create).toHaveBeenCalled();
-    });
+    }
   });
 
   describe('onColumnSelectionChange', () => {

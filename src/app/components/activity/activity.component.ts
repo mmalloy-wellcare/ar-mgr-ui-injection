@@ -1,12 +1,14 @@
 import { Component, HostBinding, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
+import { AlertsService, SortService, Filter } from '@nextgen/web-care-portal-core-library';
 import { BillingPeriodsService } from '@app/services/billing-periods.service';
 import { DataResult, GroupDescriptor, process, GroupResult } from '@progress/kendo-data-query';
-import { SelectableSettings, GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
+import { SelectableSettings, GridComponent as KendoGridComponent, ColumnSortSettings } from '@progress/kendo-angular-grid';
 import { SubColumn } from '@app/models/subcolumn.model';
 import { Column } from '@app/models/column.model.js';
 import { Overlay } from '@angular/cdk/overlay';
 import { ToggleableColumnsGridComponent } from '../toggleable-columns-grid/toggleable-columns-grid.component';
+import { debounceTime } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 import activityColumns from './activity-columns.json';
 
 @Component({
@@ -16,11 +18,17 @@ import activityColumns from './activity-columns.json';
 export class ActivityComponent extends ToggleableColumnsGridComponent implements OnInit {
   @HostBinding('class') componentClass = 'web-component-flex';
   @ViewChild('accountBillingPeriodsGrid', { static: false }) accountBillingPeriodsGrid: KendoGridComponent;
-  accountIdInput: string;
+  @ViewChild('billPeriodFilterTemplate', { static: false}) billPeriodFilterTemplate;
+  private accountIdInput: string;
+  billPeriodField = 'blngStmtDt';
   @Input() set accountId(value: string) {
     if (value) {
       this.accountIdInput = value;
-      this.loadGridData();
+      // load data by ascending bill period by default
+      this.onSortChange([{
+        field: this.billPeriodField,
+        dir: 'asc'
+      }]);
     }
   }
   get accountId() {
@@ -29,18 +37,32 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   // using grid view instead of gridata to show groupings by bill period and period span
   gridView: DataResult;
   rowGroups: GroupDescriptor[] = [{
-    field: 'BillPerDt'
+    field: this.billPeriodField,
+    dir: null
   }, {
-    field: 'billPeriodSpan'
+    field: 'billPeriodSpan',
+    dir: null
   }];
   selectableSettings: SelectableSettings = {
     checkboxOnly: true,
     mode: 'single'
   };
+  sortableSettings: ColumnSortSettings = {
+    allowUnsort: false
+  };
   dynamicColumnGroups: Array<SubColumn> = [];
   // make deep copy of activity columns so it doesn't affect original json when columns array is updated
   columns: Array<Column> = JSON.parse(JSON.stringify(activityColumns));
-  columnsDropdownShown: boolean;
+  billPeriodYears: Array<number> = [];
+  billPeriodFilterControl: FormControl = new FormControl();
+  // default filter to revert to when filters are cleared
+  defaultFilter: Array<Filter> = [{
+    operator: 'LE',
+    value: `${new Date().getFullYear()}-12-31`,
+    property: this.billPeriodField,
+    dataType: 'Date'
+  }];
+  currentFilter: Array<Filter> = [];
 
   constructor(
     public alertsService: AlertsService,
@@ -54,22 +76,34 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
   ngOnInit() {
     this.loadGridMetadata();
+
+    // filter bill period when input value changes
+    this.billPeriodFilterControl.valueChanges.pipe(debounceTime(500)).subscribe((year) => {
+      this.filterBillPeriod(year);
+    });
   }
 
   loadGridData() {
     const savedRestartRowId = this.restartRowId || '0';
+    // use default filter if no current filter exists
+    const savedFilter = this.currentFilter.length > 0 ? this.currentFilter : this.defaultFilter;
     this.gridLoading = true;
 
-    this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort).subscribe(response => {
-      this.gridData = this.gridData.concat(response.data);
-      this.gridView = process(this.gridData, { group: this.rowGroups });
-      this.updateGridRows();
-      // there's no collapse all grouping method in kendo api, need to collapse children grouping manually by default
-      this.collapsePeriodSpans(this.gridView.data);
-      this.restartRowId = response.restartRowId;
-    }, (error) => {
+    this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort, savedFilter)
+      .subscribe(response => {
+        this.gridData = this.gridData.concat(response.data);
+        this.gridView = process(this.gridData, { group: this.rowGroups });
+        this.updateGridRows();
+        // there's no collapse all grouping method in kendo api, need to collapse children grouping manually by default
+        this.collapsePeriodSpans(this.gridView.data);
+        // get list of available years from bill period
+        // this is to get the range of years to choose from in the filter menu
+        this.getBillPeriodYears();
+        this.restartRowId = response.restartRowId;
+        this.gridLoading = false;
+      },
+    (error) => {
       this.alertsService.showErrorSnackbar(error);
-    }, () => {
       this.gridLoading = false;
     });
   }
@@ -134,6 +168,17 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     });
   }
 
+  getBillPeriodYears() {
+    if (this.billPeriodYears.length === 0) {
+      for (const data of this.gridData) {
+        this.billPeriodYears.push(+data.blngStmtDt.split('-')[0]);
+      }
+    }
+
+    // remove duplicate years using Set and converting it back to array
+    this.billPeriodYears = [...new Set(this.billPeriodYears)];
+  }
+
   getFieldAmount(dataItem: any, subColumn: SubColumn) {
     let fieldAmount = 0;
 
@@ -186,5 +231,62 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
       this.columns.push(parentColumn);
     });
+  }
+
+  filterBillPeriod(year: string = '') {
+    let filter: Array<Filter>;
+
+    switch (year.length) {
+      case 4:
+        filter = [{
+          operator: 'GE',
+          value: `${year}-01-01`,
+          property: this.billPeriodField,
+          dataType: 'Date'
+        }, {
+          operator: 'LE',
+          value: `${year}-12-31`,
+          property: this.billPeriodField,
+          dataType: 'Date'
+        }];
+        break;
+      case 0:
+        filter = this.defaultFilter;
+        break;
+    }
+
+    if (filter) {
+      this.currentFilter = filter;
+      this.gridData = [];
+      /* NOTE: If you're using grouped columns and have attached event listeners to the rows, the only way
+      to clear the grid successfully is to set gridView to null, otherwise, the event listeners will not be
+      removed and will cause a memory leak.  */
+      this.gridView = null;
+      this.loadGridData();
+    }
+  }
+
+  /* NOTE:
+  Kendo does not support having a filter row AND filter menus on headers at the same time from
+  what I have seen. It's either [filterable]="true" which creates the filter row OR filterable="menu"
+  which creates the triggers on the headers.
+
+  Also, using the built in filter menus, the element created is an anchor tag that routes to "#".
+  So if you were to use just the built in filter menus, each time you clicked on the trigger, it would
+  route you to "#".
+
+  I've decided to use the supported filter row while having my own custom filter menu which solves
+  both problems above.
+  */
+  openFilterMenu(targetElement: HTMLElement) {
+    this.showCustomDropdown(targetElement, this.billPeriodFilterTemplate);
+  }
+
+  onFilterChange(year?: string) {
+    this.filterBillPeriod(year);
+    this.overlayRef.dispose();
+    // reset the bill period filter input on grid once the filter has changed
+    // don't emit value changes on reset, otherwise it will filter again with default filter
+    this.billPeriodFilterControl.reset(null, { onlySelf: true, emitEvent: false});
   }
 }

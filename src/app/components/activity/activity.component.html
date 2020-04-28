@@ -1,8 +1,13 @@
 <mat-toolbar>
     <strong>Activity</strong>
     <span class="spacer"></span>
-    <button mat-button #columnsDropdownButton id="activity-columns-dropdown-btn" (click)="showColumnsDropdown()">
-        <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down" [class.flip]="columnsDropdownShown" aria-hidden="true"></i>
+    <button 
+        mat-button
+        class="custom-dropdown-trigger"
+        id="activity-columns-dropdown-btn" 
+        (click)="showCustomDropdown($event.target, columnsDropdownTemplate)"
+    >
+        <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down icon-flip" aria-hidden="true"></i>
     </button>
     <ng-template #columnsDropdownTemplate>
         <pb-ar-ui-column-selection
@@ -14,16 +19,26 @@
         </pb-ar-ui-column-selection>
     </ng-template>
 </mat-toolbar>
+<ng-template #billPeriodFilterTemplate>
+    <pb-ar-ui-bill-period-filter
+        [billPeriodYears]="billPeriodYears"
+        [currentFilter]="currentFilter"
+        [defaultFilter]="defaultFilter"
+        filterProperty="blngStmtDt"
+        (filterChange)="onFilterChange($event)"
+    ></pb-ar-ui-bill-period-filter>
+</ng-template>
 <kendo-grid
     #accountBillingPeriodsGrid
     id="account-billing-periods-grid"
     kendoGridSelectBy="SubscrbID"
-    sortable="true"
     [data]="gridView" 
     [selectable]="selectableSettings"
     [selectedKeys]="selectedKeys"
     [sort]="sort"
+    [sortable]="sortableSettings"
     [group]="rowGroups"
+    [filterable]="true"
     [loading]="gridLoading"
     (sortChange)="onSortChange($event)"
     (scrollBottom)="loadMoreGridData()"
@@ -43,13 +58,31 @@
                 ></i>
             </div>
         </ng-template>        
-        <kendo-grid-column field="BillPerDt" title="Bill Period" [locked]="true" width="132">
+        <kendo-grid-column field="blngStmtDt" title="Bill Period" [locked]="true" width="132">
+            <ng-template kendoGridFilterCellTemplate let-column="column">
+                <input 
+                    id="bill-period-filter-input"
+                    matInput
+                    class="filter-input"
+                    mask="0000"
+                    [formControl]="billPeriodFilterControl"
+                >
+            </ng-template>
             <ng-template kendoGridGroupHeaderTemplate></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                <span *ngIf="group.field === 'BillPerDt'" class="initial-sub-column-cell">
+                <span *ngIf="group.field === 'blngStmtDt'" class="initial-sub-column-cell">
                     {{ group.value.split('-')[1] + '/' + group.value.split('-')[0] }}
                 </span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="initial-sub-column-cell"></span>
+            </ng-template>
+            <ng-template kendoGridHeaderTemplate let-column="column">
+                {{ column.title }}
+                <button 
+                    class="custom-dropdown-trigger filter-menu-button" 
+                    (click)="openFilterMenu($event.target);$event.preventDefault()"
+                >
+                    <i class="fa fa-ellipsis-v" aria-label="Toggler Filter Menu"></i>
+                </button>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem>
                 <span class="initial-sub-column-cell"></span>
@@ -68,10 +101,17 @@
                 ></i>
             </div>
         </ng-template>
-        <kendo-grid-column field="billPeriodSpan" title="Period Span" width="150" [hidden]="isHiddenColumn('billPeriodSpan', 'TRANSACTION_DATES')">
+        <kendo-grid-column
+            field="billPeriodSpan"
+            title="Period Span"
+            width="150"
+            [hidden]="isHiddenColumn('billPeriodSpan', 'TRANSACTION_DATES')"
+            [sortable]="false"
+        >
+            <ng-template kendoGridFilterCellTemplate></ng-template>
             <ng-template kendoGridGroupHeaderTemplate><div class="secondary-row"></div></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
+                <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
                     {{ group.items[0].billPeriodSpan }}
                 </span>
@@ -80,9 +120,16 @@
                 <span class="secondary-group"></span>
             </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="CreatedDt" title="Record Creation" width="120" [hidden]="isHiddenColumn('CreatedDt', 'TRANSACTION_DATES')">
+        <kendo-grid-column
+            field="CreatedDt"
+            title="Record Creation"
+            width="120"
+            [hidden]="isHiddenColumn('CreatedDt', 'TRANSACTION_DATES')"
+            [sortable]="false"
+        >
+            <ng-template kendoGridFilterCellTemplate></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
+                <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
                     {{ group.items[0].CreatedDt | date: 'MM/dd/yyyy' }}
                 </span>    
@@ -91,9 +138,16 @@
                 {{ dataItem.CreatedDt | date: 'MM/dd/yyyy' }}
             </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="UpdatedDt" title="Updated" width="120" [hidden]="isHiddenColumn('UpdatedDt', 'TRANSACTION_DATES')">
+        <kendo-grid-column
+            field="UpdatedDt"
+            title="Updated"
+            width="120"
+            [hidden]="isHiddenColumn('UpdatedDt', 'TRANSACTION_DATES')"
+            [sortable]="false"
+        >
+            <ng-template kendoGridFilterCellTemplate></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                <span *ngIf="group.field === 'BillPerDt'" class="primary-group"></span>
+                <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
                     {{ group.items[0].UpdatedDt | date: 'MM/dd/yyyy' }}
                 </span>
@@ -124,10 +178,12 @@
                     [title]="subColumn.Label"
                     width="120"
                     [hidden]="isHiddenColumn(subColumn.Name, columnGroup.Name)"
+                    [sortable]="false"
                 >
+                    <ng-template kendoGridFilterCellTemplate></ng-template>
                     <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                        <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'primary-group': group.field === 'BillPerDt', 'secondary-group': group.field === 'billPeriodSpan'}">
-                            <span>{{ (group.field === 'BillPerDt' ? '' : getSummaryAmount(group, subColumn)) | currency: 'USD' }}</span>
+                        <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'primary-group': group.field === 'blngStmtDt', 'secondary-group': group.field === 'billPeriodSpan'}">
+                            <span>{{ (group.field === 'blngStmtDt' ? '' : getSummaryAmount(group, subColumn)) | currency: 'USD' }}</span>
                         </span>
                     </ng-template>
                     <ng-template kendoGridCellTemplate let-dataItem>
