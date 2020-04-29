@@ -191,6 +191,7 @@ export class AccountSearchComponent implements OnInit {
     const dateISOString = event.value.toISOString().split('T')[0].split('-');
     this.dobValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
   }
+
   onDateKeyUp(event) {
     // to set value to the date picker on Blur event
     const dateFormControl = this.accountSearchForm.get('secondaryForm').get('Dob');
@@ -202,6 +203,19 @@ export class AccountSearchComponent implements OnInit {
     } else {
       dateFormControl.setValue('');
       dateFormControl.setErrors(!!dateString ? { dateFormControl: true } : null);
+    }
+  }
+
+  clearField(fieldNames: string) {
+     this.accountSearchForm.get(fieldNames).setValue('');
+     if (fieldNames === 'secondaryForm.Dob') {
+      this.dobValue = '';
+     }
+  }
+
+  onStateSelect() {
+    if (this.accountSearchForm.get('secondaryForm.State').value === null) {
+      this.accountSearchForm.get('secondaryForm.State').reset();
     }
   }
 }

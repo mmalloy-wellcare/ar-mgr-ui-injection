@@ -213,6 +213,31 @@ describe('AccountSearchComponent', () => {
     }
   });
 
+  describe('onclearField', () => {
+    it('should clear the field', () => {
+      component.clearField('secondaryForm.City');
+      expect(component.accountSearchForm.get('secondaryForm').get('City').value).toEqual('');
+    });
+    it('should clear the date field', () => {
+      component.clearField('secondaryForm.Dob');
+      expect(component.accountSearchForm.get('secondaryForm').get('Dob').value).toEqual('');
+      expect(component.dobValue).toEqual('');
+    });
+  });
+
+  describe('onStateSelect', () => {
+    it('should reset the state dropdown', () => {
+      component.accountSearchForm.get('secondaryForm.State').setValue(null);
+      component.onStateSelect();
+      expect(component.accountSearchForm.get('secondaryForm.State').value).toEqual(null);
+    });
+    it('should not reset the state dropdown', () => {
+      component.accountSearchForm.get('secondaryForm.State').setValue('MI');
+      component.onStateSelect();
+      expect(component.accountSearchForm.get('secondaryForm.State').value).toEqual('MI');
+    });
+  });
+
   function testValidator(formType, controlName, controlValue, controlValid) {
     const control = component.accountSearchForm.get(`${formType}.${controlName}`);
     control.setValue(controlValue);
