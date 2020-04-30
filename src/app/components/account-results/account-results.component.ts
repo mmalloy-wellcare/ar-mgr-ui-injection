@@ -8,7 +8,7 @@ import { ToggleableColumnsGridComponent } from '../toggleable-columns-grid/toggl
 import accountResultsColumns from './account-results-columns.json';
 
 @Component({
-  selector: 'pb-ar-ui-account-results',
+  selector: 'ar-mgr-ui-account-results',
   templateUrl: './account-results.component.html'
 })
 export class AccountResultsComponent extends ToggleableColumnsGridComponent {

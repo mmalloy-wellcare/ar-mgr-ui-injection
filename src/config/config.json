@@ -1,11 +1,11 @@
 {
-    "context": "pb-ar-ui",
+    "context": "ar-mgr-ui",
     "navigationBarItem": {
         "icon": {
             "classes": ["fa", "fa-address-book"]
         },
         "tooltip": "Accounts Receivable",
-        "route": "pb-ar-ui/account-search"
+        "route": "ar-mgr-ui/account-search"
     },
     "menuItems": []
 }

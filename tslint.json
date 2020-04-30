@@ -18,7 +18,7 @@
     "component-selector": [
       true,
       "element",
-      "pb-ar-ui",
+      "ar-mgr-ui",
       "kebab-case"
     ],
     "import-blacklist": [

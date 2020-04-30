@@ -4,7 +4,7 @@ import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import accountSearchStates from './states.json';
 
 @Component({
-  selector: 'pb-ar-ui-account-search',
+  selector: 'ar-mgr-ui-account-search',
   templateUrl: './account-search.component.html'
 })
 export class AccountSearchComponent implements OnInit {

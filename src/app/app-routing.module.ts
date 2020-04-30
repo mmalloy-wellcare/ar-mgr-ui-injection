@@ -5,10 +5,10 @@ import { AccountDetailsComponent } from './components/account-details/account-de
 import { AccountSearchComponent } from './components/account-search/account-search.component';
 
 const routes: Routes = [{
-  path: 'pb-ar-ui/account-search',
+  path: 'ar-mgr-ui/account-search',
   component: AccountSearchComponent
 }, {
-  path: 'pb-ar-ui/account-details/:subscriberId',
+  path: 'ar-mgr-ui/account-details/:subscriberId',
   component: AccountDetailsComponent
 }, {
   path: '**',

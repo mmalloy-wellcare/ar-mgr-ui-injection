@@ -75,6 +75,6 @@ export class AppModule implements DoBootstrap {
 
   ngDoBootstrap() {
     const applicationWebComponent = createCustomElement(AppComponent, { injector: this.injector });
-    customElements.define('pb-ar-ui', applicationWebComponent);
+    customElements.define('ar-mgr-ui', applicationWebComponent);
   }
 }
