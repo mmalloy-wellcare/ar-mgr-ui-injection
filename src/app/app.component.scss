@@ -1,4 +1,4 @@
-pb-ar-ui {
+ar-mgr-ui {
     @mixin flexColumn() {
         display: flex;
         flex-direction: column;
@@ -534,9 +534,9 @@ pb-ar-ui {
     }
 }
 
-// overlays are outside of the pb-ar-ui element
-// added 'pb-ar-ui' text to checkbox dropdown class so it won't affect anything outside of pb-ar-ui
-.pb-ar-ui-checkbox-dropdown {
+// overlays are outside of the ar-mgr-ui element
+// added 'ar-mgr-ui' text to checkbox dropdown class so it won't affect anything outside of ar-mgr-ui
+.ar-mgr-ui-checkbox-dropdown {
     background-color: white;
     max-height: 400px;
     overflow-y: auto;

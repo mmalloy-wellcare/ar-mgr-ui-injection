@@ -10,8 +10,8 @@
         <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down icon-flip" aria-hidden="true"></i>
     </button>
     <ng-template #columnsDropdownTemplate>
-        <pb-ar-ui-column-selection [columns]="columns" (selectionChange)="onColumnSelectionChange($event)">
-        </pb-ar-ui-column-selection>
+        <ar-mgr-ui-column-selection [columns]="columns" (selectionChange)="onColumnSelectionChange($event)">
+        </ar-mgr-ui-column-selection>
     </ng-template>
 </mat-toolbar>
 <kendo-grid
@@ -32,7 +32,7 @@
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'SubscrbID'">
                 <a
                     [id]="'account-sub-id-' + dataItem.SubscrbID"
-                    routerLink="/pb-ar-ui/account-details/{{dataItem.SubscrbID}}"
+                    routerLink="/ar-mgr-ui/account-details/{{dataItem.SubscrbID}}"
                 >{{ dataItem.SubscrbID }}</a>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'EnrollmentSpan'">
@@ -43,6 +43,6 @@
         </kendo-grid-column>
     </ng-container>
     <ng-template kendoGridDetailTemplate let-dataItem [kendoGridDetailTemplateShowIf]="showDependents">
-        <pb-ar-ui-account-dependent [dependents]="dataItem.Members"></pb-ar-ui-account-dependent>
+        <ar-mgr-ui-account-dependent [dependents]="dataItem.Members"></ar-mgr-ui-account-dependent>
     </ng-template>
 </kendo-grid>

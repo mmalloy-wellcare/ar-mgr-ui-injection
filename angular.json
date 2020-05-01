@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pb-ar-ui": {
+    "ar-mgr-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -12,12 +12,12 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "pb-ar-ui",
+      "prefix": "ar-mgr-ui",
       "architect": {
         "build": {
           "builder": "ngx-build-plus:browser",
           "options": {
-            "outputPath": "dist/pb-ar-ui",
+            "outputPath": "dist/ar-mgr-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,18 +68,18 @@
           "builder": "ngx-build-plus:dev-server",
           "options": {
             "port": 8200,
-            "browserTarget": "pb-ar-ui:build"
+            "browserTarget": "ar-mgr-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "pb-ar-ui:build:production"
+              "browserTarget": "ar-mgr-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "pb-ar-ui:build"
+            "browserTarget": "ar-mgr-ui:build"
           }
         },
         "test": {
@@ -116,16 +116,16 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "pb-ar-ui:serve"
+            "devServerTarget": "ar-mgr-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "pb-ar-ui:serve:production"
+              "devServerTarget": "ar-mgr-ui:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "pb-ar-ui"
+  "defaultProject": "ar-mgr-ui"
 }

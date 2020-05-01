@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
 import activityColumns from './activity-columns.json';
 
 @Component({
-  selector: 'pb-ar-ui-activity',
+  selector: 'ar-mgr-ui-activity',
   templateUrl: './activity.component.html'
 })
 export class ActivityComponent extends ToggleableColumnsGridComponent implements OnInit {

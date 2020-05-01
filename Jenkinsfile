@@ -2,7 +2,7 @@
 
 npmUIPipeline {
     namespace = 'app-premium-billing'
-    application = 'pb-ar-ui'
+    application = 'ar-mgr-ui'
     jiraproject = 'Fark'
     artifacttype = 'image'
 }

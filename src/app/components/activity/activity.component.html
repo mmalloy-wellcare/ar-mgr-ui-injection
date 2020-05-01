@@ -10,23 +10,23 @@
         <i class="fa fa-list-ul" aria-hidden="true"></i> Columns <i class="fa fa-caret-down icon-flip" aria-hidden="true"></i>
     </button>
     <ng-template #columnsDropdownTemplate>
-        <pb-ar-ui-column-selection
+        <ar-mgr-ui-column-selection
             [columns]="columns"
             [columnsToggle]="true"
             showColumnsText="Expand All Columns"
             hideColumnsText="Collapse All Columns"
             (selectionChange)="onColumnSelectionChange($event)">
-        </pb-ar-ui-column-selection>
+        </ar-mgr-ui-column-selection>
     </ng-template>
 </mat-toolbar>
 <ng-template #billPeriodFilterTemplate>
-    <pb-ar-ui-bill-period-filter
+    <ar-mgr-ui-bill-period-filter
         [billPeriodYears]="billPeriodYears"
         [currentFilter]="currentFilter"
         [defaultFilter]="defaultFilter"
         filterProperty="blngStmtDt"
         (filterChange)="onFilterChange($event)"
-    ></pb-ar-ui-bill-period-filter>
+    ></ar-mgr-ui-bill-period-filter>
 </ng-template>
 <kendo-grid
     #accountBillingPeriodsGrid

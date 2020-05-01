@@ -4,11 +4,11 @@ import { Filter } from '@nextgen/web-care-portal-core-library';
 import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'pb-ar-ui-bill-period-filter',
+  selector: 'ar-mgr-ui-bill-period-filter',
   templateUrl: './bill-period-filter.component.html'
 })
 export class BillPeriodFilterComponent implements OnInit {
-  @HostBinding('class') classes = 'pb-ar-ui-checkbox-dropdown bill-period-filter';
+  @HostBinding('class') classes = 'ar-mgr-ui-checkbox-dropdown bill-period-filter';
   @Input() billPeriodYears: Array<any> = [];
   @Input() currentFilter: Array<Filter> = [];
   @Input() defaultFilter: Array<Filter> = [];

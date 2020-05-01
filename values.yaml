@@ -12,7 +12,7 @@ conjurHostID: authn-k8s/tampa
 
 imageStreams:
   service:
-    name: pb-ar-ui
+    name: ar-mgr-ui
     pullPolicy: Always
   nginxPromExp:
       tag: 0.5.0

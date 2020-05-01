@@ -4,7 +4,7 @@ import { AccountsService } from '@app/services/accounts.service';
 import { AlertsService } from '@nextgen/web-care-portal-core-library';
 
 @Component({
-  selector: 'pb-ar-ui-account-details',
+  selector: 'ar-mgr-ui-account-details',
   templateUrl: './account-details.component.html'
 })
 export class AccountDetailsComponent implements OnInit {
