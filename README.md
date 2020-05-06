@@ -13,4 +13,4 @@ Accounts Receivable Manager MicroFrontend
 **Make sure you have the node package installed**
 1. Run "npm run start:local" in "ar-mgr-ui". This should run both the application and the AR mock server concurenntly.
 2. Route to http://localhost:8200/#/ar-mgr-ui/account-search to see the Account Search screen.
-3. To see account details, search for an account and click the 'Subscriber ID' on the results OR route to http://localhost:8200/#/ar-mgr-ui/account-details/:SubscriberID where ':SubscriberID' is the account's Subscriber ID, (ex: 827321841).
+3. To see account details, search for an account and click the 'Subscriber ID' on the results OR route to http://localhost:8200/#/ar-mgr-ui/account-search/details/:SubscriberID where ':SubscriberID' is the account's Subscriber ID, (ex: 827321841).

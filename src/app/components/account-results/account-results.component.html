@@ -32,7 +32,7 @@
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'SubscrbID'">
                 <a
                     [id]="'account-sub-id-' + dataItem.SubscrbID"
-                    routerLink="/ar-mgr-ui/account-details/{{dataItem.SubscrbID}}"
+                    routerLink="/ar-mgr-ui/account-search/details/{{dataItem.SubscrbID}}"
                 >{{ dataItem.SubscrbID }}</a>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem *ngIf="column.field === 'EnrollmentSpan'">

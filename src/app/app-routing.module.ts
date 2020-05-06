@@ -8,7 +8,7 @@ const routes: Routes = [{
   path: 'ar-mgr-ui/account-search',
   component: AccountSearchComponent
 }, {
-  path: 'ar-mgr-ui/account-details/:subscriberId',
+  path: 'ar-mgr-ui/account-search/details/:subscriberId',
   component: AccountDetailsComponent
 }, {
   path: '**',

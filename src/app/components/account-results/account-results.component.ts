@@ -12,7 +12,6 @@ import accountResultsColumns from './account-results-columns.json';
   templateUrl: './account-results.component.html'
 })
 export class AccountResultsComponent extends ToggleableColumnsGridComponent {
-  @HostBinding('class') componentClass = 'web-component-flex';
   private searchCriteriaInput: Array<Filter>;
   @Input() showResults: boolean;
   @Input() set searchCriteria(value: Array<Filter>) {

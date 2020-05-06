@@ -1,7 +1,7 @@
-import { Component, HostBinding, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AlertsService, SortService, Filter } from '@nextgen/web-care-portal-core-library';
 import { BillingPeriodsService } from '@app/services/billing-periods.service';
-import { DataResult, GroupDescriptor, process, GroupResult } from '@progress/kendo-data-query';
+import { DataResult, GroupDescriptor, process, GroupResult, SortDescriptor } from '@progress/kendo-data-query';
 import { SelectableSettings, GridComponent as KendoGridComponent, ColumnSortSettings } from '@progress/kendo-angular-grid';
 import { SubColumn } from '@app/models/subcolumn.model';
 import { Column } from '@app/models/column.model.js';
@@ -16,7 +16,6 @@ import activityColumns from './activity-columns.json';
   templateUrl: './activity.component.html'
 })
 export class ActivityComponent extends ToggleableColumnsGridComponent implements OnInit {
-  @HostBinding('class') componentClass = 'web-component-flex';
   @ViewChild('accountBillingPeriodsGrid', { static: false }) accountBillingPeriodsGrid: KendoGridComponent;
   @ViewChild('billPeriodFilterTemplate', { static: false}) billPeriodFilterTemplate;
   private accountIdInput: string;
@@ -25,7 +24,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     if (value) {
       this.accountIdInput = value;
       // load data by ascending bill period by default
-      this.onSortChange([{
+      this.onActivitySortChange([{
         field: this.billPeriodField,
         dir: 'asc'
       }]);
@@ -62,7 +61,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     property: this.billPeriodField,
     dataType: 'Date'
   }];
-  currentFilter: Array<Filter> = [];
+  currentFilter: Array<Filter> = this.defaultFilter;
 
   constructor(
     public alertsService: AlertsService,
@@ -85,11 +84,9 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
   loadGridData() {
     const savedRestartRowId = this.restartRowId || '0';
-    // use default filter if no current filter exists
-    const savedFilter = this.currentFilter.length > 0 ? this.currentFilter : this.defaultFilter;
     this.gridLoading = true;
 
-    this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort, savedFilter)
+    this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort, this.currentFilter)
       .subscribe(response => {
         this.gridData = this.gridData.concat(response.data);
         this.gridView = process(this.gridData, { group: this.rowGroups });
@@ -288,5 +285,11 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     // reset the bill period filter input on grid once the filter has changed
     // don't emit value changes on reset, otherwise it will filter again with default filter
     this.billPeriodFilterControl.reset(null, { onlySelf: true, emitEvent: false});
+  }
+
+  onActivitySortChange(sort: Array<SortDescriptor>) {
+    // set gridView to null on sort change to prevent memory leak with event listeners not being removed from rows
+    this.gridView = null;
+    this.onSortChange(sort);
   }
 }

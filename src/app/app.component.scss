@@ -11,6 +11,7 @@ ar-mgr-ui {
     @include flexColumn();
     $brandColor: #107ba4;
     $brandColorOne: #024069;
+    $brandColorTwo: #5f3777;
     $grayLightest: #f2f2f2;
     $grayLight: #e0e0e0;
     $gray: #bdbdbd;
@@ -230,6 +231,11 @@ ar-mgr-ui {
     }
 
     .k-grid {
+        thead tr{
+            &:hover {
+                background: none;
+            }
+        }
         .k-grid-header .k-header {
             border-color: $gray;
         }
@@ -259,12 +265,6 @@ ar-mgr-ui {
                                 height: auto;
                                 margin-right: 12px;
                             }
-                        }
-                    }
-    
-                    thead {
-                        tr:hover {
-                            background-color: darken($grayLightest, 2%);
                         }
                     }
                 }
@@ -388,9 +388,6 @@ ar-mgr-ui {
                 }
             }
             thead tr {
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.02);
-                }
                 &.k-filter-row {
                     background-color: rgba(16, 123, 164, 0.1);
                     box-shadow: inset 0 -19px 5px -15px rgba(0,0,0,0.14);
@@ -439,13 +436,16 @@ ar-mgr-ui {
                         position: absolute;
                         right: 6px;
                         top: 11px;
-                        padding: 3px 8px;
-                        border: none;
-                        cursor: pointer;
+                        padding: 3px 8px 0px 8px;
+                        line-height: 15px;
+                        min-width: 10px;
 
-                        &:focus, &:hover {
-                            background-color: $grayOpacityLight;
-                            outline: none;
+                        &.filtered {
+                            background-color: $brandColorTwo;
+
+                            .fa {
+                                color: white;
+                            }
                         }
                     }
                 }
@@ -553,6 +553,7 @@ ar-mgr-ui {
         .filter-section {
             padding: 10px;
             text-align: center;
+            font-size: 14px;
 
             input {
                 font: 12px Calibri;

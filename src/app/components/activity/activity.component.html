@@ -40,7 +40,7 @@
     [group]="rowGroups"
     [filterable]="true"
     [loading]="gridLoading"
-    (sortChange)="onSortChange($event)"
+    (sortChange)="onActivitySortChange($event)"
     (scrollBottom)="loadMoreGridData()"
 >
     <kendo-grid-column [locked]="true" width="1"></kendo-grid-column>
@@ -77,8 +77,9 @@
             </ng-template>
             <ng-template kendoGridHeaderTemplate let-column="column">
                 {{ column.title }}
-                <button 
-                    class="custom-dropdown-trigger filter-menu-button" 
+                <button
+                    mat-button
+                    [ngClass]="{'custom-dropdown-trigger': true, 'filter-menu-button': true, 'filtered': currentFilter !== defaultFilter}"
                     (click)="openFilterMenu($event.target);$event.preventDefault()"
                 >
                     <i class="fa fa-ellipsis-v" aria-label="Toggler Filter Menu"></i>

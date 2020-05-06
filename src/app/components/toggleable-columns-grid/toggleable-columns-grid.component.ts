@@ -1,10 +1,11 @@
-import { GridComponent, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
+import { ScrollableGridComponent, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ViewContainerRef, ViewChild } from '@angular/core';
+import { ViewContainerRef, ViewChild, HostBinding } from '@angular/core';
 import { Column } from '@app/models/column.model';
 import { TemplatePortal } from '@angular/cdk/portal';
 
-export abstract class ToggleableColumnsGridComponent extends GridComponent {
+export abstract class ToggleableColumnsGridComponent extends ScrollableGridComponent {
+  @HostBinding('class.web-component-flex') webComponentFlex = true;
   @ViewChild('columnsDropdownTemplate', { static: false}) columnsDropdownTemplate;
   @ViewChild('columnsDropdownButton', { static: false}) columnsDropdownButton;
   columns: Array<Column> = [];

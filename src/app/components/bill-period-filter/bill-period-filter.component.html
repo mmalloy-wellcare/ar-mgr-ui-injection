@@ -26,7 +26,7 @@
 <div class="button-group-horizontal filter-section">
   <button 
     mat-button (click)="sendFilter('clear')"
-    [disabled]="getFilteredYears().length === 0"
+    [disabled]="currentFilter === defaultFilter"
   >
     <i class="fa fa-times" aria-hidden="true"></i> Clear
   </button>
