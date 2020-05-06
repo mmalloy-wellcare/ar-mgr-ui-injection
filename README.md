@@ -1,5 +1,5 @@
 # ar-mgr-ui
-Accounts Receivable Manager MicroFrontend
+Accounts Receivable Manager MicroFrontend.
 
 ## Commands
 * ```npm install``` - Installs the dependencies needed for the project.
