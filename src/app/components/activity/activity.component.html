@@ -43,6 +43,9 @@
     (sortChange)="onActivitySortChange($event)"
     (scrollBottom)="loadMoreGridData()"
 >
+    <ng-template kendoGridNoRecordsTemplate>
+        {{ gridData.length === 0 && gridLoading === false ? 'No records available.' : ''}}
+    </ng-template>
     <kendo-grid-column [locked]="true" width="1"></kendo-grid-column>
     <!-- static groups -->
     <kendo-grid-column-group [locked]="true" headerClass="spanned-column-header">
