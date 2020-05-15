@@ -110,12 +110,15 @@ export class BillingPeriodsService {
 
         for (const dataMap of data.Mapping) {
           let fieldName = '';
+          // split field name into type name and value name
+          const dataMapFieldNames = dataMap.DataFieldName ? dataMap.DataFieldName.toUpperCase().split('.') : [''];
 
           for (const filter of dataMap.Filter) {
             fieldName += `${filter.FieldVal}_`;
           }
 
-          fieldName += dataMap.DataFieldName ? dataMap.DataFieldName.split('.')[1].toUpperCase() : '';
+          // if type and value name exist, add value name to fieldname, otherwise add type name
+          fieldName += dataMapFieldNames.length > 1 ? dataMapFieldNames[1] : dataMapFieldNames[0];
 
           dataMapping.push(fieldName);
         }
