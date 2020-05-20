@@ -2,10 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mockLib = require('@nextgen/node-support').mock.service;
 
-// get accounts
-router.get('/member/search', (req, res) => {
-    // search filters
-    const filters = JSON.parse(req.headers.filter);
+function getConvertedFilters(unconvertedFilters) {
+    const filters = JSON.parse(unconvertedFilters);
     
     // convert operators
     filters.forEach((filter, index) => {
@@ -17,9 +15,13 @@ router.get('/member/search', (req, res) => {
         filters[index].value = filter.value.split('*')[0];
     });
 
-    // set filter
-    req.headers.filter = JSON.stringify(filters);
+    // return converted filters
+    return JSON.stringify(filters);
+}
 
+// get accounts
+router.get('/member/search', (req, res) => {
+    req.headers.filter = getConvertedFilters(req.headers.filter);
     mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.accounts.json');
 });
 
@@ -30,19 +32,7 @@ router.get('/accounts/:SubscrbId', (req, res) => {
 
 // get billing periods by id
 router.get('/billing-period/:AccountID', (req, res) => {
-    // billing period filters
-    const filters = JSON.parse(req.headers.filter);
-    
-    // convert operators
-    filters.forEach((filter, index) => {
-        // backend requires operator to be uppercase
-        // node support requires operator to be lowercase
-        filters[index].operator = filter.operator.toLowerCase();
-    });
-
-    // set filter
-    req.headers.filter = JSON.stringify(filters);
-
+    req.headers.filter = getConvertedFilters(req.headers.filter);
     mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.billing.periods.json');
 });
 

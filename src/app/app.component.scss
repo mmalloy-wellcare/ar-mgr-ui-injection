@@ -16,6 +16,7 @@ ar-mgr-ui {
     $grayLight: #e0e0e0;
     $gray: #bdbdbd;
     $grayOpacityLight: rgba(0, 0, 0, 0.05);
+    $grayOpacityMedium: rgba(0, 0, 0, 0.097);
     $grayOpacity: rgba(0, 0, 0, 0.12);
     $cellBorder: 1px solid $gray;
     height: 100%;
@@ -353,7 +354,7 @@ ar-mgr-ui {
         }
         &#account-billing-periods-grid {
             .k-grid-aria-root {
-                margin-left: -33px;
+                margin-left: -65px;
             }
             .k-grid-header {
                 border-bottom: 1px solid $gray;
@@ -361,29 +362,14 @@ ar-mgr-ui {
                 .k-grid-header-locked, .k-grid-header-wrap {
                     background-color: white;
                 }
-                .k-grid-header-locked {
-                    tr {
-                        &:first-child, &:nth-child(3) {
-                            th:nth-child(3), td:nth-child(3) {
-                                border-left: none;
-                            }
-                        }
-                        &.k-filter-row {
-                            td {
-                                &:nth-child(2):after {
-                                    content: '\f0b0';
-                                    font-family: FontAwesome;
-                                    font-size: 16px;
-                                    color: #828282;
-                                    margin-left: -3px;
-                                }
-                            }
-                        }
-                    }
-                }
                 .k-grid-header-wrap {
+                    overflow-x: auto;
+
                     table {
                         border-right: $cellBorder;
+                    }
+                    &::-webkit-scrollbar {
+                        height: 0;
                     }
                 }
             }
@@ -450,32 +436,34 @@ ar-mgr-ui {
                     }
                 }
             }
-            .k-grid-content-locked {
-                tr {
-                    td {
+			.k-grid-content-locked {
+                tr td {
+                    &:first-child {
                         background-color: $grayOpacity;
-                    }
-                    &.k-grouping-row {
-                        td:nth-child(3) {
-                            background-color: rgba(0, 0, 0, 0.097);
+
+                        a {
+                            display: none;
+                        }
+                        .initial-sub-column-cell {
+                            padding: 3px 0;
+                            margin-left: 69px;
                         }
                     }
-                    &:not(.k-grouping-row) {
-                        td {
-                            &:nth-child(3) {
-                                border-left: none;
-                            }
-                            &:nth-child(4) {
-                                background-color: rgba(0, 0, 0, 0.097);
-                            }
+                    &:nth-child(n+2) {
+                        background-color: $grayOpacityMedium;
+                        
+                        .k-reset {
+                            justify-content: flex-end;
+                            margin-right: 6px;
                         }
                     }
                 }
             }
-            .k-grid-content {
-                .k-grid-table {
+            .k-grid-content, .k-grid-header-wrap {
+                table, .k-grid-table {
                     border-right: $cellBorder;
                 }
+                box-shadow: inset 18px 0 5px -15px rgba(0,0,0,0.14);
             }
             td {
                 overflow: hidden;
@@ -509,20 +497,20 @@ ar-mgr-ui {
                         background-color: $grayOpacityLight;
                     }
                     &.secondary-group {
-                        background-color: rgba(0, 0, 0, 0.097);
+                        background-color: $grayOpacityMedium;
                     }
                 }
             }
-            tr {
+			tr {
                 &.k-grouping-row {
                     + tr:not(.k-grouping-row) {
                         display: none;
                     }
                     td {
-                        padding: 3px 0 3px 12px;
+                        padding: 0 0 0 12px;
 
                         .secondary-row {
-                            height: 33px;
+                            height: 39px;
                         }
                     }
                 }

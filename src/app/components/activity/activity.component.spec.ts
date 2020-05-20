@@ -35,18 +35,27 @@ describe('ActivityComponent', () => {
       component.loadGridData();
     }
   };
-  const mockElement = document.createElement('div');
+  const mockTable = document.createElement('table');
+  const mockRow = document.createElement('tr');
+  const eventTable = document.createElement('table');
+  const eventTarget = document.createElement('tr');
+  mockTable.appendChild(mockRow);
+  eventTarget.appendChild(mockTable);
+  eventTable.appendChild(eventTarget);
   const mockAccountBillingPeriodsGrid: Partial<KendoGridComponent> = {
-    collapseGroup(groupIndex: string) {},
+    collapseGroup() {},
     wrapper: {
       nativeElement: {
+        querySelector() {
+          return eventTable.rows[0];
+        },
         querySelectorAll() {
           return [{
             name: 'locked-table',
-            rows: [mockElement]
+            rows: mockTable.rows
           }, {
             name: 'content-table',
-            rows: [mockElement]
+            rows: mockTable.rows
           }];
         }
       }
@@ -93,6 +102,7 @@ describe('ActivityComponent', () => {
     component = fixture.componentInstance;
     component.overlayRef = mockOverlayRef as OverlayRef;
     fixture.detectChanges();
+    component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
   });
 
   it('should create', () => {
@@ -102,7 +112,6 @@ describe('ActivityComponent', () => {
   describe('loadGridData', () => {
     it('should load billing periods', () => {
       component.gridData = [];
-      component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
       component.loadGridData();
       expect(component.gridData.length).toEqual(4);
     });
@@ -232,20 +241,25 @@ describe('ActivityComponent', () => {
     }
   });
 
-  describe('addMutualHoverEvents', () => {
-    it('should add mutual-highlight class to secondary row if primary row is highlighted', () => {
-      testAddMutualHoverEvents('mouseover', 'mutual-highlight');
-    });
+  describe('grid container mouse events', () => {
+    it('should add mutual highlight on mouseover', async(() => {
+      testMouseEvent('mouseover', true);
+    }));
 
-    it('should remove mutual-highlight class to secondary row if primary row is not highlighted', () => {
-      testAddMutualHoverEvents('mouseleave', undefined);
-    });
+    it('should remove mutual highlight highlight on mouseleave', async(() => {
+      testMouseEvent('mouseleave', false);
+    }));
 
-    function testAddMutualHoverEvents(eventName, expectedClass) {
-      const event = new Event(eventName);
-      component.addMutualHoverEvents(mockElement, mockElement);
-      mockElement.dispatchEvent(event);
-      expect(mockElement.classList[0]).toEqual(expectedClass);
+    function testMouseEvent(event: string, expectedHighlight: boolean) {
+      const activityGridElement = component.accountBillingPeriodsGrid.wrapper.nativeElement;
+      const gridContainer = activityGridElement.querySelector();
+      const gridTables = activityGridElement.querySelectorAll();
+      component.lockedRows = gridTables[0].rows;
+      component.contentRows = gridTables[1].rows;
+      component.addRowHighlightListeners();
+      gridContainer.dispatchEvent(new Event(event));
+      expect(component.lockedRows[0].classList.contains('mutual-highlight')).toEqual(expectedHighlight);
+      expect(component.contentRows[0].classList.contains('mutual-highlight')).toEqual(expectedHighlight);
     }
   });
 
@@ -272,7 +286,6 @@ describe('ActivityComponent', () => {
 
   function testFilterChange(action) {
     spyOn(component, 'filterBillPeriod');
-    component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
     switch (action) {
       case 'onFilterChange':
         component.onFilterChange();
@@ -300,9 +313,17 @@ describe('ActivityComponent', () => {
 
     function testFilterBillPeriod(year, expectedFilter) {
       component.currentFilter = undefined;
-      component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
       component.filterBillPeriod(year);
       expect(component.currentFilter).toEqual(expectedFilter);
     }
+  });
+
+  describe('resetGrid', () => {
+    it('should reset grid', () => {
+      component.resetGrid();
+      expect(component.gridData).toEqual([]);
+      expect(component.gridView).toEqual(null);
+      expect(component.highlightedRowIndex).toEqual(0);
+    });
   });
 });

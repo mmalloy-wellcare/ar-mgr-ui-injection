@@ -46,7 +46,6 @@
     <ng-template kendoGridNoRecordsTemplate>
         {{ gridData.length === 0 && gridLoading === false ? 'No records available.' : ''}}
     </ng-template>
-    <kendo-grid-column [locked]="true" width="1"></kendo-grid-column>
     <!-- static groups -->
     <kendo-grid-column-group [locked]="true" headerClass="spanned-column-header">
         <ng-template kendoGridHeaderTemplate>
@@ -71,12 +70,10 @@
                     [formControl]="billPeriodFilterControl"
                 >
             </ng-template>
-            <ng-template kendoGridGroupHeaderTemplate></ng-template>
-            <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
+            <ng-template kendoGridGroupHeaderTemplate let-group="group">
                 <span *ngIf="group.field === 'blngStmtDt'" class="initial-sub-column-cell">
                     {{ group.value.split('-')[1] + '/' + group.value.split('-')[0] }}
                 </span>
-                <span *ngIf="group.field === 'billPeriodSpan'" class="initial-sub-column-cell"></span>
             </ng-template>
             <ng-template kendoGridHeaderTemplate let-column="column">
                 {{ column.title }}

@@ -62,6 +62,9 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     dataType: 'Date'
   }];
   currentFilter: Array<Filter> = this.defaultFilter;
+  highlightedRowIndex = 0;
+  lockedRows: HTMLCollectionOf<HTMLTableRowElement>;
+  contentRows: HTMLCollectionOf<HTMLTableRowElement>;
 
   constructor(
     public alertsService: AlertsService,
@@ -90,7 +93,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
       .subscribe(response => {
         this.gridData = this.gridData.concat(response.data);
         this.gridView = process(this.gridData, { group: this.rowGroups });
-        this.updateGridRows();
+        this.saveGridRows();
         // there's no collapse all grouping method in kendo api, need to collapse children grouping manually by default
         this.collapsePeriodSpans(this.gridView.data);
         // get list of available years from bill period
@@ -116,43 +119,57 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     });
   }
 
-  updateGridRows() {
-    /* this function makes it so that if you hover over a locked table row, it will highlight
-    the adjacent row on the content table as well, and vice-versa
-    /* watch for changes made to DOM tree using MutationObserver. in this case, watch for new rows to be added to
-    the locked table and the content table */
-    // once new rows are added to the tables, update rows
+  saveGridRows() {
     const mutationObserver = new MutationObserver(() => {
-      // get grid tables (locked and content tables)
-      const gridTables = this.accountBillingPeriodsGrid.wrapper.nativeElement.querySelectorAll('.k-grid-table');
-      const lockedRows = gridTables[0].rows;
-      const contentRows = gridTables[1].rows;
-
-      Array.from(lockedRows).forEach((row: HTMLElement, rowIndex: number) => {
-        const contentRow = contentRows[rowIndex];
-
-        /* add mouseover and mouseleave listeners to locked and content rows so when a user hovers
-        on a row, it hightlights both the locked table and content table's row, and when the user leaves
-        it removes that higlight*/
-        this.addMutualHoverEvents(contentRow, row);
-        this.addMutualHoverEvents(row, contentRow);
-      });
-
+      // when new rows have been added, save the locked and content rows
+      // these rows will be used in the mutual row highlight
+      const activityGrid = this.accountBillingPeriodsGrid.wrapper.nativeElement;
+      const gridTables = activityGrid.querySelectorAll('.k-grid-table');
+      this.lockedRows = gridTables[0].rows;
+      this.contentRows = gridTables[1].rows;
+      this.addRowHighlightListeners();
       mutationObserver.disconnect();
     });
 
     mutationObserver.observe(document, {attributes: false, childList: true, characterData: false, subtree: true});
   }
 
-  addMutualHoverEvents(primaryRow: HTMLElement, secondaryRow: HTMLElement) {
-    // add mouseover listener to highlight rows when hovered
-    primaryRow.addEventListener('mouseover', () => {
-      secondaryRow.classList.add('mutual-highlight');
-    });
-    // add mouseleave listener to remove highlight when user leaves row
-    primaryRow.addEventListener('mouseleave', () => {
-      secondaryRow.classList.remove('mutual-highlight');
-    });
+  /* this function adds listeners so that if you hover over a locked table row, it will highlight the adjacent row
+  on the content table as well, and vice-versa, making it seem like one "row" is highlighted */
+  addRowHighlightListeners() {
+    const activityGrid = this.accountBillingPeriodsGrid.wrapper.nativeElement;
+    const gridContainer = activityGrid.querySelector('.k-grid-container');
+
+    // check if highlight events are attached to gridContainer, if not, add them
+    if (!gridContainer.getAttribute('highlight-events')) {
+      // highlight rows on mouseover of grid container
+      gridContainer.addEventListener('mouseover', (event) => {
+        // find row from event target
+        const currentRow = event.target.closest('tr');
+        this.toggleMutualHighlight(currentRow);
+      });
+      // remove highlight from rows on mouseleave of grid container
+      gridContainer.addEventListener('mouseleave', () => {
+        this.toggleMutualHighlight();
+      });
+      gridContainer.setAttribute('highlight-events', 'true');
+    }
+  }
+
+  toggleMutualHighlight(currentRow?: HTMLTableRowElement) {
+    // remove highlight on previous rows before highlighting current row
+    this.lockedRows[this.highlightedRowIndex].classList.remove('mutual-highlight');
+    this.contentRows[this.highlightedRowIndex].classList.remove('mutual-highlight');
+
+    // if current row exists, highlight it
+    if (currentRow) {
+      const currentRowIndex = currentRow.rowIndex;
+      /* set highlighted row index to current row index. this will be used to find the previous rows next time
+      this function is called */
+      this.highlightedRowIndex = currentRowIndex;
+      this.lockedRows[currentRowIndex].classList.add('mutual-highlight');
+      this.contentRows[currentRowIndex].classList.add('mutual-highlight');
+    }
   }
 
   collapsePeriodSpans(gridViewData: Array<any>) {
@@ -254,11 +271,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
     if (filter) {
       this.currentFilter = filter;
-      this.gridData = [];
-      /* NOTE: If you're using grouped columns and have attached event listeners to the rows, the only way
-      to clear the grid successfully is to set gridView to null, otherwise, the event listeners will not be
-      removed and will cause a memory leak.  */
-      this.gridView = null;
+      this.resetGrid();
       this.loadGridData();
     }
   }
@@ -288,8 +301,13 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   }
 
   onActivitySortChange(sort: Array<SortDescriptor>) {
-    // set gridView to null on sort change to prevent memory leak with event listeners not being removed from rows
-    this.gridView = null;
+    this.resetGrid();
     this.onSortChange(sort);
+  }
+
+  resetGrid() {
+    this.gridData = [];
+    this.gridView = null;
+    this.highlightedRowIndex = 0;
   }
 }
