@@ -45,7 +45,7 @@ describe('BillingPeriodsService', () => {
     it('should get billing periods', () => {
       service.getBillingPeriods('827321841', '0').subscribe((response) => {
         expect(response).toBeDefined();
-        expect(response.data.length).toEqual(4);
+        expect(response.data.length).toEqual(5);
       });
     });
   });
@@ -53,7 +53,7 @@ describe('BillingPeriodsService', () => {
   describe('getBillingPeriodsMetadata', () => {
     it('should get metadata', () => {
       service.getBillingPeriodsMetadata('marketplace').subscribe((response) => {
-        testGetMetadata(response, 5);
+        testGetMetadata(response, 6);
       });
     });
 

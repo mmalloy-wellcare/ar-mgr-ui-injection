@@ -1,5 +1,10 @@
 [
     {
+        "LobTypeCode": "MARKETPLACE",
+        "AccountID": "12345678",
+        "EnrlmtFileSrc": "october2020.xlxs",
+        "PrdctTypeCode": "abc001",
+        "QhpId": "11787",
         "blngStmtDt": "2020-10-01",
         "BillPerDt": "2020-10-01",
         "CreatedDt": "2020-03-31",
@@ -118,6 +123,10 @@
         ]
     },
     {
+        "LobTypeCode": "MARKETPLACE",
+        "AccountID": "12345678",
+        "PrdctTypeCode": "def001",
+        "QhpId": "34897",
         "blngStmtDt": "2020-11-01",
         "BillPerDt": "2020-11-01",
         "CreatedDt": "2020-03-31",
@@ -181,12 +190,22 @@
         ]
     },
     {
+        "LobTypeCode": "MARKETPLACE",
+        "AccountID": "12345678",
+        "EnrlmtFileSrc": "january2020.xlxs",
+        "PrdctTypeCode": "ghi001",
+        "QhpId": "38971",
         "blngStmtDt": "2020-01-01",
         "BillPerDt": "2020-12-01",
         "CreatedDt": "2020-04-01",
         "UpdatedDt": "2020-04-01"
     },
     {
+        "LobTypeCode": "MARKETPLACE",
+        "AccountID": "12345678",
+        "EnrlmtFileSrc": "january1999.xlxs",
+        "PrdctTypeCode": "jkl001",
+        "QhpId": "72347",
         "blngStmtDt": "1999-01-01",
         "BillPerDt": "1999-01-01",
         "CreatedDt": "1999-01-01",
@@ -244,6 +263,81 @@
                         "BilleeTypeCode": "OTHER_2",
                         "Rundown": "EXPECTED",
                         "Amt": 55
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "LobTypeCode": "MEDICARE",
+        "AccountID": "7894797897",
+        "EnrlmtFileSrc": "november2020.xlxs",
+        "PrdctTypeCode": "lmn001",
+        "QhpId": "98372",
+        "blngStmtDt": "2020-11-01",
+        "BillPerDt": "2020-11-01",
+        "CreatedDt": "2020-11-01",
+        "UpdatedDt": "2020-11-05",
+        "BlngPerSpans": [
+            {
+                "CvrgPerStartDt": "2020-11-01",
+                "CvrgPerEndDt": "2020-11-30",
+                "Rates": [
+                    {
+                        "RateType": "BASIC_PHARMACY",
+                        "Amt": 2,
+                        "MnthlyAmt": 2
+                    },
+                    {
+                        "RateType": "LEP",
+                        "Amt": 1,
+                        "MnthlyAmt": 1
+                    },
+                    {
+                        "RateType": "SUPPLEMENTAL_PHARMACY",
+                        "Amt": 1.1,
+                        "MnthlyAmt": 1.1
+                    },
+                    {
+                        "RateType": "TOTAL_MEDICAL",
+                        "Amt": 1,
+                        "MnthlyAmt": 1
+                    }
+                ],
+                "Liabilities": [
+                    {
+                        "LiabilityType": "FRP",
+                        "Amt": 2.1,
+                        "MnthlyAmt": 2.1
+                    },
+                    {
+                        "LiabilityType": "WAIVE_FRP_LEP",
+                        "Amt": -1,
+                        "MnthlyAmt": -1
+                    },
+                    {
+                        "LiabilityType": "CMS",
+                        "Amt": 2,
+                        "MnthlyAmt": 2
+                    },
+                    {
+                        "LiabilityType": "FRP_LEP",
+                        "Amt": 1,
+                        "MnthlyAmt": 1
+                    }
+                ],
+                "TxnSmrys": [
+                    {
+                        "BilleeTypeCode": "SUBSCRIBER",
+                        "Rundown": "EXPECTED",
+                        "Amt": 4.3,
+                        "UpdateDt": "2020-05-13"
+                    },
+                    {
+                        "BilleeTypeCode": "CMS",
+                        "Rundown": "EXPECTED",
+                        "Amt": 2,
+                        "UpdateDt": "2020-05-13"
                     }
                 ]
             }

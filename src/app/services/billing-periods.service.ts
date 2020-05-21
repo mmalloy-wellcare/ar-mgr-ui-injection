@@ -84,7 +84,7 @@ export class BillingPeriodsService {
         if (typeof(object[key]) === 'string') {
           mainKey += `${object[key]}_`;
         } else {
-          billingPeriod[`${mainKey}${key.toUpperCase()}`] = object[key];
+          billingPeriod[`${mainKey}${key}`] = object[key];
         }
       }
     }
@@ -111,7 +111,7 @@ export class BillingPeriodsService {
         for (const dataMap of data.Mapping) {
           let fieldName = '';
           // split field name into type name and value name
-          const dataMapFieldNames = dataMap.DataFieldName ? dataMap.DataFieldName.toUpperCase().split('.') : [''];
+          const dataMapFieldNames = dataMap.DataFieldName.split('.');
 
           for (const filter of dataMap.Filter) {
             fieldName += `${filter.FieldVal}_`;
