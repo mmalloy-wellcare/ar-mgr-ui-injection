@@ -77,13 +77,15 @@
             </ng-template>
             <ng-template kendoGridHeaderTemplate let-column="column">
                 {{ column.title }}
-                <button
-                    mat-button
-                    [ngClass]="{'custom-dropdown-trigger': true, 'filter-menu-button': true, 'filtered': currentFilter !== defaultFilter}"
-                    (click)="openFilterMenu($event.target);$event.preventDefault()"
-                >
-                    <i class="fa fa-ellipsis-v" aria-label="Toggler Filter Menu"></i>
-                </button>
+                <span class="filter-menu-button-container">
+                    <button
+                        mat-button
+                        [ngClass]="{'custom-dropdown-trigger': true, 'filter-menu-button': true, 'filtered': currentFilter !== defaultFilter}"
+                        (click)="openFilterMenu($event.target);$event.preventDefault()"
+                    >
+                        <i class="fa fa-ellipsis-v" aria-label="Toggler Filter Menu"></i>
+                    </button>
+                </span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem>
                 <span class="initial-sub-column-cell"></span>
@@ -183,16 +185,17 @@
                 >
                     <ng-template kendoGridFilterCellTemplate></ng-template>
                     <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
-                        <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'primary-group': group.field === 'blngStmtDt', 'secondary-group': group.field === 'billPeriodSpan'}">
-                            <span>{{ (group.field === 'blngStmtDt' ? '' : getSummaryAmount(group, subColumn)) | currency: 'USD' }}</span>
+                        <span [ngClass]="groupCellDataMap.get(group.value + columnGroup.Name + subColumn.Name + 'GroupCellClasses') || getGroupCellClasses(i, group, columnGroup.Name, subColumn)">
+                            <span>{{ group.field === 'blngStmtDt' ? '' : groupCellDataMap.get(group.value + columnGroup.Name + subColumn.Name) }}</span>
                         </span>
                     </ng-template>
                     <ng-template kendoGridCellTemplate let-dataItem>
                         <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'data-cell': true}">
-                            <span>{{ getFieldAmount(dataItem, subColumn) | currency: 'USD' }}</span>
+                            <!-- TODO: Update this in story PBP-3866 for loading transactions -->
+                            <span>{{ getFieldValue(dataItem, subColumn, '') }}</span>
                         </span>
                     </ng-template>
-                </kendo-grid-column>            
+                </kendo-grid-column>
             </ng-container>
         </kendo-grid-column-group>
     </ng-container>

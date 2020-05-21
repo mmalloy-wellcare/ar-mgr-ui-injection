@@ -2,9 +2,19 @@ const express = require('express');
 const router = express.Router();
 const mockLib = require('@nextgen/node-support').mock.service;
 
-function getConvertedFilters(unconvertedFilters) {
+function getConvertedFilters(unconvertedFilters, accountId) {
     const filters = JSON.parse(unconvertedFilters);
     
+    if (accountId) {
+        // check for medicare or marketplace account
+        filters.push({
+            operator: 'EQ',
+            property: 'LobTypeCode',
+            value: accountId === '7894797897' ? 'MEDICARE' : 'MARKETPLACE',
+            dataType: 'character'
+        });
+    }
+
     // convert operators
     filters.forEach((filter, index) => {
         // backend requires operator to be uppercase
@@ -32,12 +42,12 @@ router.get('/accounts/:SubscrbId', (req, res) => {
 
 // get billing periods by id
 router.get('/billing-period/:AccountID', (req, res) => {
-    req.headers.filter = getConvertedFilters(req.headers.filter);
+    req.headers.filter = getConvertedFilters(req.headers.filter, req.params.AccountID);
     mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.billing.periods.json');
 });
 
 // get billing periods meta-data
-router.get('/billing-period/:lob/meta-data', (req, res) => {
-    mockLib.serveMockById(req, res, 'ar-mgr/ar/list.of.metadata.json', 'lob', req.params.lob);
+router.get('/billing-period/:LobTypeCode/meta-data', (req, res) => {
+    mockLib.serveMockById(req, res, 'ar-mgr/ar/list.of.metadata.json', 'LobTypeCode', req.params.LobTypeCode);
 });
 module.exports = router;

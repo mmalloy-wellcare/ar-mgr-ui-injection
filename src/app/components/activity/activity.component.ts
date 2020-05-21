@@ -9,6 +9,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { ToggleableColumnsGridComponent } from '../toggleable-columns-grid/toggleable-columns-grid.component';
 import { debounceTime } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { AccountDetail } from '@app/models/account-detail.model';
 import activityColumns from './activity-columns.json';
 
 @Component({
@@ -18,11 +19,12 @@ import activityColumns from './activity-columns.json';
 export class ActivityComponent extends ToggleableColumnsGridComponent implements OnInit {
   @ViewChild('accountBillingPeriodsGrid', { static: false }) accountBillingPeriodsGrid: KendoGridComponent;
   @ViewChild('billPeriodFilterTemplate', { static: false}) billPeriodFilterTemplate;
-  private accountIdInput: string;
+  private accountDataInput: AccountDetail;
   billPeriodField = 'blngStmtDt';
-  @Input() set accountId(value: string) {
-    if (value) {
-      this.accountIdInput = value;
+  @Input() set accountData(value: AccountDetail) {
+    if (value && value.AccountID) {
+      this.accountDataInput = value;
+      this.loadGridMetadata();
       // load data by ascending bill period by default
       this.onActivitySortChange([{
         field: this.billPeriodField,
@@ -30,8 +32,8 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
       }]);
     }
   }
-  get accountId() {
-    return this.accountIdInput;
+  get accountData() {
+    return this.accountDataInput;
   }
   // using grid view instead of gridata to show groupings by bill period and period span
   gridView: DataResult;
@@ -65,6 +67,17 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   highlightedRowIndex = 0;
   lockedRows: HTMLCollectionOf<HTMLTableRowElement>;
   contentRows: HTMLCollectionOf<HTMLTableRowElement>;
+  // store mapped cell data so it doesn't need to be calculated again
+  /*NOTE: Adding mouseover/mouseleave listeners to the kendo grid fires all functions within
+  a kendo cell template. I'm not sure why that is yet.
+
+  For example, with my mouseover/mouseleave listeners on the grid container, if you hover over any cell, my mapping
+  function to get the cell data based on the backend's metadata gets called every time.
+
+  For this, I've added a map to check if that cell's data already exists, if it does, then don't call my mapping function.
+  That way, if you hover over a cell that already has data, it wouldn't keep calling my mapping function.
+  */
+  groupCellDataMap: Map<string, any> = new Map();
 
   constructor(
     public alertsService: AlertsService,
@@ -77,8 +90,6 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   }
 
   ngOnInit() {
-    this.loadGridMetadata();
-
     // filter bill period when input value changes
     this.billPeriodFilterControl.valueChanges.pipe(debounceTime(500)).subscribe((year) => {
       this.filterBillPeriod(year);
@@ -89,7 +100,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     const savedRestartRowId = this.restartRowId || '0';
     this.gridLoading = true;
 
-    this.billingPeriodsService.getBillingPeriods(this.accountId, savedRestartRowId, this.convertedSort, this.currentFilter)
+    this.billingPeriodsService.getBillingPeriods(this.accountData.AccountID, savedRestartRowId, this.convertedSort, this.currentFilter)
       .subscribe(response => {
         this.gridData = this.gridData.concat(response.data);
         this.gridView = process(this.gridData, { group: this.rowGroups });
@@ -109,9 +120,8 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   }
 
   loadGridMetadata() {
-    // load meta data used in creating dynamic columns for grid
-    // 'marketplace' is hardcoded for now until account api can pass back LOB
-    this.billingPeriodsService.getBillingPeriodsMetadata('marketplace').subscribe((response) => {
+    // load meta data used in creating dynamic columns for grid based on lob
+    this.billingPeriodsService.getBillingPeriodsMetadata(this.accountData.LobTypeCode).subscribe((response) => {
       this.dynamicColumnGroups = response.data;
       this.updateActivityColumns(this.dynamicColumnGroups);
     }, (error) => {
@@ -193,29 +203,48 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     this.billPeriodYears = [...new Set(this.billPeriodYears)];
   }
 
-  getFieldAmount(dataItem: any, subColumn: SubColumn) {
-    let fieldAmount = 0;
+  getFieldValue(dataItem: any, subColumn: SubColumn, groupCellDataMapName: string) {
+    let fieldValue = 0;
 
-    // if mapping is an array, aggregate field amounts based off array values
-    // otherwise, just use the field amount from the mapping
+    // if mapping is an array, aggregate field values based off array values
+    // otherwise, just use the field value from the mapping
     if (Array.isArray(subColumn.Mapping)) {
       for (const map of subColumn.Mapping) {
-        fieldAmount +=  dataItem[map] || 0;
+        fieldValue += dataItem[map] || 0;
       }
     } else {
-      fieldAmount = dataItem[subColumn.Mapping] || 0;
+      fieldValue = dataItem[subColumn.Mapping] || '';
     }
 
-    return fieldAmount;
+    // set cell data to map
+    this.groupCellDataMap.set(`${groupCellDataMapName}`, typeof(fieldValue) === 'number' ? `$${fieldValue.toFixed(2)}` : fieldValue);
+
+    return fieldValue;
   }
 
-  getSummaryAmount(group: GroupResult, subColumn: SubColumn) {
+  getSummaryValue(group: GroupResult, subColumn: SubColumn, groupCellDataMapName: string) {
     // summary will always be first in group array
     if (Array.isArray(group.items) && group.items.length > 0) {
-      return this.getFieldAmount(group.items[0], subColumn);
+      return this.getFieldValue(group.items[0], subColumn, groupCellDataMapName);
     }
 
-    return 0;
+    return '';
+  }
+
+  getGroupCellClasses(index: number, group: GroupResult, columnName: string, subColumn: SubColumn) {
+    const groupCellDataMapName = `${group.value}${columnName}${subColumn.Name}`;
+    // these are classes to add specific styles to group cells based on conditions below
+    const classes = {
+      'initial-sub-column-cell': index === 0,
+      'number-cell': typeof(this.getSummaryValue(group, subColumn, groupCellDataMapName)) === 'number',
+      'primary-group': group.field === 'blngStmtDt',
+      'secondary-group': group.field === 'billPeriodSpan'
+    };
+
+    // set group cell classes to map
+    this.groupCellDataMap.set(`${groupCellDataMapName}GroupCellClasses`, classes);
+
+    return classes;
   }
 
   updateActivityColumns(groups: Array<SubColumn>) {

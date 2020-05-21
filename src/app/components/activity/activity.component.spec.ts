@@ -8,6 +8,8 @@ import { AlertsService, SortService, Sort } from '@nextgen/web-care-portal-core-
 import { of, throwError } from 'rxjs';
 import { GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { AccountDetail } from '@app/models/account-detail.model';
+import { GroupResult } from '@progress/kendo-data-query';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
 
@@ -17,7 +19,7 @@ describe('ActivityComponent', () => {
   const billingPeriodsService: Partial<BillingPeriodsService> = {
     getBillingPeriods(accountId: string, restartRowId: string, sort: Array<Sort>) {
       return of({
-        data: mockBillingPeriods,
+        data: mockBillingPeriods.filter(billingPeriod => billingPeriod.BlngPerSpans),
         restartRowId: '0'
       });
     },
@@ -29,11 +31,6 @@ describe('ActivityComponent', () => {
   };
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() {}
-  };
-  const sortService: Partial<SortService> = {
-    convertSort() {
-      component.loadGridData();
-    }
   };
   const mockTable = document.createElement('table');
   const mockRow = document.createElement('tr');
@@ -61,6 +58,12 @@ describe('ActivityComponent', () => {
       }
     }
   };
+  const sortService: Partial<SortService> = {
+    convertSort() {
+      component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
+      component.loadGridData();
+    }
+  };
   const mockOverlayRef = {
     dispose() {}
   };
@@ -75,6 +78,10 @@ describe('ActivityComponent', () => {
     property: 'blngStmtDt',
     dataType: 'Date'
   }];
+  const mockAccountData = {
+    AccountID: '12345678',
+    LobTypeCode: 'marketplace'
+  } as AccountDetail;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -101,6 +108,7 @@ describe('ActivityComponent', () => {
     fixture = TestBed.createComponent(ActivityComponent);
     component = fixture.componentInstance;
     component.overlayRef = mockOverlayRef as OverlayRef;
+    component.accountData = mockAccountData;
     fixture.detectChanges();
     component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
   });
@@ -127,7 +135,7 @@ describe('ActivityComponent', () => {
     it('should load grid metadata for dynamic column groups', () => {
       component.dynamicColumnGroups = [];
       component.loadGridMetadata();
-      expect(component.dynamicColumnGroups.length).toEqual(5);
+      expect(component.dynamicColumnGroups.length).toEqual(6);
     });
 
     it('should show error if loading metadata fails',
@@ -147,21 +155,19 @@ describe('ActivityComponent', () => {
     expect(alertsServiceInput.showErrorSnackbar).toHaveBeenCalled();
   }
 
-  describe('accountId set', () => {
-    it('should set account id and load grid data', () => {
-      testSetAccountId('123');
+  describe('accountData set', () => {
+    it('should set account data and load grid data', () => {
+      testAccountData(mockAccountData);
     });
 
-    it('should not set account id or load grid data if value is undefined', () => {
-      testSetAccountId(undefined);
+    it('should not set account data or load grid data if value is undefined', () => {
+      testAccountData(undefined);
     });
 
-    function testSetAccountId(accountId) {
+    function testAccountData(accountData) {
       spyOn(component, 'loadGridData');
-      component.accountId = accountId;
-      expect(component.accountId).toEqual(accountId);
-      accountId ?
-        expect(component.loadGridData).toHaveBeenCalled() : expect(component.loadGridData).not.toHaveBeenCalled();
+      component.accountData = accountData;
+      accountData ? expect(component.loadGridData).toHaveBeenCalled() : expect(component.loadGridData).not.toHaveBeenCalled();
     }
   });
 
@@ -186,7 +192,7 @@ describe('ActivityComponent', () => {
     }
   });
 
-  describe('getFieldAmount', () => {
+  describe('getFieldValue', () => {
     it('should return aggregate of values if mapping is an array', () => {
       testGetFieldAmount(['testValueOne', 'testValueTwo'], 30);
     });
@@ -199,8 +205,8 @@ describe('ActivityComponent', () => {
       testGetFieldAmount(['testValueThree', 'testValueFour'], 0);
     });
 
-    it('should return zero if no mapping is found with string', () => {
-      testGetFieldAmount('testValueThree', 0);
+    it('should return blank string if no mapping is found with string', () => {
+      testGetFieldAmount('testValueThree', '');
     });
 
     function testGetFieldAmount(mappingInput, expectedAmount) {
@@ -210,18 +216,18 @@ describe('ActivityComponent', () => {
         Label: 'Test Field',
         Mapping: mappingInput
       };
-      const fieldAmount = component.getFieldAmount(mockDataItem, mockSubColumn);
-      expect(fieldAmount).toEqual(expectedAmount);
+      const fieldValue = component.getFieldValue(mockDataItem, mockSubColumn, 'testMappingName');
+      expect(fieldValue).toEqual(expectedAmount);
     }
   });
 
-  describe('getSummaryAmount', () => {
+  describe('getSummaryValue', () => {
     it('should return amount based on group items', () => {
       testGetSummaryAmount([{ testValueFive: 99 }], 99);
     });
 
-    it('should return zero if there are no group items', () => {
-      testGetSummaryAmount([], 0);
+    it('should return blank string if there are no group items', () => {
+      testGetSummaryAmount([], '');
     });
 
     function testGetSummaryAmount(groupItems, expectedAmount) {
@@ -236,9 +242,30 @@ describe('ActivityComponent', () => {
         Label: 'Test Label',
         Mapping: 'testValueFive'
       };
-      const summaryAmount = component.getSummaryAmount(mockGroupItems, mockSubColumn);
+      const summaryAmount = component.getSummaryValue(mockGroupItems, mockSubColumn, 'testMappingName');
       expect(summaryAmount).toEqual(expectedAmount);
     }
+  });
+
+  describe('getGroupCellClasses', () => {
+    it('should get css classes needed for group header cells', () => {
+      const mockGroup = {
+        items: [{}],
+        value: 'testGroupValue'
+      } as GroupResult;
+      const mockSubColumn = {
+        Name: 'testGroupCell',
+        Label: 'Test Group Cell',
+        Mapping: 'testGroupMapping'
+      };
+      const mockGroupCellClasses = {
+        'initial-sub-column-cell': true,
+        'number-cell': false,
+        'primary-group': false,
+        'secondary-group': false
+      };
+      expect(component.getGroupCellClasses(0, mockGroup, 'testColumnName', mockSubColumn)).toEqual(mockGroupCellClasses);
+    });
   });
 
   describe('grid container mouse events', () => {
