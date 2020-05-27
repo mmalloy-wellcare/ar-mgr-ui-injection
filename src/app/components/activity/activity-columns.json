@@ -16,7 +16,7 @@
         "title": "Record Creation",
         "hidden": false
     }, {
-        "field": "UpdatedDt",
+        "field": "UpdateDt",
         "title": "Updated",
         "hidden": false
     }]

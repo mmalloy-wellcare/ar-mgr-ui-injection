@@ -143,21 +143,21 @@
             </ng-template>
         </kendo-grid-column>
         <kendo-grid-column
-            field="UpdatedDt"
+            field="UpdateDt"
             title="Updated"
             width="120"
-            [hidden]="isHiddenColumn('UpdatedDt', 'TRANSACTION_DATES')"
+            [hidden]="isHiddenColumn('UpdateDt', 'TRANSACTION_DATES')"
             [sortable]="false"
         >
             <ng-template kendoGridFilterCellTemplate></ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
-                    {{ group.items[0].UpdatedDt | date: 'MM/dd/yyyy' }}
+                    {{ group.items[0].UpdateDt | date: 'MM/dd/yyyy' }}
                 </span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem>
-                {{ dataItem.UpdatedDt | date: 'MM/dd/yyyy' }}
+                {{ dataItem.UpdateDt | date: 'MM/dd/yyyy' }}
             </ng-template>
         </kendo-grid-column>
     </kendo-grid-column-group>

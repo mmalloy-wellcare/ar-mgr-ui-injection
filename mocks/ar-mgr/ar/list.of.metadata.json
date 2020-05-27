@@ -551,15 +551,42 @@
                         "Name": "PREMIUM_RATE",
                         "Label": "Premium Rate",
                         "Mapping": [
-                            {
-                                "Filter": [
-                                    {
-                                        "FieldName": "Rates.RateType",
-                                        "FieldVal": "TOTAL_AMOUNT"
-                                    }
-                                ],
-                                "DataFieldName": "Rates.MnthlyAmt"
-                            }
+                          {
+                            "Filter": [
+                              {
+                                "FieldName": "Rates.RateType",
+                                "FieldVal": "TOTAL_MEDICAL"
+                              }
+                            ],
+                            "DataFieldName": "Rates.MnthlyAmt"
+                          },
+                          {
+                            "Filter": [
+                              {
+                                "FieldName": "Rates.RateType",
+                                "FieldVal": "BASIC_PHARMACY"
+                              }
+                            ],
+                            "DataFieldName": "Rates.MnthlyAmt"
+                          },
+                          {
+                            "Filter": [
+                              {
+                                "FieldName": "Rates.RateType",
+                                "FieldVal": "SUPPLEMENTAL_PHARMACY"
+                              }
+                            ],
+                            "DataFieldName": "Rates.MnthlyAmt"
+                          },
+                          {
+                            "Filter": [
+                              {
+                                "FieldName": "Rates.RateType",
+                                "FieldVal": "LEP"
+                              }
+                            ],
+                            "DataFieldName": "Rates.MnthlyAmt"
+                          }
                         ]
                     },
                     {

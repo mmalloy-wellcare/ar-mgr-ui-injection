@@ -223,16 +223,21 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     // otherwise, just use the field value from the mapping
     if (Array.isArray(subColumn.Mapping)) {
       for (const map of subColumn.Mapping) {
-        fieldValue += dataItem[map] || null;
+        fieldValue += this.getMapValue(dataItem[map]);
       }
     } else {
-      fieldValue = dataItem[subColumn.Mapping] || null;
+      fieldValue = this.getMapValue(dataItem[subColumn.Mapping]);
     }
 
     // set cell data to map
     this.groupCellDataMap.set(`${groupCellDataMapName}`, this.getConvertedFieldValue(fieldValue));
 
     return fieldValue;
+  }
+
+  getMapValue(mapValue: any) {
+    // if mapValue is truthy or is 0, return the mapValue, otherwise, return null
+    return (mapValue || mapValue === 0) ? mapValue : null;
   }
 
   getConvertedFieldValue(fieldValue: number | string) {

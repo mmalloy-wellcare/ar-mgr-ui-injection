@@ -228,6 +228,24 @@ describe('ActivityComponent', () => {
     }
   });
 
+  describe('getMapValue', () => {
+    it('should return value if mapValue is truthy', () => {
+      testGetMapValue('truthyVal', 'truthyVal');
+    });
+
+    it('should return 0 if mapValue is 0', () => {
+      testGetMapValue(0, 0);
+    });
+
+    it('should return null if mapValue is not truthy or is not 0', () => {
+      testGetMapValue(undefined, null);
+    });
+
+    function testGetMapValue(inputValue, outputValue) {
+      expect(component.getMapValue(inputValue)).toEqual(outputValue);
+    }
+  });
+
   describe('getSummaryValue', () => {
     it('should return amount based on group items', () => {
       testGetSummaryAmount([{ testValueFive: 99 }], 99);

@@ -8,7 +8,7 @@
         "blngStmtDt": "2020-10-01",
         "BillPerDt": "2020-10-01",
         "CreatedDt": "2020-03-31",
-        "UpdatedDt": "2020-04-05",
+        "UpdateDt": "2020-04-05",
         "BlngPerSpans": [
             {
                 "BlngPerSpanSk": 1,
@@ -132,7 +132,7 @@
         "blngStmtDt": "2020-11-01",
         "BillPerDt": "2020-11-01",
         "CreatedDt": "2020-03-31",
-        "UpdatedDt": "2020-04-01",
+        "UpdateDt": "2020-04-01",
         "BlngPerSpans": [
             {
                 "BlngPerSpanSk": 3,
@@ -202,7 +202,7 @@
         "blngStmtDt": "2020-01-01",
         "BillPerDt": "2020-12-01",
         "CreatedDt": "2020-04-01",
-        "UpdatedDt": "2020-04-01"
+        "UpdateDt": "2020-04-01"
     },
     {
         "LobTypeCode": "MARKETPLACE",
@@ -213,7 +213,7 @@
         "blngStmtDt": "1999-01-01",
         "BillPerDt": "1999-01-01",
         "CreatedDt": "1999-01-01",
-        "UpdatedDt": "1999-01-01",
+        "UpdateDt": "1999-01-01",
         "BlngPerSpans": [
             {
                 "BlngPerSpanSk": 4,
@@ -282,7 +282,7 @@
         "blngStmtDt": "2020-11-01",
         "BillPerDt": "2020-11-01",
         "CreatedDt": "2020-11-01",
-        "UpdatedDt": "2020-11-05",
+        "UpdateDt": "2020-11-05",
         "BlngPerSpans": [
             {
                 "BlngPerSpanSk": 5,
@@ -296,8 +296,8 @@
                     },
                     {
                         "RateType": "LEP",
-                        "Amt": 1,
-                        "MnthlyAmt": 1
+                        "Amt": 0,
+                        "MnthlyAmt": 0
                     },
                     {
                         "RateType": "SUPPLEMENTAL_PHARMACY",
