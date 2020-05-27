@@ -56,6 +56,8 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   columns: Array<Column> = JSON.parse(JSON.stringify(activityColumns));
   billPeriodYears: Array<number> = [];
   billPeriodFilterControl: FormControl = new FormControl();
+  // keep track of which bill period spans have been expanded
+  periodSpanExpandedMap: Map<string, boolean> = new Map();
   // default filter to revert to when filters are cleared
   defaultFilter: Array<Filter> = [{
     operator: 'LE',
@@ -102,8 +104,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
     this.billingPeriodsService.getBillingPeriods(this.accountData.AccountID, savedRestartRowId, this.convertedSort, this.currentFilter)
       .subscribe(response => {
-        this.gridData = this.gridData.concat(response.data);
-        this.gridView = process(this.gridData, { group: this.rowGroups });
+        this.processGridData(response.data);
         this.saveGridRows();
         // there's no collapse all grouping method in kendo api, need to collapse children grouping manually by default
         this.collapsePeriodSpans(this.gridView.data);
@@ -111,12 +112,24 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
         // this is to get the range of years to choose from in the filter menu
         this.getBillPeriodYears();
         this.restartRowId = response.restartRowId;
-        this.gridLoading = false;
       },
     (error) => {
       this.alertsService.showErrorSnackbar(error);
       this.gridLoading = false;
     });
+  }
+
+  processGridData(gridData: Array<any>) {
+    this.gridData = this.gridData.concat(gridData);
+    this.gridView = process(this.gridData, { group: this.rowGroups });
+    this.gridLoading = false;
+  }
+
+  resetGridData() {
+    this.gridData = [];
+    this.gridView = null;
+    this.highlightedRowIndex = 0;
+    this.periodSpanExpandedMap.clear();
   }
 
   loadGridMetadata() {
@@ -210,15 +223,26 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     // otherwise, just use the field value from the mapping
     if (Array.isArray(subColumn.Mapping)) {
       for (const map of subColumn.Mapping) {
-        fieldValue += dataItem[map] || 0;
+        fieldValue += dataItem[map] || null;
       }
     } else {
-      fieldValue = dataItem[subColumn.Mapping] || '';
+      fieldValue = dataItem[subColumn.Mapping] || null;
     }
 
     // set cell data to map
-    this.groupCellDataMap.set(`${groupCellDataMapName}`, typeof(fieldValue) === 'number' ? `$${fieldValue.toFixed(2)}` : fieldValue);
+    this.groupCellDataMap.set(`${groupCellDataMapName}`, this.getConvertedFieldValue(fieldValue));
 
+    return fieldValue;
+  }
+
+  getConvertedFieldValue(fieldValue: number | string) {
+    // if fieldValue is a number, format it to US currency
+    if (typeof(fieldValue) === 'number') {
+      const currencyPrefix = fieldValue >= 0 ? '$' : '-$';
+      return `${currencyPrefix}${Math.abs(fieldValue).toFixed(2)}`;
+    }
+
+    // otherwise, just return fieldValue
     return fieldValue;
   }
 
@@ -228,7 +252,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
       return this.getFieldValue(group.items[0], subColumn, groupCellDataMapName);
     }
 
-    return '';
+    return null;
   }
 
   getGroupCellClasses(index: number, group: GroupResult, columnName: string, subColumn: SubColumn) {
@@ -300,7 +324,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
     if (filter) {
       this.currentFilter = filter;
-      this.resetGrid();
+      this.resetGridData();
       this.loadGridData();
     }
   }
@@ -330,13 +354,29 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   }
 
   onActivitySortChange(sort: Array<SortDescriptor>) {
-    this.resetGrid();
+    this.resetGridData();
     this.onSortChange(sort);
   }
 
-  resetGrid() {
-    this.gridData = [];
-    this.gridView = null;
-    this.highlightedRowIndex = 0;
+  onGroupExpand(event: any) {
+    const group = event.group.items[0];
+
+    // if group hasn't been expanded yet, make call to backend to grab transactions
+    if (!this.periodSpanExpandedMap.get(event.groupIndex)) {
+      this.gridLoading = true;
+      this.billingPeriodsService
+        .getTransactions(group.BlngPerSpanSk, group.blngStmtDt, group.billPeriodSpan).subscribe((response) => {
+          /* add group index to map so next time this group gets expanded, it doesn't have to call the
+          backend again since the transactions have already been loaded */
+          this.periodSpanExpandedMap.set(event.groupIndex, true);
+          // add the transactions to the grid and regroup
+          this.processGridData(response.data);
+          }, (error) => {
+          this.accountBillingPeriodsGrid.collapseGroup(event.groupIndex);
+          this.alertsService.showErrorSnackbar(error);
+          this.gridLoading = false;
+        }
+      );
+    }
   }
 }

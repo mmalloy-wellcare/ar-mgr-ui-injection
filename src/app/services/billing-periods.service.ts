@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Sort, Filter } from '@nextgen/web-care-portal-core-library';
 import { DataService } from '@nextgen/web-care-portal-core-library';
 import { map } from 'rxjs/operators';
+import { Transaction } from '@app/models/transaction.model';
 
 @Injectable()
 export class BillingPeriodsService {
@@ -34,6 +35,23 @@ export class BillingPeriodsService {
     }));
   }
 
+  public getTransactions(BlngPerSpanSk: number, blngStmtDt: string, billPeriodSpan: string) {
+    return this.dataService.getAllRecords({
+      url: `${this.billingPeriodURI}/${BlngPerSpanSk}/transactions`,
+      pageSize: this.pageSize,
+      filter: [{
+          operator: 'EQ',
+          value: `${BlngPerSpanSk}`,
+          property: 'BlngPerSpanSk',
+          dataType: 'character'
+      }]
+    }).pipe(map((response) => {
+      return {
+        data: this.flattenTransactions(response.data, blngStmtDt, billPeriodSpan)
+      };
+    }));
+  }
+
   private flattenBillingPeriods(billingPeriods: Array<any>) {
     const flattenedBillingPeriods = [];
 
@@ -43,18 +61,22 @@ export class BillingPeriodsService {
       // otherwise don't create records since there's no period spans for it
       if (billingPeriod.BlngPerSpans) {
         for (const billingPeriodSpan of billingPeriod.BlngPerSpans) {
-          const flattenedBillingPeriod = { ...billingPeriod, ...billingPeriodSpan };
-          const coverageStart = billingPeriodSpan.CvrgPerStartDt.split('-');
-          const coverageEnd = billingPeriodSpan.CvrgPerEndDt.split('-');
+          // only flatten period span if span is not voided
+          // TODO: update this to toggle showing voided spans in future sprint
+          if (!billingPeriodSpan.Voided) {
+            const flattenedBillingPeriod = { ...billingPeriod, ...billingPeriodSpan };
+            const coverageStart = billingPeriodSpan.CvrgPerStartDt.split('-');
+            const coverageEnd = billingPeriodSpan.CvrgPerEndDt.split('-');
 
-          flattenedBillingPeriod[`billPeriodSpan`] =
-            `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
-          delete flattenedBillingPeriod.BlngPerSpans;
-          flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
-          delete flattenedBillingPeriod.BillPerDt;
+            flattenedBillingPeriod[`billPeriodSpan`] =
+              `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
+            delete flattenedBillingPeriod.BlngPerSpans;
+            flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
+            delete flattenedBillingPeriod.BillPerDt;
 
-          // flatten children data of flattened billing period
-          flattenedBillingPeriods.push(this.flattenChildData(flattenedBillingPeriod));
+            // flatten children data of flattened billing period
+            flattenedBillingPeriods.push(this.flattenChildData(flattenedBillingPeriod));
+          }
         }
       }
     }
@@ -130,5 +152,15 @@ export class BillingPeriodsService {
     }
 
     return metadataResult;
+  }
+
+  private flattenTransactions(transactions: Array<Transaction>, blngStmtDt: string, billPeriodSpan: string) {
+    for (const transaction of transactions) {
+      transaction[`blngStmtDt`] = blngStmtDt;
+      transaction[`billPeriodSpan`] = billPeriodSpan;
+      transaction[`${transaction.BilleeTypeCode}_${transaction.Rundown}_Amt`] = transaction.Amt;
+    }
+
+    return transactions;
   }
 }

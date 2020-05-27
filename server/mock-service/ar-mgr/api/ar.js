@@ -50,4 +50,11 @@ router.get('/billing-period/:AccountID', (req, res) => {
 router.get('/billing-period/:LobTypeCode/meta-data', (req, res) => {
     mockLib.serveMockById(req, res, 'ar-mgr/ar/list.of.metadata.json', 'LobTypeCode', req.params.LobTypeCode);
 });
+
+// get transactions based on period span sk
+router.get('/billing-period/:BlngPerSpanSk/transactions', (req, res) => {
+    req.headers.filter = getConvertedFilters(req.headers.filter);
+    mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.transactions.json');
+});
+
 module.exports = router;

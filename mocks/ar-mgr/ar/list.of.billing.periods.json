@@ -11,6 +11,7 @@
         "UpdatedDt": "2020-04-05",
         "BlngPerSpans": [
             {
+                "BlngPerSpanSk": 1,
                 "CvrgPerStartDt": "2020-10-01",
                 "CvrgPerEndDt": "2020-10-15",
                 "Rates": [
@@ -66,6 +67,7 @@
                 ]
             },
             {
+                "BlngPerSpanSk": 2,
                 "CvrgPerStartDt": "2020-10-16",
                 "CvrgPerEndDt": "2020-10-30",
                 "Rates": [
@@ -133,6 +135,7 @@
         "UpdatedDt": "2020-04-01",
         "BlngPerSpans": [
             {
+                "BlngPerSpanSk": 3,
                 "CvrgPerStartDt": "2020-11-01",
                 "CvrgPerEndDt": "2020-11-31",
                 "Rates": [
@@ -185,7 +188,8 @@
                         "Rundown": "EXPECTED",
                         "Amt": 2398
                     }
-                ]
+                ],
+                "Voided": true
             }
         ]
     },
@@ -212,6 +216,7 @@
         "UpdatedDt": "1999-01-01",
         "BlngPerSpans": [
             {
+                "BlngPerSpanSk": 4,
                 "CvrgPerStartDt": "1999-01-01",
                 "CvrgPerEndDt": "1999-01-31",
                 "Rates": [
@@ -280,6 +285,7 @@
         "UpdatedDt": "2020-11-05",
         "BlngPerSpans": [
             {
+                "BlngPerSpanSk": 5,
                 "CvrgPerStartDt": "2020-11-01",
                 "CvrgPerEndDt": "2020-11-30",
                 "Rates": [

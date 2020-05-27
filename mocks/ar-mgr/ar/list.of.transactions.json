@@ -1,0 +1,37 @@
+[
+    {
+        "BlngPerSpanSk": 1,
+        "Amt": 500,
+        "TxnType": "RETRO_BILLED",
+        "BilleeTypeCode": "SUBSCRIBER",
+        "Rundown": "EXPECTED"
+    },
+    {
+        "BlngPerSpanSk": 2,
+        "Amt": -100,
+        "TxnType": "RETRO_BILLED",
+        "BilleeTypeCode": "APTC",
+        "Rundown": "EXPECTED"
+    },
+    {
+        "BlngPerSpanSk": 3,
+        "Amt": -300,
+        "TxnType": "RETRO_BILLED",
+        "BilleeTypeCode": "SUBSCRIBER",
+        "Rundown": "EXPECTED"
+    },
+    {
+        "BlngPerSpanSk": 4,
+        "Amt": 800,
+        "TxnType": "RETRO_BILLED",
+        "BilleeTypeCode": "OTHER",
+        "Rundown": "EXPECTED"
+    },
+    {
+        "BlngPerSpanSk": 5,
+        "Amt": 233,
+        "TxnType": "RETRO_BILLED",
+        "BilleeTypeCode": "SUBSCRIBER",
+        "Rundown": "PAID"
+    }
+]

@@ -12,6 +12,7 @@ import { AccountDetail } from '@app/models/account-detail.model';
 import { GroupResult } from '@progress/kendo-data-query';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
+import mockTransactions from '@mocks/ar-mgr/ar/list.of.transactions.json';
 
 describe('ActivityComponent', () => {
   let component: ActivityComponent;
@@ -26,6 +27,12 @@ describe('ActivityComponent', () => {
     getBillingPeriodsMetadata(lob: string) {
       return of({
         data: mockMetadata[0].TopHeader
+      });
+    },
+    getTransactions(blngPerSpanSk: number) {
+      return of({
+        data: mockTransactions,
+        restartRowId: '0'
       });
     }
   };
@@ -194,23 +201,23 @@ describe('ActivityComponent', () => {
 
   describe('getFieldValue', () => {
     it('should return aggregate of values if mapping is an array', () => {
-      testGetFieldAmount(['testValueOne', 'testValueTwo'], 30);
+      testGetFieldAmount(['testValueOne', 'testValueTwo'], -5);
     });
 
     it('should return value based on mapping name if mapping is string', () => {
-      testGetFieldAmount('testValueOne', 20);
+      testGetFieldAmount('testValueOne', 10);
     });
 
     it('should return zero if no mapping is found with array', () => {
       testGetFieldAmount(['testValueThree', 'testValueFour'], 0);
     });
 
-    it('should return blank string if no mapping is found with string', () => {
-      testGetFieldAmount('testValueThree', '');
+    it('should return null if no mapping is found with string', () => {
+      testGetFieldAmount('testValueThree', null);
     });
 
     function testGetFieldAmount(mappingInput, expectedAmount) {
-      const mockDataItem = { testValueOne: 20, testValueTwo: 10 };
+      const mockDataItem = { testValueOne: 10, testValueTwo: -15 };
       const mockSubColumn = {
         Name: 'testField',
         Label: 'Test Field',
@@ -226,8 +233,8 @@ describe('ActivityComponent', () => {
       testGetSummaryAmount([{ testValueFive: 99 }], 99);
     });
 
-    it('should return blank string if there are no group items', () => {
-      testGetSummaryAmount([], '');
+    it('should return null if there are no group items', () => {
+      testGetSummaryAmount([], null);
     });
 
     function testGetSummaryAmount(groupItems, expectedAmount) {
@@ -347,10 +354,54 @@ describe('ActivityComponent', () => {
 
   describe('resetGrid', () => {
     it('should reset grid', () => {
-      component.resetGrid();
+      component.resetGridData();
       expect(component.gridData).toEqual([]);
       expect(component.gridView).toEqual(null);
       expect(component.highlightedRowIndex).toEqual(0);
     });
+  });
+
+  describe('onGroupExpand', () => {
+    it('should call getTransactions from billingPeriodsService when group is expanded',
+      inject([BillingPeriodsService, AlertsService], (billingPeriodsServiceInject, alertsServiceInject) => {
+        testOnGroupExpand(billingPeriodsServiceInject, alertsServiceInject, false);
+      }
+    ));
+
+    it('should not call getTransactions from billingPeriodsService if group has already been expanded',
+      inject([BillingPeriodsService, AlertsService], (billingPeriodsServiceInject, alertsServiceInject) => {
+        testOnGroupExpand(billingPeriodsServiceInject, alertsServiceInject, true);
+      }
+    ));
+
+    it('should show error if getTransactions from billingPeriodsService fails',
+      inject([BillingPeriodsService, AlertsService], (billingPeriodsServiceInject, alertsServiceInject) => {
+        const mockError = throwError({
+          status: 404
+        });
+        testOnGroupExpand(billingPeriodsServiceInject, alertsServiceInject, false, mockError);
+      }
+    ));
+
+    function testOnGroupExpand(billingsServiceInput, alertsServiceInput, expanded, error?) {
+      spyOn(billingsServiceInput, 'getTransactions').and.returnValue(error || of({ data: [mockTransactions[0]] }));
+      spyOn(alertsServiceInput, 'showErrorSnackbar');
+      const mockEvent = {
+        group: {
+          items: [{
+            BlngPerSpanSk: 4,
+          }]
+        },
+        groupIndex: '0_0'
+      };
+      expanded ? component.periodSpanExpandedMap.set(mockEvent.groupIndex, true) : component.periodSpanExpandedMap.clear();
+      component.onGroupExpand(mockEvent);
+      expanded ?
+        expect(billingsServiceInput.getTransactions).not.toHaveBeenCalled() :
+        expect(billingsServiceInput.getTransactions).toHaveBeenCalled();
+      error ?
+        expect(alertsServiceInput.showErrorSnackbar).toHaveBeenCalled() :
+        expect(alertsServiceInput.showErrorSnackbar).not.toHaveBeenCalled();
+    }
   });
 });

@@ -42,6 +42,7 @@
     [loading]="gridLoading"
     (sortChange)="onActivitySortChange($event)"
     (scrollBottom)="loadMoreGridData()"
+    (groupExpand)="onGroupExpand($event)"
 >
     <ng-template kendoGridNoRecordsTemplate>
         {{ gridData.length === 0 && gridLoading === false ? 'No records available.' : ''}}
@@ -191,8 +192,9 @@
                     </ng-template>
                     <ng-template kendoGridCellTemplate let-dataItem>
                         <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'data-cell': true}">
-                            <!-- TODO: Update this in story PBP-3866 for loading transactions -->
-                            <span>{{ getFieldValue(dataItem, subColumn, '') }}</span>
+                            <span>
+                                {{ getConvertedFieldValue(dataItem[subColumn.Mapping]) }}
+                            </span>
                         </span>
                     </ng-template>
                 </kendo-grid-column>

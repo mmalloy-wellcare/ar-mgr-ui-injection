@@ -7,13 +7,14 @@ import { AllRecordsCriteria } from '@nextgen/web-care-portal-core-library/lib/se
 import { of } from 'rxjs';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
+import mockTransactions from '@mocks/ar-mgr/ar/list.of.transactions.json';
 
 describe('BillingPeriodsService', () => {
   let service: BillingPeriodsService;
   const dataService: Partial<DataService> = {
     getAllRecords(criteria: string | AllRecordsCriteria, pageSize?: number, restartRowId?: string, sort?: Sort[]) {
       return of({
-        data: mockBillingPeriods,
+        data: criteria[`url`].includes('transactions') ? mockTransactions : mockBillingPeriods,
         restartRowId: '0'
       });
     },
@@ -45,7 +46,7 @@ describe('BillingPeriodsService', () => {
     it('should get billing periods', () => {
       service.getBillingPeriods('827321841', '0').subscribe((response) => {
         expect(response).toBeDefined();
-        expect(response.data.length).toEqual(5);
+        expect(response.data.length).toEqual(4);
       });
     });
   });
@@ -67,5 +68,14 @@ describe('BillingPeriodsService', () => {
       expect(response).toBeDefined();
       expect(response.data.length).toEqual(expectedLength);
     }
+  });
+
+  describe('getTransactions', () => {
+    it('should get transactions', () => {
+      service.getTransactions(1, '1999-01-01', '1999-01-01 - 1999-12-31').subscribe((response) => {
+        expect(response).toBeDefined();
+        expect(response.data.length).toEqual(5);
+      });
+    });
   });
 });
