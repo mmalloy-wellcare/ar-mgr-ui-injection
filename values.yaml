@@ -55,11 +55,13 @@ resources:
    memory: 32M
 
 readinessProbe:
+  failureThreshold: 3
   initialDelaySeconds: 25
   periodSeconds: 3
   path: /
   port: 8081
 livenessProbe:
+  failureThreshold: 3
   initialDelaySeconds: 25
   periodSeconds: 3
   path: /
