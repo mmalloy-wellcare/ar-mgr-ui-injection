@@ -1,14 +1,16 @@
-initiative: nextgen
+nextgen:
+  initiative: nextgen
+  domain: openshiftapps
+  baseImageRegistry: docker-registry.default.svc:5000
+  imageRegistryNamespace: app-premium-billing
+  repoURL: wcgartifactory-docker.jfrog.io
+  routerID: 4c8f
+  clusterID: wc-sb01
+  conjurAccount: wellcare
+  conjurHostID: authn-k8s/tampa
+
 application: premium-billing
-
 replicaCount: 2
-
-baseImageRegistry: docker-registry.default.svc:5000
-imageRegistryNamespace: app-premium-billing
-repoURL: wcgartifactory-docker.jfrog.io
-clusterID: wc-sb01
-conjurAccount: wellcare
-conjurHostID: authn-k8s/tampa
 
 imageStreams:
   service:
