@@ -4,8 +4,13 @@
         "icon": {
             "classes": ["fa", "fa-address-book"]
         },
-        "tooltip": "Accounts Receivable",
-        "route": "ar-mgr-ui/account-search"
+        "tooltip": "Accounts Receivable"
     },
-    "menuItems": []
+    "menuItems": [{
+        "title": "Account Search",
+        "route": "ar-mgr-ui/account-search"
+    }, {
+        "title": "Reimbursement Requests",
+        "route": "ar-mgr-ui/reimbursement-requests"
+    }]
 }

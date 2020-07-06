@@ -64,6 +64,12 @@ ar-mgr-ui {
             color: $brandColor;
             transition: all 0.2s;
         }
+
+        &.alt-title-bar {
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid #bdbdbd;
+            margin-bottom: 1.6rem;
+        }
     }
 
     kendo-grid {

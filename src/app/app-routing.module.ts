@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ConfigurationService, EmptyComponent } from '@nextgen/web-care-portal-core-library';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { AccountSearchComponent } from './components/account-search/account-search.component';
+import { ReimbursementRequestsComponent } from './components/reimbursement-requests/reimbursement-requests.component';
 
 const routes: Routes = [{
   path: 'ar-mgr-ui/account-search',
@@ -10,6 +11,9 @@ const routes: Routes = [{
 }, {
   path: 'ar-mgr-ui/account-search/details/:subscriberId',
   component: AccountDetailsComponent
+},  {
+  path: 'ar-mgr-ui/reimbursement-requests',
+  component: ReimbursementRequestsComponent
 }, {
   path: '**',
   component: EmptyComponent

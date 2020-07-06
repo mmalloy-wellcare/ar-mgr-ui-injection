@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { createCustomElement } from '@angular/elements';
-import { EmptyModule, AlertsService, SortService } from '@nextgen/web-care-portal-core-library';
+import { EmptyModule, AlertsService, SortService, BreadcrumbsModule } from '@nextgen/web-care-portal-core-library';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -28,6 +28,7 @@ import { ColumnSelectionComponent } from './components/column-selection/column-s
 import { AccountDependentComponent } from './components/account-dependent/account-dependent.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-period-filter.component';
+import { ReimbursementRequestsComponent } from './components/reimbursement-requests/reimbursement-requests.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-
     AccountResultsComponent,
     ColumnSelectionComponent,
     AccountDependentComponent,
-    BillPeriodFilterComponent
+    BillPeriodFilterComponent,
+    ReimbursementRequestsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    BreadcrumbsModule,
     NgxMaskModule.forRoot()
   ],
   providers: [

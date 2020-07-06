@@ -6,6 +6,4 @@ import { Component, ViewEncapsulation, HostBinding } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
-  @HostBinding('class') appComponentClass = 'flex-column';
-}
+export class AppComponent { }
