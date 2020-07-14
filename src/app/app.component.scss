@@ -4,7 +4,7 @@ ar-mgr-ui {
         flex-direction: column;
     }
     @mixin fillerCell() {
-        padding: 20px 200px 20px 12px;
+        padding: 2rem 20rem 2rem 1.2rem;
         margin-left: -12px;
     }
 
@@ -18,7 +18,7 @@ ar-mgr-ui {
     $grayOpacityLight: rgba(0, 0, 0, 0.05);
     $grayOpacityMedium: rgba(0, 0, 0, 0.097);
     $grayOpacity: rgba(0, 0, 0, 0.12);
-    $cellBorder: 1px solid $gray;
+    $cellBorder: 0.1rem solid $gray;
     height: 100%;
 
     .mat-raised-button.mat-primary:hover:not([disabled]) {
@@ -33,23 +33,23 @@ ar-mgr-ui {
     .workbench-header {
         display: flex;
         flex-direction: column;
-        margin: 0 auto 8px auto;
+        margin: 0 auto 0.8rem auto;
         user-select: none;
 
         .workbench-title {
             color: #fff;
             background-color: $brandColorOne;
-            padding: 8px 28px 5px 28px;
+            padding: 0.8rem 2.8rem 0.5rem 2.8rem;
             text-transform: uppercase;
             font-weight: 100;
-            font-size: 24px;
+            font-size: 2.4rem;
         } 
         
         .workbench-curve {
             background-color: $brandColorOne;
-            padding: 11px;
+            padding: 1.1rem;
             border-radius: 0 0 100% 100%;
-            margin-top: -10px;
+            margin-top: -1rem;
         }    
     }
     
@@ -66,8 +66,8 @@ ar-mgr-ui {
         }
 
         &.alt-title-bar {
-            border-top: 1px solid transparent;
-            border-bottom: 1px solid #bdbdbd;
+            border-top: 0.1rem solid transparent;
+            border-bottom: 0.1rem solid #bdbdbd;
             margin-bottom: 1.6rem;
         }
     }
@@ -93,12 +93,11 @@ ar-mgr-ui {
         }
 
         .mat-tab-labels {
-            justify-content: flex-end;
-
+        
             .mat-tab-label {
                 font: 14px Calibri;
                 font-weight: 600;
-                padding: 0 12px;
+                padding: 0 1.2rem;
                 min-width: 100px;
                 opacity: 1;
     
@@ -106,37 +105,39 @@ ar-mgr-ui {
                     color: $brandColor;
                 }
 
-                // for tab group header
-                &:first-child {
-                    flex: 1;
-                    justify-content: flex-start;
-                    padding: 0;
-                }
             }
     
             .mat-tab-label-active {
-                color: $brandColorOne;
-            }
-
-            .tab-group-header {
-                font: 18px Calibri;
-                font-weight: 500;
-                color: #333;
-
-                .tab-group-title {
-                    font: 20px Calibri;
-                    font-weight: 600;
+                color: $brandColorTwo;
+                .fa {
+                    color: $brandColorTwo
                 }
             }
         }
 
-        .mat-ink-bar {
-            height: 3px;
+        &.mat-primary .mat-ink-bar {
+            background-color: $brandColorTwo;
+            height: 0.3rem;
+        }
+    }
+
+    .account-details-header {
+        font: 1.8rem Calibri;
+        font-weight: 500;
+        color: #333;
+
+        .account-details-title {
+            font: 2.0rem Calibri;
+            font-weight: 600;
+        }
+        
+        .fa {
+            color: $brandColor
         }
     }
 
     .mat-form-field {
-        font: 16px Calibri;
+        font: 1.6rem Calibri;
         box-sizing: border-box;
 
         .mat-form-field-infix {
@@ -145,14 +146,18 @@ ar-mgr-ui {
     }
 
     .account-ribbon {
+        margin: 1rem 0rem 0.5rem 0rem;
         display: flex;
-        padding-top: 24px;
+        padding-top: 2.4rem;
+        border: $cellBorder;
+        background-color: $grayLightest;
+        padding: 1.2rem 1.2rem 0rem 1.2rem;
 
         .mat-form-field {
             flex: 1;
 
             ~ .mat-form-field {
-                padding-left: 24px;
+                padding-left: 2.4rem;
             }
         }
     }
@@ -163,26 +168,26 @@ ar-mgr-ui {
         transition: all 0.2s;
 
         &.expanded {
-            max-height: 300px;
+            max-height: 30.0rem;
             transition: all 0.2s;
         }
 
         .account-search-card {
             border: $cellBorder;
             background-color: $grayLightest;
-            padding: 12px;
+            padding: 1.2rem;
 
             .account-search-field-row {
                 display: flex;
                 align-items: baseline;
 
                 &:first-child {
-                    padding-top: 6px;
+                    padding-top: 0.6rem;
                 }
 
                 .mat-form-field {
                     flex: 0 20%;
-                    padding: 6px 12px;
+                    padding: 0.6rem 1.2rem;
                 }
     
                 .mat-icon-button {
@@ -190,11 +195,11 @@ ar-mgr-ui {
                 }
 
                 #account-search-dob-clear {
-                    margin-right: 31px;
+                    margin-right: 3.1rem;
                 }
 
                 .last-form-field {
-                    padding: 6px 0 6px 12px;
+                    padding: 0.6rem 0 0.6rem 1.2rem;
                 }
     
                 &.long-field, .long-field {
@@ -202,10 +207,10 @@ ar-mgr-ui {
                 }
     
                 .button-group-horizontal {
-                    padding: 6px 12px 6px 0;
+                    padding: 0.6rem 1.2rem 0.6rem 0;
 
                     button ~ span {
-                        margin-left: 8px;
+                        margin-left: 0.8rem;
                     }
                 }
             }    
@@ -218,8 +223,8 @@ ar-mgr-ui {
 
         &:after {
             content: '\f138';
-            font-size: 22px;
-            margin: 0 6px;            
+            font-size: 2.2rem;
+            margin: 0 0.6rem;            
         }
 
         &.expanded {
@@ -262,15 +267,15 @@ ar-mgr-ui {
                 }
     
                 td {
-                    border-bottom-width: 1px;
+                    border-bottom-width: 0.1rem;
     
                     &.k-detail-cell {
-                        padding: 12px 0;
+                        padding: 1.2rem 0;
     
                         .detail-card {
                             .k-grid {
                                 height: auto;
-                                margin-right: 12px;
+                                margin-right: 1.2rem;
                             }
                         }
                     }
@@ -279,7 +284,7 @@ ar-mgr-ui {
             &.k-grouping-row {
                 td {
                     .k-reset {
-                        margin-left: -4px;
+                        margin-left: -0.4rem;
 
                         .k-icon {
                             color: $brandColor;
@@ -300,18 +305,18 @@ ar-mgr-ui {
                         .k-i-collapse {
                             transform: rotate(90deg);
                             transform-origin: 35% 65%;
-                            margin-top: -5px;
+                            margin-top: -0.5rem;
                         }
 
                         .mat-checkbox {
-                            margin: 0 8px;
+                            margin: 0 0.8rem;
                             border-right: $cellBorder;
                             border-left: $cellBorder;
-                            padding: 12px 8px 12px 7px;
+                            padding: 1.2rem 0.8rem 1.2rem 0.7rem;
 
                             &.secondary-grouping-chkbox {
-                                margin: 0 1px 0 7px;
-                                padding: 12px 7px 12px 9px;
+                                margin: 0 0.1rem 0 0.7rem;
+                                padding: 1.2rem 0.7rem 1.2rem 0.9rem;
                                 border-right: none;
                             }
                         }
@@ -347,12 +352,12 @@ ar-mgr-ui {
             tr.k-detail-row {
                 td.k-hierarchy-cell {
                     vertical-align: top;
-                    padding-top: 23px;
+                    padding-top: 2.3rem;
 
                     &:after {
                         content: '\f2c0';
                         font-family: FontAwesome;
-                        font-size: 18px;
+                        font-size: 1.8rem;
                         font-weight: 600;
                     }
                 }
@@ -360,10 +365,10 @@ ar-mgr-ui {
         }
         &#account-billing-periods-grid {
             .k-grid-aria-root {
-                margin-left: -65px;
+                margin-left: -6.5rem;
             }
             .k-grid-header {
-                border-bottom: 1px solid $gray;
+                border-bottom: 0.1rem solid $gray;
 
                 .k-grid-header-locked, .k-grid-header-wrap {
                     background-color: white;
@@ -382,7 +387,7 @@ ar-mgr-ui {
             thead tr {
                 &.k-filter-row {
                     background-color: rgba(16, 123, 164, 0.1);
-                    box-shadow: inset 0 -19px 5px -15px rgba(0,0,0,0.14);
+                    box-shadow: inset 0 -1.9rem 0.5rem -1.5rem rgba(0,0,0,0.14);
                     text-align: right;
                     color: #333;
 
@@ -393,7 +398,7 @@ ar-mgr-ui {
                             text-align: left;
                             border: $cellBorder;
                             background-color: white;
-                            padding: 5px;
+                            padding: 0.5rem;
                             box-sizing: border-box;
                         }
                     }
@@ -428,15 +433,15 @@ ar-mgr-ui {
                         display: flex;
                         align-items: center;
                         position: absolute;
-                        right: 6px;
+                        right: 0.6rem;
                         top: 0;
                         bottom: 0;
 
                         button.filter-menu-button {
-                            padding: 3px 8px 0px 8px;
-                            line-height: 15px;
-                            min-width: 10px;
-                            height: 19px;
+                            padding: 0.3rem 0.8rem 0rem 0.8rem;
+                            line-height: 1.5rem;
+                            min-width: 1.0rem;
+                            height: 1.9rem;
     
                             &.filtered {
                                 background-color: $brandColorTwo;
@@ -458,8 +463,8 @@ ar-mgr-ui {
                             display: none;
                         }
                         .initial-sub-column-cell {
-                            padding: 3px 0;
-                            margin-left: 69px;
+                            padding: 0.3rem 0;
+                            margin-left: 6.9rem;
                         }
                     }
                     &:nth-child(n+2) {
@@ -467,7 +472,7 @@ ar-mgr-ui {
                         
                         .k-reset {
                             justify-content: flex-end;
-                            margin-right: 6px;
+                            margin-right: 0.6rem;
                         }
                     }
                 }
@@ -476,7 +481,7 @@ ar-mgr-ui {
                 table, .k-grid-table {
                     border-right: $cellBorder;
                 }
-                box-shadow: inset 18px 0 5px -15px rgba(0,0,0,0.14);
+                box-shadow: inset 1.8rem 0 0.5rem -1.5rem rgba(0,0,0,0.14);
             }
             td {
                 overflow: hidden;
@@ -493,14 +498,14 @@ ar-mgr-ui {
                 }
                 .number-cell {
                     position: relative;
-                    padding: 20px 108px 20px 12px;
+                    padding: 2.0rem 10.8rem 2.0rem 1.2rem;
                     
                     &:not(.primary-group), &:not(.secondary-group) {
-                        margin-left: -12px;
+                        margin-left: -1.2rem;
                     }
                     span {
                         position: absolute;
-                        right: 12px;
+                        right: 1.2rem;
                     }
                 }
                 .initial-sub-column-cell {
@@ -520,10 +525,10 @@ ar-mgr-ui {
                         display: none;
                     }
                     td {
-                        padding: 0 0 0 12px;
+                        padding: 0 0 0 1.2rem;
 
                         .secondary-row {
-                            height: 39px;
+                            height: 3.9rem;
                         }
                     }
                 }
@@ -539,44 +544,44 @@ ar-mgr-ui {
 // added 'ar-mgr-ui' text to checkbox dropdown class so it won't affect anything outside of ar-mgr-ui
 .ar-mgr-ui-checkbox-dropdown {
     background-color: white;
-    max-height: 400px;
+    max-height: 40.0rem;
     overflow-y: auto;
-    box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+    box-shadow: 0rem 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0rem 0.4rem 0.5rem 0rem rgba(0, 0, 0, 0.14), 0rem 0.1rem 1.0rem 0rem rgba(0, 0, 0, 0.12);
 
     &.bill-period-filter {
         overflow: inherit;
 
         .selection-container {
-            max-height: 200px;
+            max-height: 20.0rem;
             overflow-y: auto;
         }
 
         .filter-section {
-            padding: 10px;
+            padding: 1.0rem;
             text-align: center;
-            font-size: 14px;
+            font-size: 1.4rem;
 
             input {
-                font: 12px Calibri;
-                border: 1px solid #bdbdbd;
+                font: 1.2rem Calibri;
+                border: 0.1rem solid #bdbdbd;
                 background-color: white;
                 width: 100%;
-                padding: 5px;
+                padding: 0.5rem;
                 box-sizing: border-box;
             }
         }
     }
     .mat-checkbox {
-        margin-top: 4px;
-        padding: 0px 64px 4px 16px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        margin-top: 0.4rem;
+        padding: 0rem 6.4rem 0.4rem 1.6rem;
+        border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
 
         &:last-child {
             border: none;
         }
 
         &.child-checkbox {
-            padding-left: 40px;
+            padding-left: 4.0rem;
         }
 
         .mat-checkbox-label {
@@ -594,13 +599,13 @@ ar-mgr-ui {
 
         &.selection-item {
             text-align: left;
-            padding-left: 16px;
+            padding-left: 1.6rem;
             color: #024069;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+            border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
 
             .fa {
-                font-size: 18px;
-                margin-right: 5px;
+                font-size: 1.8rem;
+                margin-right: 0.5rem;
                 color: #107ba4;
             }
     

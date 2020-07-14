@@ -1,11 +1,39 @@
+ <span class="account-details-header">
+    <i class="fa fa-users" aria-hidden="true" color='red'></i> &nbsp;
+    <span class="account-details-title">{{ accountData.AccountName }}</span>
+        - {{ accountData.AccountID }}
+</span>
+<div class="account-ribbon" *ngIf="accountData.LobTypeCode">
+    <mat-form-field>
+        <input
+            matInput
+            placeholder="Current Amount Due"
+            [value]="accountData.TtlAmntDue | currency: 'USD'"
+            [readonly]="true"
+        >
+    </mat-form-field>
+    <mat-form-field>
+        <input
+            matInput
+            placeholder="Issuer Subscriber ID"
+            [value]="accountData.SubscrbId || ''"
+            [readonly]="true"
+        >
+    </mat-form-field>
+    <mat-form-field *ngIf="accountData.LobTypeCode.toLowerCase() !== 'medicaid'">
+        <input
+            matInput
+            [placeholder]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? 'Medicare ID' : 'Exchange Subscriber ID'"
+            [value]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? accountData.MedicareID : accountData.ExchngSubID"
+            [readonly]="true"
+        >
+    </mat-form-field>
+</div>
 <mat-tab-group selectedIndex="1">
-    <mat-tab disabled>
+    <mat-tab label="Billing Invoices">
         <ng-template mat-tab-label>
-            <span class="tab-group-header">
-                <i class="fa fa-users" aria-hidden="true"></i> &nbsp;
-                <span class="tab-group-title">{{ accountData.AccountName }}</span>
-                 - {{ accountData.AccountID }}
-            </span>
+            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            Billing Invoices {{selectedIndex}}
         </ng-template>
     </mat-tab>
     <mat-tab label="Activity">
@@ -13,32 +41,12 @@
             <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
             Activity
         </ng-template>
-        <div class="account-ribbon" *ngIf="accountData.LobTypeCode">
-            <mat-form-field>
-                <input
-                    matInput
-                    placeholder="Current Amount Due"
-                    [value]="accountData.TtlAmntDue | currency: 'USD'"
-                    [readonly]="true"
-                >
-            </mat-form-field>
-            <mat-form-field>
-                <input
-                    matInput
-                    placeholder="Issuer Subscriber ID"
-                    [value]="accountData.SubscrbId || ''"
-                    [readonly]="true"
-                >
-            </mat-form-field>
-            <mat-form-field *ngIf="accountData.LobTypeCode.toLowerCase() !== 'medicaid'">
-                <input
-                    matInput
-                    [placeholder]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? 'Medicare ID' : 'Exchange Subscriber ID'"
-                    [value]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? accountData.MedicareID : accountData.ExchngSubID"
-                    [readonly]="true"
-                >
-            </mat-form-field>
-        </div>
         <ar-mgr-ui-activity [accountData]="accountData"></ar-mgr-ui-activity>
+    </mat-tab>
+    <mat-tab label="Payments">
+        <ng-template mat-tab-label>
+            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            Payments
+        </ng-template>
     </mat-tab>
 </mat-tab-group>
