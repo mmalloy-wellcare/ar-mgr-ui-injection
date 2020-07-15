@@ -28,7 +28,6 @@ import { ColumnSelectionComponent } from './components/column-selection/column-s
 import { AccountDependentComponent } from './components/account-dependent/account-dependent.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-period-filter.component';
-import { ReimbursementRequestsComponent } from './components/reimbursement-requests/reimbursement-requests.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +38,7 @@ import { ReimbursementRequestsComponent } from './components/reimbursement-reque
     AccountResultsComponent,
     ColumnSelectionComponent,
     AccountDependentComponent,
-    BillPeriodFilterComponent,
-    ReimbursementRequestsComponent
+    BillPeriodFilterComponent
   ],
   imports: [
     BrowserModule,

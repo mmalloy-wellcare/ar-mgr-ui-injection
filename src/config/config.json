@@ -11,6 +11,6 @@
         "route": "ar-mgr-ui/account-search"
     }, {
         "title": "Reimbursement Requests",
-        "route": "ar-mgr-ui/reimbursement-requests"
+        "route": "ar-bill-ui/reimbursement-requests"
     }]
 }
