@@ -11,7 +11,13 @@ export class BillingPeriodsService {
 
   constructor(private dataService: DataService) { }
 
-  public getBillingPeriods(accountId: string, restartRowId: string, sort: Array<Sort> = [], filter: Array<Filter> = []) {
+  public getBillingPeriods(
+    accountId: string,
+    restartRowId: string,
+    includeVoidedRows: boolean,
+    sort: Array<Sort> = [],
+    filter: Array<Filter> = []
+  ) {
     return this.dataService.getAllRecords({
       url: `${this.billingPeriodURI}/${accountId}`,
       pageSize: this.pageSize,
@@ -21,7 +27,7 @@ export class BillingPeriodsService {
       filter
     }).pipe(map((response) => {
       return {
-        data: this.flattenBillingPeriods(response.data),
+        data: this.flattenBillingPeriods(response.data, includeVoidedRows),
         restartRowId: response.restartRowId
       };
     }));
@@ -52,7 +58,7 @@ export class BillingPeriodsService {
     }));
   }
 
-  private flattenBillingPeriods(billingPeriods: Array<any>) {
+  private flattenBillingPeriods(billingPeriods: Array<any>, includeVoidedRows: boolean) {
     const flattenedBillingPeriods = [];
 
     // loop through billing periods
@@ -63,7 +69,7 @@ export class BillingPeriodsService {
         for (const billingPeriodSpan of billingPeriod.BlngPerSpans) {
           // only flatten period span if span is not voided
           // TODO: update this to toggle showing voided spans in future sprint
-          if (!billingPeriodSpan.Voided) {
+          if (!billingPeriodSpan.Voided || includeVoidedRows) {
             const flattenedBillingPeriod = { ...billingPeriod, ...billingPeriodSpan };
             const coverageStart = billingPeriodSpan.CvrgPerStartDt.split('-');
             const coverageEnd = billingPeriodSpan.CvrgPerEndDt.split('-');
@@ -72,6 +78,7 @@ export class BillingPeriodsService {
               `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
             delete flattenedBillingPeriod.BlngPerSpans;
             flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
+            flattenedBillingPeriod[`TxnType`] = billingPeriodSpan.Voided ? 'Voided' : 'Summary';
             delete flattenedBillingPeriod.BillPerDt;
 
             // flatten children data of flattened billing period

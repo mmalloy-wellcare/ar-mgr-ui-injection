@@ -1,5 +1,6 @@
 <mat-toolbar>
     <strong>Activity</strong>
+    <mat-checkbox color="primary" (change)="toggleVoidedRows()">Include Voided Rows</mat-checkbox>
     <span class="spacer"></span>
     <button 
         mat-button
@@ -183,6 +184,7 @@
                     width="120"
                     [hidden]="isHiddenColumn(subColumn.Name, columnGroup.Name)"
                     [sortable]="false"
+                    [class]="i === 0 ? 'initial-transaction-cell' : ''"
                 >
                     <ng-template kendoGridFilterCellTemplate></ng-template>
                     <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
@@ -191,7 +193,7 @@
                         </span>
                     </ng-template>
                     <ng-template kendoGridCellTemplate let-dataItem>
-                        <span [ngClass]="{'initial-sub-column-cell': i === 0, 'number-cell': true, 'data-cell': true}">
+                        <span [ngClass]="{'number-cell': columnGroup.Name !== 'DETAILS'}">
                             <span>
                                 {{ getConvertedFieldValue(dataItem[subColumn.Mapping]) }}
                             </span>

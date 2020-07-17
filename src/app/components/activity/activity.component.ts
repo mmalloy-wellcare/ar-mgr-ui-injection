@@ -80,6 +80,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   That way, if you hover over a cell that already has data, it wouldn't keep calling my mapping function.
   */
   groupCellDataMap: Map<string, any> = new Map();
+  includeVoidedRows: boolean;
 
   constructor(
     public alertsService: AlertsService,
@@ -102,7 +103,9 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     const savedRestartRowId = this.restartRowId || '0';
     this.gridLoading = true;
 
-    this.billingPeriodsService.getBillingPeriods(this.accountData.AccountID, savedRestartRowId, this.convertedSort, this.currentFilter)
+    this.billingPeriodsService.getBillingPeriods(
+      this.accountData.AccountID, savedRestartRowId, this.includeVoidedRows, this.convertedSort, this.currentFilter
+    )
       .subscribe(response => {
         this.processGridData(response.data);
         this.saveGridRows();
@@ -286,6 +289,15 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
         children: []
       };
 
+      // adding mapping for static column (Type)
+      if (column.Name.toLowerCase() === 'details') {
+        column.SubHeader.unshift({
+          Name: 'TxnType',
+          Label: 'Type',
+          Mapping: 'TxnType'
+        });
+      }
+
       // loop through sub-columns in column group and add child column to children of parent column
       column.SubHeader.forEach((subColumn, subColumnIndex) => {
         const childColumn = {
@@ -383,5 +395,11 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
         }
       );
     }
+  }
+
+  toggleVoidedRows() {
+    this.includeVoidedRows = !this.includeVoidedRows;
+    this.resetGridData();
+    this.loadGridData();
   }
 }

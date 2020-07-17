@@ -18,7 +18,7 @@ describe('ActivityComponent', () => {
   let component: ActivityComponent;
   let fixture: ComponentFixture<ActivityComponent>;
   const billingPeriodsService: Partial<BillingPeriodsService> = {
-    getBillingPeriods(accountId: string, restartRowId: string, sort: Array<Sort>) {
+    getBillingPeriods(accountId: string, restartRowId: string, includeVoidedRows: boolean, sort: Array<Sort>) {
       return of({
         data: mockBillingPeriods.filter(billingPeriod => billingPeriod.BlngPerSpans),
         restartRowId: '0'
@@ -421,5 +421,17 @@ describe('ActivityComponent', () => {
         expect(alertsServiceInput.showErrorSnackbar).toHaveBeenCalled() :
         expect(alertsServiceInput.showErrorSnackbar).not.toHaveBeenCalled();
     }
+  });
+
+  describe('toggleVoidedRows', () => {
+    it('should toggle voided rows', () => {
+      spyOn(component, 'resetGridData');
+      spyOn(component, 'loadGridData');
+      component.includeVoidedRows = false;
+      component.toggleVoidedRows();
+      expect(component.includeVoidedRows).toEqual(true);
+      expect(component.resetGridData).toHaveBeenCalled();
+      expect(component.loadGridData).toHaveBeenCalled();
+    });
   });
 });

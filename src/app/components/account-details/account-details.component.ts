@@ -10,7 +10,9 @@ import { AlertsService } from '@nextgen/web-care-portal-core-library';
 export class AccountDetailsComponent implements OnInit {
   @HostBinding('class') componentClass = 'web-component-flex side-padding';
   subscriberId: number;
-  accountData: any = {};
+  accountData: any = {
+    AccountName: '---'
+  };
 
   constructor(
     private route: ActivatedRoute,

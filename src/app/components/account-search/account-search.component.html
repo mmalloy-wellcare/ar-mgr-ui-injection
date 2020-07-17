@@ -22,8 +22,11 @@
           <button 
             matSuffix
             mat-icon-button 
+            type="button"
             (click)="clearField('primaryForm.AccountID')" 
-            *ngIf="accountSearchForm.get('primaryForm.AccountID').value ">
+            *ngIf="accountSearchForm.get('primaryForm.AccountID').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('primaryForm.AccountID').hasError('invalidLength')">
@@ -39,9 +42,12 @@
           >
           <button 
             matSuffix 
-            mat-icon-button 
+            mat-icon-button
+            type="button"
             (click)="clearField('primaryForm.SubscrbID')" 
-            *ngIf="accountSearchForm.get('primaryForm.SubscrbID').value">
+            *ngIf="accountSearchForm.get('primaryForm.SubscrbID').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('primaryForm.SubscrbID').hasError('invalidLength')">
@@ -57,9 +63,12 @@
           >
           <button 
             matSuffix
-            mat-icon-button 
+            mat-icon-button
+            type="button"
             (click)="clearField('primaryForm.MedicareId')" 
-            *ngIf="accountSearchForm.get('primaryForm.MedicareId').value">
+            *ngIf="accountSearchForm.get('primaryForm.MedicareId').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('primaryForm.MedicareId').hasError('invalidLength')">
@@ -76,8 +85,11 @@
           <button 
             matSuffix
             mat-icon-button 
+            type="button"
             (click)="clearField('primaryForm.ExChgSubID')" 
-            *ngIf="accountSearchForm.get('primaryForm.ExChgSubID').value">
+            *ngIf="accountSearchForm.get('primaryForm.ExChgSubID').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('primaryForm.ExChgSubID').hasError('invalidLength')">
@@ -96,8 +108,11 @@
           <button 
             matSuffix 
             mat-icon-button 
+            type="button"
             (click)="clearField('primaryForm.SSN')" 
-            *ngIf="accountSearchForm.get('primaryForm.SSN').value">
+            *ngIf="accountSearchForm.get('primaryForm.SSN').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('primaryForm.SSN').hasError('invalidSSN')">
@@ -116,8 +131,11 @@
           <button 
             matSuffix
             mat-icon-button 
+            type="button"
             (click)="clearField('secondaryForm.FirstName')" 
-            *ngIf="accountSearchForm.get('secondaryForm.FirstName').value">
+            *ngIf="accountSearchForm.get('secondaryForm.FirstName').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('secondaryForm.FirstName').hasError('invalidLength')">
@@ -133,9 +151,12 @@
           >
           <button 
             matSuffix
-            mat-icon-button 
+            mat-icon-button
+            type="button"
             (click)="clearField('secondaryForm.LastName')" 
-            *ngIf="accountSearchForm.get('secondaryForm.LastName').value">
+            *ngIf="accountSearchForm.get('secondaryForm.LastName').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('secondaryForm.LastName').hasError('invalidLength')">
@@ -164,9 +185,12 @@
           <button 
             matSuffix
             mat-icon-button 
+            type="button"
             id="account-search-dob-clear"
             (click)="clearField('secondaryForm.Dob')" 
-            *ngIf="dobValue">
+            *ngIf="dobValue"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-datepicker-toggle 
@@ -189,8 +213,11 @@
           <button 
             matSuffix
             mat-icon-button 
+            type="button"
             (click)="clearField('secondaryForm.AddrLine1')" 
-            *ngIf="accountSearchForm.get('secondaryForm.AddrLine1').value">
+            *ngIf="accountSearchForm.get('secondaryForm.AddrLine1').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('secondaryForm.AddrLine1').hasError('invalidLength')">
@@ -206,9 +233,12 @@
           >
           <button 
             matSuffix
-            mat-icon-button 
+            mat-icon-button
+            type="button"
             (click)="clearField('secondaryForm.City')" 
-            *ngIf="accountSearchForm.get('secondaryForm.City').value">
+            *ngIf="accountSearchForm.get('secondaryForm.City').value"
+            [disabled]="accountSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="accountSearchForm.get('secondaryForm.City').hasError('invalidLength')">
@@ -239,9 +269,12 @@
             >
             <button 
               matSuffix
-              mat-icon-button 
+              mat-icon-button
+              type="button"
               (click)="clearField('secondaryForm.Zip')" 
-              *ngIf="accountSearchForm.get('secondaryForm.Zip').value">
+              *ngIf="accountSearchForm.get('secondaryForm.Zip').value"
+              [disabled]="accountSearchForm.disabled"
+            >
               <i class="fa fa-times"></i>
             </button>
             <mat-error *ngIf="accountSearchForm.get('secondaryForm.Zip').hasError('invalidZipCode')">

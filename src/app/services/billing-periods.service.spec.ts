@@ -43,12 +43,20 @@ describe('BillingPeriodsService', () => {
   });
 
   describe('getBillingPeriods', () => {
-    it('should get billing periods', () => {
-      service.getBillingPeriods('827321841', '0').subscribe((response) => {
-        expect(response).toBeDefined();
-        expect(response.data.length).toEqual(4);
-      });
+    it('should get billing periods with voided rows', () => {
+      testGetBillingPeriods(true);
     });
+
+    it('should get billing periods without voided rows', () => {
+      testGetBillingPeriods(false);
+    });
+
+    function testGetBillingPeriods(includeVoidedRows) {
+      service.getBillingPeriods('827321841', '0', includeVoidedRows).subscribe((response) => {
+        expect(response).toBeDefined();
+        expect(response.data.length).toEqual(includeVoidedRows ? 5 : 4);
+      });
+    }
   });
 
   describe('getBillingPeriodsMetadata', () => {

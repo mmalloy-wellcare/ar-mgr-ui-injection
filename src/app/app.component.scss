@@ -59,6 +59,7 @@ ar-mgr-ui {
 
     mat-toolbar.mat-toolbar.mat-toolbar-single-row {
         padding: 0;
+        height: 5rem;
 
         .fa {
             color: $brandColor;
@@ -69,6 +70,21 @@ ar-mgr-ui {
             border-top: 0.1rem solid transparent;
             border-bottom: 0.1rem solid #bdbdbd;
             margin-bottom: 1.6rem;
+        }
+
+        &.account-details-header {
+            font: 1.8rem Calibri;
+            font-weight: 500;
+            color: #333;
+    
+            .account-details-title {
+                font: 2rem Calibri;
+                font-weight: 600;
+            }
+        }
+
+        mat-checkbox.mat-checkbox {
+            margin-left: 2.4rem;
         }
     }
 
@@ -121,21 +137,6 @@ ar-mgr-ui {
         }
     }
 
-    .account-details-header {
-        font: 1.8rem Calibri;
-        font-weight: 500;
-        color: #333;
-
-        .account-details-title {
-            font: 2.0rem Calibri;
-            font-weight: 600;
-        }
-        
-        .fa {
-            color: $brandColor
-        }
-    }
-
     .mat-form-field {
         font: 1.6rem Calibri;
         box-sizing: border-box;
@@ -146,12 +147,12 @@ ar-mgr-ui {
     }
 
     .account-ribbon {
-        margin: 1rem 0rem 0.5rem 0rem;
         display: flex;
         padding-top: 2.4rem;
+        margin-bottom: 1.2rem;
         border: $cellBorder;
         background-color: $grayLightest;
-        padding: 1.2rem 1.2rem 0rem 1.2rem;
+        padding: 1.2rem 1.2rem 0 1.2rem;
 
         .mat-form-field {
             flex: 1;
@@ -168,7 +169,7 @@ ar-mgr-ui {
         transition: all 0.2s;
 
         &.expanded {
-            max-height: 30.0rem;
+            max-height: 30rem;
             transition: all 0.2s;
         }
 
@@ -190,8 +191,12 @@ ar-mgr-ui {
                     padding: 0.6rem 1.2rem;
                 }
     
-                .mat-icon-button {
+                button.mat-icon-button {
                     color: #333;
+
+                    &:disabled {
+                        color: $gray;
+                    }
                 }
 
                 #account-search-dob-clear {
@@ -438,9 +443,9 @@ ar-mgr-ui {
                         bottom: 0;
 
                         button.filter-menu-button {
-                            padding: 0.3rem 0.8rem 0rem 0.8rem;
+                            padding: 0.3rem 0.8rem 0 0.8rem;
                             line-height: 1.5rem;
-                            min-width: 1.0rem;
+                            min-width: 1rem;
                             height: 1.9rem;
     
                             &.filtered {
@@ -498,7 +503,7 @@ ar-mgr-ui {
                 }
                 .number-cell {
                     position: relative;
-                    padding: 2.0rem 10.8rem 2.0rem 1.2rem;
+                    padding: 2rem 10.8rem 2rem 1.2rem;
                     
                     &:not(.primary-group), &:not(.secondary-group) {
                         margin-left: -1.2rem;
@@ -517,6 +522,10 @@ ar-mgr-ui {
                     &.secondary-group {
                         background-color: $grayOpacityMedium;
                     }
+                }
+                &.initial-transaction-cell {
+                    font-weight: 600;
+                    background-color: $grayOpacityLight;
                 }
             }
 			tr {
@@ -544,20 +553,20 @@ ar-mgr-ui {
 // added 'ar-mgr-ui' text to checkbox dropdown class so it won't affect anything outside of ar-mgr-ui
 .ar-mgr-ui-checkbox-dropdown {
     background-color: white;
-    max-height: 40.0rem;
+    max-height: 40rem;
     overflow-y: auto;
-    box-shadow: 0rem 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0rem 0.4rem 0.5rem 0rem rgba(0, 0, 0, 0.14), 0rem 0.1rem 1.0rem 0rem rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0.2rem 0.4rem -0.1rem rgba(0, 0, 0, 0.2), 0 0.4rem 0.5rem 0 rgba(0, 0, 0, 0.14), 0 0.1rem 1rem 0 rgba(0, 0, 0, 0.12);
 
     &.bill-period-filter {
         overflow: inherit;
 
         .selection-container {
-            max-height: 20.0rem;
+            max-height: 20rem;
             overflow-y: auto;
         }
 
         .filter-section {
-            padding: 1.0rem;
+            padding: 1rem;
             text-align: center;
             font-size: 1.4rem;
 
@@ -573,7 +582,7 @@ ar-mgr-ui {
     }
     .mat-checkbox {
         margin-top: 0.4rem;
-        padding: 0rem 6.4rem 0.4rem 1.6rem;
+        padding: 0 6.4rem 0.4rem 1.6rem;
         border-bottom: 0.1rem solid rgba(0, 0, 0, 0.12);
 
         &:last-child {
@@ -581,7 +590,7 @@ ar-mgr-ui {
         }
 
         &.child-checkbox {
-            padding-left: 4.0rem;
+            padding-left: 4rem;
         }
 
         .mat-checkbox-label {

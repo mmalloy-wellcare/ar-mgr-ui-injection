@@ -1,9 +1,9 @@
- <span class="account-details-header">
-    <i class="fa fa-users" aria-hidden="true" color='red'></i> &nbsp;
-    <span class="account-details-title">{{ accountData.AccountName }}</span>
-        - {{ accountData.AccountID }}
-</span>
-<div class="account-ribbon" *ngIf="accountData.LobTypeCode">
+<mat-toolbar class="account-details-header">
+    <i class="fa fa-users" aria-hidden="true"></i>
+    <span class="account-details-title">&nbsp; {{ accountData.AccountName }}</span>
+    <ng-container *ngIf="accountData.LobTypeCode">&nbsp;- {{ accountData.AccountID }}</ng-container>
+</mat-toolbar>
+<div class="account-ribbon">
     <mat-form-field>
         <input
             matInput
@@ -20,7 +20,7 @@
             [readonly]="true"
         >
     </mat-form-field>
-    <mat-form-field *ngIf="accountData.LobTypeCode.toLowerCase() !== 'medicaid'">
+    <mat-form-field *ngIf="accountData.LobTypeCode && accountData.LobTypeCode.toLowerCase() !== 'medicaid'">
         <input
             matInput
             [placeholder]="accountData.LobTypeCode.toLowerCase() === 'medicare' ? 'Medicare ID' : 'Exchange Subscriber ID'"
@@ -29,23 +29,23 @@
         >
     </mat-form-field>
 </div>
-<mat-tab-group selectedIndex="1">
+<mat-tab-group selectedIndex="1" *ngIf="accountData.LobTypeCode">
     <mat-tab label="Billing Invoices">
         <ng-template mat-tab-label>
-            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            <i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp;
             Billing Invoices
         </ng-template>
     </mat-tab>
     <mat-tab label="Activity">
         <ng-template mat-tab-label>
-            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i> &nbsp;
             Activity
         </ng-template>
         <ar-mgr-ui-activity [accountData]="accountData"></ar-mgr-ui-activity>
     </mat-tab>
     <mat-tab label="Payments">
         <ng-template mat-tab-label>
-            <i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;
+            <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp;
             Payments
         </ng-template>
     </mat-tab>
