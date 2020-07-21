@@ -9,7 +9,7 @@
     {
         "BlngPerSpanSk": 2,
         "Amt": -100,
-        "TxnType": "RETRO_BILLED",
+        "TxnType": "CURRENT_BILLED_PRE",
         "BilleeTypeCode": "APTC",
         "Rundown": "EXPECTED"
     },
@@ -23,7 +23,7 @@
     {
         "BlngPerSpanSk": 4,
         "Amt": 800,
-        "TxnType": "RETRO_BILLED",
+        "TxnType": "CURRENT_BILLED",
         "BilleeTypeCode": "OTHER",
         "Rundown": "EXPECTED"
     },

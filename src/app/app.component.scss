@@ -525,6 +525,7 @@ ar-mgr-ui {
                 }
                 &.initial-transaction-cell {
                     font-weight: 600;
+                    white-space: normal;
                     background-color: $grayOpacityLight;
                 }
             }

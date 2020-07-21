@@ -62,7 +62,7 @@
                 ></i>
             </div>
         </ng-template>        
-        <kendo-grid-column field="blngStmtDt" title="Bill Period" [locked]="true" width="132">
+        <kendo-grid-column field="blngStmtDt" title="Bill Period" [locked]="true" width="130">
             <ng-template kendoGridFilterCellTemplate let-column="column">
                 <input 
                     id="bill-period-filter-input"
@@ -181,7 +181,7 @@
                 <kendo-grid-column
                     [field]="subColumn.Name"
                     [title]="subColumn.Label"
-                    width="120"
+                    [width]="subColumn.Name === 'TxnType' ? 130 : 120"
                     [hidden]="isHiddenColumn(subColumn.Name, columnGroup.Name)"
                     [sortable]="false"
                     [class]="i === 0 ? 'initial-transaction-cell' : ''"

@@ -163,11 +163,25 @@ export class BillingPeriodsService {
 
   private flattenTransactions(transactions: Array<Transaction>, blngStmtDt: string, billPeriodSpan: string) {
     for (const transaction of transactions) {
-      transaction[`blngStmtDt`] = blngStmtDt;
-      transaction[`billPeriodSpan`] = billPeriodSpan;
+      transaction.blngStmtDt = blngStmtDt;
+      transaction.billPeriodSpan = billPeriodSpan;
+      transaction.TxnType = this.normalizeTxnType(transaction.TxnType);
       transaction[`${transaction.BilleeTypeCode}_${transaction.Rundown}_Amt`] = transaction.Amt;
     }
 
     return transactions;
+  }
+
+  // Normalizes snake casing text given from backend
+  // ex: 'RETRO_BILLED' to 'Retro Billed'
+  private normalizeTxnType(txnType: string) {
+    const words = txnType.split('_');
+    return words.map((word) => this.convertWordToTitle(word)).join(' ');
+  }
+
+  // Converts word to title casing
+  // ex: 'RETRO' to 'Retro'
+  private convertWordToTitle(word: string) {
+    return `${word.substring(0, 1).toUpperCase()}${word.substring(1).toLowerCase()}`;
   }
 }
