@@ -13,5 +13,14 @@
   <script>
     localStorage.setItem('wcp-core-state-accessToken', '"insert-valid-access-token"');
   </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.getElementsByTagName('body')[0];
+      const arBillScript = document.createElement('script');
+      arBillScript.src = 'http://localhost:14200/main.js';
+      body.appendChild(arBillScript);
+    });
+  </script>
+  <script src="./assets/client-dependencies.js"></script>
 </body>
 </html>

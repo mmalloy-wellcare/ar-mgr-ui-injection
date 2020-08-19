@@ -1,5 +1,6 @@
 {
     "context": "ar-mgr-ui",
+    "dependencies": ["ar-bill-ui"],
     "navigationBarItem": {
         "icon": {
             "classes": ["fa", "fa-address-book"]

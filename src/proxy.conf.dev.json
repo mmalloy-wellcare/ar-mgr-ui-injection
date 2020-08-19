@@ -4,5 +4,11 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
+    },
+    "/premium-billing/ar-bill/v1": {
+        "target": "https://apidev-nextgen.mhplan.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
     }
 }

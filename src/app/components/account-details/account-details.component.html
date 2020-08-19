@@ -33,8 +33,11 @@
     <mat-tab label="Billing Invoices">
         <ng-template mat-tab-label>
             <i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp;
-            Billing Invoices
+            Billing Invoices 
         </ng-template>
+        <ar-bill-ui-invoice-details-cmpnt
+            [subscriberId]= "subscriberId"
+        ></ar-bill-ui-invoice-details-cmpnt>
     </mat-tab>
     <mat-tab label="Activity">
         <ng-template mat-tab-label>

@@ -4,5 +4,11 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
+    },
+    "/premium-billing/ar-bill/v1": {
+        "target": "http://localhost:14300",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
     }
 }

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule, DoBootstrap, Injector } from '@angular/core';
+import { NgModule, DoBootstrap, Injector, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
@@ -69,6 +69,7 @@ import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-
     BillingPeriodsService
   ],
   bootstrap: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [AppComponent]
 })
 export class AppModule implements DoBootstrap {
