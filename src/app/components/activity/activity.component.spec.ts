@@ -48,6 +48,7 @@ describe('ActivityComponent', () => {
   eventTable.appendChild(eventTarget);
   const mockAccountBillingPeriodsGrid: Partial<KendoGridComponent> = {
     collapseGroup() {},
+    expandGroup() {},
     wrapper: {
       nativeElement: {
         querySelector() {
@@ -89,6 +90,12 @@ describe('ActivityComponent', () => {
     AccountID: '12345678',
     LobTypeCode: 'marketplace'
   } as AccountDetail;
+  const mockGroupEvent = {
+    items: [{
+      BlngPerSpanSk: 4,
+    }],
+    groupIndex: '0_0'
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -208,20 +215,25 @@ describe('ActivityComponent', () => {
       testGetFieldAmount('testValueOne', 10);
     });
 
-    it('should return zero if no mapping is found with array', () => {
-      testGetFieldAmount(['testValueThree', 'testValueFour'], 0);
+    it('should return blank string if no mapping is found with array', () => {
+      testGetFieldAmount(['testValueThree', 'testValueFour'], '');
     });
 
-    it('should return null if no mapping is found with string', () => {
-      testGetFieldAmount('testValueThree', null);
+    it('should return zero if no mapping is found with string', () => {
+      testGetFieldAmount('testValueThree', '');
     });
 
-    function testGetFieldAmount(mappingInput, expectedAmount) {
-      const mockDataItem = { testValueOne: 10, testValueTwo: -15 };
+    it('should return dashes if span is awkward and has include zeroes in subcolumn', () => {
+      testGetFieldAmount('testValueOne', '-', true, true);
+    });
+
+    function testGetFieldAmount(mappingInput, expectedAmount, Awkward?, IncludeZeroes?) {
+      const mockDataItem = { testValueOne: 10, testValueTwo: -15, Awkward };
       const mockSubColumn = {
         Name: 'testField',
         Label: 'Test Field',
-        Mapping: mappingInput
+        Mapping: mappingInput,
+        IncludeZeroes
       };
       const fieldValue = component.getFieldValue(mockDataItem, mockSubColumn, 'testMappingName');
       expect(fieldValue).toEqual(expectedAmount);
@@ -237,8 +249,8 @@ describe('ActivityComponent', () => {
       testGetMapValue(0, 0);
     });
 
-    it('should return null if mapValue is not truthy or is not 0', () => {
-      testGetMapValue(undefined, null);
+    it('should return 0 if mapValue is not truthy or is not 0', () => {
+      testGetMapValue(undefined, 0);
     });
 
     function testGetMapValue(inputValue, outputValue) {
@@ -379,6 +391,22 @@ describe('ActivityComponent', () => {
     });
   });
 
+  describe('toggleGroup', () => {
+    it('should expand group', () => {
+      testToggleGroup('expandGroup', false);
+    });
+
+    it('should collpase group', () => {
+      testToggleGroup('collapseGroup', true);
+    });
+
+    function testToggleGroup(groupFunction, expanded) {
+      spyOn(component.accountBillingPeriodsGrid, groupFunction);
+      component.toggleGroup('0_0', mockGroupEvent, expanded);
+      expect(component.accountBillingPeriodsGrid[groupFunction]).toHaveBeenCalled();
+    }
+  });
+
   describe('onGroupExpand', () => {
     it('should call getTransactions from billingPeriodsService when group is expanded',
       inject([BillingPeriodsService, AlertsService], (billingPeriodsServiceInject, alertsServiceInject) => {
@@ -404,16 +432,8 @@ describe('ActivityComponent', () => {
     function testOnGroupExpand(billingsServiceInput, alertsServiceInput, expanded, error?) {
       spyOn(billingsServiceInput, 'getTransactions').and.returnValue(error || of({ data: [mockTransactions[0]] }));
       spyOn(alertsServiceInput, 'showErrorSnackbar');
-      const mockEvent = {
-        group: {
-          items: [{
-            BlngPerSpanSk: 4,
-          }]
-        },
-        groupIndex: '0_0'
-      };
-      expanded ? component.periodSpanExpandedMap.set(mockEvent.groupIndex, true) : component.periodSpanExpandedMap.clear();
-      component.onGroupExpand(mockEvent);
+      expanded ? component.periodSpanExpandedMap.set(mockGroupEvent.groupIndex, true) : component.periodSpanExpandedMap.clear();
+      component.onGroupExpand('0_0', mockGroupEvent);
       expanded ?
         expect(billingsServiceInput.getTransactions).not.toHaveBeenCalled() :
         expect(billingsServiceInput.getTransactions).toHaveBeenCalled();

@@ -291,26 +291,25 @@ ar-mgr-ui {
                     .k-reset {
                         margin-left: -0.4rem;
 
-                        .k-icon {
+                        a {
                             color: $brandColor;
-                            outline: none;
-                            margin: 0;
-                        }
-                
-                        .k-i-expand:before, .k-i-collapse:before {
-                            content: '\f054';
-                            font-family: FontAwesome;                   
-                        }
-                
-                        .k-i-expand, .k-i-collapse {
-                            transition: all 0.2s;
-                            transform-origin: 35% 65%;
-                        }
-            
-                        .k-i-collapse {
-                            transform: rotate(90deg);
-                            transform-origin: 35% 65%;
-                            margin-top: -0.5rem;
+                            display: block;
+                            width: 2rem;
+                            height: 2rem;
+                            text-align: center;
+                            margin-top: 1.1rem;
+
+                            .fa {
+                                font-size: 1.6rem;
+                            }
+
+                            i.expanded {
+                                transform: rotate(90deg);
+                            }
+
+                            &.k-icon, &.hidden-expand {
+                                display: none;
+                            }
                         }
 
                         .mat-checkbox {

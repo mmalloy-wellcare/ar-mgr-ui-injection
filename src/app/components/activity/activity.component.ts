@@ -220,7 +220,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   }
 
   getFieldValue(dataItem: any, subColumn: SubColumn, groupCellDataMapName: string) {
-    let fieldValue = 0;
+    let fieldValue: any = 0;
 
     // if mapping is an array, aggregate field values based off array values
     // otherwise, just use the field value from the mapping
@@ -232,6 +232,17 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
       fieldValue = this.getMapValue(dataItem[subColumn.Mapping]);
     }
 
+    /* if span has transactions, has include zeroes stamped in the mapping,
+    and is value 0, show blank instead */
+    if (fieldValue === 0 && !dataItem[`transactions`] && !subColumn[`IncludeZeroes`]) {
+      fieldValue = '';
+    }
+
+    // if span is awkward, show dashes instead
+    if (dataItem[`Awkward`] && subColumn[`IncludeZeroes`]) {
+      fieldValue = '-';
+    }
+
     // set cell data to map
     this.groupCellDataMap.set(`${groupCellDataMapName}`, this.getConvertedFieldValue(fieldValue));
 
@@ -240,7 +251,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
   getMapValue(mapValue: any) {
     // if mapValue is truthy or is 0, return the mapValue, otherwise, return null
-    return (mapValue || mapValue === 0) ? mapValue : null;
+    return (mapValue || mapValue === 0) ? mapValue : 0;
   }
 
   getConvertedFieldValue(fieldValue: number | string) {
@@ -375,21 +386,30 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     this.onSortChange(sort);
   }
 
-  onGroupExpand(event: any) {
-    const group = event.group.items[0];
+  toggleGroup(groupIndex: string, groupEvent: any, expanded: boolean) {
+    if (expanded) {
+      this.accountBillingPeriodsGrid.collapseGroup(groupIndex);
+    } else {
+      this.accountBillingPeriodsGrid.expandGroup(groupIndex);
+      this.onGroupExpand(groupIndex, groupEvent);
+    }
+  }
+
+  onGroupExpand(groupIndex: string, groupEvent: any) {
+    const group = groupEvent.items[0];
 
     // if group hasn't been expanded yet, make call to backend to grab transactions
-    if (!this.periodSpanExpandedMap.get(event.groupIndex)) {
+    if (!this.periodSpanExpandedMap.get(groupIndex)) {
       this.gridLoading = true;
       this.billingPeriodsService
         .getTransactions(group.BlngPerSpanSk, group.blngStmtDt, group.billPeriodSpan).subscribe((response) => {
           /* add group index to map so next time this group gets expanded, it doesn't have to call the
           backend again since the transactions have already been loaded */
-          this.periodSpanExpandedMap.set(event.groupIndex, true);
+          this.periodSpanExpandedMap.set(groupIndex, true);
           // add the transactions to the grid and regroup
           this.processGridData(response.data);
           }, (error) => {
-          this.accountBillingPeriodsGrid.collapseGroup(event.groupIndex);
+          this.accountBillingPeriodsGrid.collapseGroup(groupIndex);
           this.alertsService.showErrorSnackbar(error);
           this.gridLoading = false;
         }

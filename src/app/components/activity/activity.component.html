@@ -61,8 +61,8 @@
                     (click)="toggleColumnGroup('TRANSACTION_DATES')"
                 ></i>
             </div>
-        </ng-template>        
-        <kendo-grid-column field="blngStmtDt" title="Bill Period" [locked]="true" width="130">
+        </ng-template>
+        <kendo-grid-column field="blngStmtDt" title="Bill Period" width="130">
             <ng-template kendoGridFilterCellTemplate let-column="column">
                 <input 
                     id="bill-period-filter-input"
@@ -114,7 +114,13 @@
             [sortable]="false"
         >
             <ng-template kendoGridFilterCellTemplate></ng-template>
-            <ng-template kendoGridGroupHeaderTemplate><div class="secondary-row"></div></ng-template>
+            <ng-template kendoGridGroupHeaderTemplate let-index="index" let-group="group" let-expanded="expanded">
+                <div class="secondary-row">
+                    <a [class.hidden-expand]="!group.items[0].transactions" (click)="toggleGroup(index, group, expanded)">
+                        <i [ngClass]="{'fa':true, 'fa-chevron-right':true, 'expanded':expanded}" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </ng-template>
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">

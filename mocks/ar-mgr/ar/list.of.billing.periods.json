@@ -23,11 +23,6 @@
                 ],
                 "Liabilities": [
                     {
-                        "LiabilityType": "APTC",
-                        "Amt": 45,
-                        "MnthlyAmt": 46
-                    },
-                    {
                         "LiabilityType": "FRP",
                         "Amt": 756,
                         "MnthlyAmt": 5675
@@ -43,28 +38,7 @@
                         "MnthlyAmt": 1
                     }
                 ],
-                "TxnSmrys": [
-                    {
-                        "BilleeTypeCode": "APTC",
-                        "Rundown": "EXPECTED",
-                        "Amt": 89
-                    },
-                    {
-                        "BilleeTypeCode": "SUBSCRIBER",
-                        "Rundown": "EXPECTED",
-                        "Amt": 10
-                    },
-                    {
-                        "BilleeTypeCode": "OTHER_1",
-                        "Rundown": "EXPECTED",
-                        "Amt": 24
-                    },
-                    {
-                        "BilleeTypeCode": "OTHER_2",
-                        "Rundown": "EXPECTED",
-                        "Amt": 78
-                    }
-                ]
+                "TxnSmrys": []
             },
             {
                 "BlngPerSpanSk": 2,
@@ -120,7 +94,8 @@
                         "Rundown": "EXPECTED",
                         "Amt": 785
                     }
-                ]
+                ],
+                "Awkward": true
             }
         ]
     },

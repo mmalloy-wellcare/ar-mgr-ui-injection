@@ -78,7 +78,7 @@ export class BillingPeriodsService {
               `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
             delete flattenedBillingPeriod.BlngPerSpans;
             flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
-            flattenedBillingPeriod[`TxnType`] = billingPeriodSpan.Voided ? 'Voided' : 'Summary';
+            flattenedBillingPeriod[`TxnType`] = this.getTxnType(flattenedBillingPeriod);
             delete flattenedBillingPeriod.BillPerDt;
 
             // flatten children data of flattened billing period
@@ -117,21 +117,40 @@ export class BillingPeriodsService {
         }
       }
     }
+
+    if (!!billingPeriod[category].length && category === 'TxnSmrys') {
+      billingPeriod[`transactions`] = true;
+    }
+
     // delete unecessary category once child data has been flattened
     delete billingPeriod[category];
 
     return billingPeriod;
   }
 
-  private flattenMapping(metadata: Array<any>) {
+  private getTxnType(billingPeriod: any) {
+    if (billingPeriod.Voided) {
+      return 'Voided';
+    } else if (billingPeriod.Awkward) {
+      return 'Awkward';
+    }
+
+    return 'Summary';
+  }
+
+  private flattenMapping(metadata: Array<any>, IncludeZeroes?: boolean) {
     const metadataResult = [];
 
     // loop through parent metadata
     // call flattenMapping function until child is Mapping array
     // when child is Mapping array, flatten it and return data
     for (const data of metadata) {
+      if (IncludeZeroes) {
+        data.IncludeZeroes = IncludeZeroes;
+      }
+
       if (Array.isArray(data.SubHeader)) {
-        data.SubHeader = this.flattenMapping(data.SubHeader);
+        data.SubHeader = this.flattenMapping(data.SubHeader, data.IncludeZeroes);
       }
 
       if (Array.isArray(data.Mapping)) {
