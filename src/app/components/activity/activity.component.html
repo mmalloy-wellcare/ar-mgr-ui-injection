@@ -43,7 +43,6 @@
     [loading]="gridLoading"
     (sortChange)="onActivitySortChange($event)"
     (scrollBottom)="loadMoreGridData()"
-    (groupExpand)="onGroupExpand($event)"
 >
     <ng-template kendoGridNoRecordsTemplate>
         {{ gridData.length === 0 && gridLoading === false ? 'No records available.' : ''}}
