@@ -227,10 +227,18 @@ describe('ActivityComponent', () => {
       testGetFieldAmount('testValueOne', '-', true, true);
     });
 
-    function testGetFieldAmount(mappingInput, expectedAmount, Awkward?, IncludeZeroes?) {
-      const mockDataItem = { testValueOne: 10, testValueTwo: -15, Awkward };
+    it('should return blank string if subColumnName is FILE_SOURCE', () => {
+      testGetFieldAmount('testValueFive', '', false, true, 'FILE_SOURCE');
+    });
+
+    it('should return blank string if subColumnName is QHP_ID', () => {
+      testGetFieldAmount('testValueFive', '', false, true, 'QHP_ID');
+    });
+
+    function testGetFieldAmount(mappingInput, expectedAmount, Awkward?, IncludeZeroes?, subColumnName?: string) {
+      const mockDataItem = { testValueOne: 10, testValueTwo: -15, testValueFive: 0, Awkward };
       const mockSubColumn = {
-        Name: 'testField',
+        Name: subColumnName || 'testField',
         Label: 'Test Field',
         Mapping: mappingInput,
         IncludeZeroes

@@ -2,9 +2,9 @@
     {
         "LobTypeCode": "MARKETPLACE",
         "AccountID": "12345678",
-        "EnrlmtFileSrc": "october2020.xlxs",
+        "EnrlmtFileSrc": null,
         "PrdctTypeCode": "abc001",
-        "QhpId": "11787",
+        "QhpId": null,
         "blngStmtDt": "2020-10-01",
         "BillPerDt": "2020-10-01",
         "CreatedDt": "2020-03-31",

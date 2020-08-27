@@ -234,7 +234,12 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
     /* if span has transactions, has include zeroes stamped in the mapping,
     and is value 0, show blank instead */
-    if (fieldValue === 0 && !dataItem[`transactions`] && !subColumn[`IncludeZeroes`]) {
+    /* if sub column name if FILE_SOURCE or QHP_ID and value is 0, show blank too*/
+    if (fieldValue === 0 &&
+      (!dataItem[`transactions`] && !subColumn[`IncludeZeroes`] ||
+      subColumn.Name === 'FILE_SOURCE' ||
+      subColumn.Name === 'QHP_ID')
+    ) {
       fieldValue = '';
     }
 
