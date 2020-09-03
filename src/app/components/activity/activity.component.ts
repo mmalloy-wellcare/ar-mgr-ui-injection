@@ -236,7 +236,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
     and is value 0, show blank instead */
     /* if sub column name if FILE_SOURCE or QHP_ID and value is 0, show blank too*/
     if (fieldValue === 0 &&
-      (!dataItem[`transactions`] && !subColumn[`IncludeZeroes`] ||
+      (!dataItem[`HasTransactions`] && !subColumn[`IncludeZeroes`] ||
       subColumn.Name === 'FILE_SOURCE' ||
       subColumn.Name === 'QHP_ID')
     ) {

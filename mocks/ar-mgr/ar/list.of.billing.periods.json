@@ -38,7 +38,8 @@
                         "MnthlyAmt": 1
                     }
                 ],
-                "TxnSmrys": []
+                "TxnSmrys": [],
+                "HasTransactions": false
             },
             {
                 "BlngPerSpanSk": 2,
@@ -95,6 +96,7 @@
                         "Amt": 785
                     }
                 ],
+                "HasTransactions": true,
                 "Awkward": true
             }
         ]
@@ -142,28 +144,8 @@
                         "MnthlyAmt": 23
                     }
                 ],
-                "TxnSmrys": [
-                    {
-                        "BilleeTypeCode": "OTHER_2",
-                        "Rundown": "EXPECTED",
-                        "Amt": 111
-                    },
-                    {
-                        "BilleeTypeCode": "APTC",
-                        "Rundown": "EXPECTED",
-                        "Amt": 123
-                    },
-                    {
-                        "BilleeTypeCode": "SUBSCRIBER",
-                        "Rundown": "EXPECTED",
-                        "Amt": 321
-                    },
-                    {
-                        "BilleeTypeCode": "OTHER_1",
-                        "Rundown": "EXPECTED",
-                        "Amt": 2398
-                    }
-                ],
+                "TxnSmrys": [],
+                "HasTransactions": false,
                 "Voided": true
             }
         ]
@@ -244,7 +226,8 @@
                         "Rundown": "EXPECTED",
                         "Amt": 55
                     }
-                ]
+                ],
+                "HasTransactions": true
             }
         ]
     },
@@ -320,7 +303,8 @@
                         "Amt": 2,
                         "UpdateDt": "2020-05-13"
                     }
-                ]
+                ],
+                "HasTransactions": true
             }
         ]
     }

@@ -473,7 +473,8 @@ ar-mgr-ui {
                     }
                     &:nth-child(n+2) {
                         background-color: $grayOpacityMedium;
-                        
+                        border-left: none;
+
                         .k-reset {
                             justify-content: flex-end;
                             margin-right: 0.6rem;

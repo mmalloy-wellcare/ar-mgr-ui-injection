@@ -67,15 +67,15 @@ export class BillingPeriodsService {
       // otherwise don't create records since there's no period spans for it
       if (billingPeriod.BlngPerSpans) {
         for (const billingPeriodSpan of billingPeriod.BlngPerSpans) {
-          // only flatten period span if span is not voided
-          // TODO: update this to toggle showing voided spans in future sprint
           if (!billingPeriodSpan.Voided || includeVoidedRows) {
             const flattenedBillingPeriod = { ...billingPeriod, ...billingPeriodSpan };
             const coverageStart = billingPeriodSpan.CvrgPerStartDt.split('-');
             const coverageEnd = billingPeriodSpan.CvrgPerEndDt.split('-');
+            const periodSpan =
+              `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
 
             flattenedBillingPeriod[`billPeriodSpan`] =
-              `${coverageStart[1]}/${coverageStart[2]}/${coverageStart[0]} - ${coverageEnd[1]}/${coverageEnd[2]}/${coverageEnd[0]}`;
+              (billingPeriodSpan.Voided || billingPeriodSpan.Awkward) ? `${periodSpan}VA${Math.random()}` : periodSpan;
             delete flattenedBillingPeriod.BlngPerSpans;
             flattenedBillingPeriod[`blngStmtDt`] = flattenedBillingPeriod.BillPerDt;
             flattenedBillingPeriod[`TxnType`] = this.getTxnType(flattenedBillingPeriod);
@@ -116,10 +116,6 @@ export class BillingPeriodsService {
           billingPeriod[`${mainKey}${key}`] = object[key];
         }
       }
-    }
-
-    if (!!billingPeriod[category].length && category === 'TxnSmrys') {
-      billingPeriod[`transactions`] = true;
     }
 
     // delete unecessary category once child data has been flattened

@@ -115,7 +115,7 @@
             <ng-template kendoGridFilterCellTemplate></ng-template>
             <ng-template kendoGridGroupHeaderTemplate let-index="index" let-group="group" let-expanded="expanded">
                 <div class="secondary-row">
-                    <a [class.hidden-expand]="!group.items[0].transactions" (click)="toggleGroup(index, group, expanded)">
+                    <a [class.hidden-expand]="!group.items[0].HasTransactions" (click)="toggleGroup(index, group, expanded)">
                         <i [ngClass]="{'fa':true, 'fa-chevron-right':true, 'expanded':expanded}" aria-hidden="true"></i>
                     </a>
                 </div>
@@ -123,7 +123,7 @@
             <ng-template kendoGridGroupHeaderColumnTemplate let-group="group">
                 <span *ngIf="group.field === 'blngStmtDt'" class="primary-group"></span>
                 <span *ngIf="group.field === 'billPeriodSpan'" class="secondary-group">
-                    {{ group.items[0].billPeriodSpan }}
+                    {{ group.items[0].billPeriodSpan.split('VA')[0] }}
                 </span>
             </ng-template>
             <ng-template kendoGridCellTemplate let-dataItem>
