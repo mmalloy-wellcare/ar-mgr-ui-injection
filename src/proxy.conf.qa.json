@@ -4,5 +4,17 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
+    },
+    "/premium-billing/ar-bill/v1": {
+        "target": "https://apiqa-nextgen.mhplan.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/shared-services/ss-notes/v1": {
+        "target": "https://apiqa-nextgen.mhplan.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
     }
 }

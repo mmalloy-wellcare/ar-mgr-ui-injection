@@ -424,6 +424,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
   toggleVoidedRows() {
     this.includeVoidedRows = !this.includeVoidedRows;
+    this.restartRowId = '0';
     this.resetGridData();
     this.loadGridData();
   }

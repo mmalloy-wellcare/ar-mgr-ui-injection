@@ -10,5 +10,11 @@
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
+    },
+    "/shared-services/ss-notes/v1": {
+        "target": "http://localhost:15300",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
     }
 }
