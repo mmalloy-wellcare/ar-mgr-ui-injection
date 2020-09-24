@@ -357,6 +357,7 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
 
     if (filter) {
       this.currentFilter = filter;
+      this.restartRowId = '0';
       this.resetGridData();
       this.loadGridData();
     }
