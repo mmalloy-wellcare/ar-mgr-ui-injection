@@ -8,9 +8,15 @@
         "tooltip": "Accounts Receivable"
     },
     "menuItems": [{
-        "title": "Account Search",
+        "title": "Search - Account",
         "route": "ar-mgr-ui/account-search"
+    },{
+        "title": "Search - Invoice",
+        "route": "ar-mgr-ui/invoice-search"
     }, {
+        "title": "Search - Payment",
+        "route": "ar-mgr-ui/payment-search"
+    },{
         "title": "Reimbursement Requests",
         "route": "ar-bill-ui/reimbursement-requests"
     }]
