@@ -548,6 +548,85 @@ ar-mgr-ui {
             }
         }
     }
+
+    //invoice Search
+    .invoice-search-container {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.2s;
+
+        &.expanded {
+            max-height: 30rem;
+            transition: all 0.2s;
+        }
+
+        .invoice-search-card {
+            border: $cellBorder;
+            background-color: $grayLightest;
+            padding: 1.2rem;
+            margin-left: 20px;
+            margin-right: 20px;
+
+            .invoice-search-field-row {
+                display: flex;
+                align-items: baseline;
+
+                &:first-child {
+                    padding-top: 0.6rem;
+                }
+
+                .mat-form-field {
+                    flex: 0 20%;
+                    padding: 0.6rem 1.2rem;
+                }
+    
+                button.mat-icon-button {
+                    color: #333;
+
+                    &:disabled {
+                        color: $gray;
+                    }
+                }
+
+                #create-date-from-clear {
+                    margin-right: 3.1rem;
+                }
+
+                #create-date-to-clear {
+                    margin-right: 3.1rem;
+                }
+
+                .last-form-field {
+                    padding: 0.6rem 0 0.6rem 1.2rem;
+                }
+    
+                &.long-field, .long-field {
+                    flex: 0 40%;
+                }
+    
+                .button-group-horizontal {
+                    padding: 0.6rem 1.2rem 0.6rem 0;
+
+                    button ~ span {
+                        margin-left: 0.8rem;
+                    }
+                }
+            }  
+            
+            .text-display{
+                 margin-left: auto;  
+            }
+            
+            .color{
+                color : brown;
+            }
+        }
+    }
+
+    #invoice-search-toggle{
+        margin-left : 10px;
+        margin-top : 10px;
+    }
 }
 
 // overlays are outside of the ar-mgr-ui element

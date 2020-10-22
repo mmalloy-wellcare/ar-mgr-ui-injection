@@ -28,6 +28,7 @@ import { ColumnSelectionComponent } from './components/column-selection/column-s
 import { AccountDependentComponent } from './components/account-dependent/account-dependent.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-period-filter.component';
+import { InvoiceSearchComponent } from './components/invoice-search/invoice-search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-
     AccountResultsComponent,
     ColumnSelectionComponent,
     AccountDependentComponent,
-    BillPeriodFilterComponent
+    BillPeriodFilterComponent,
+    InvoiceSearchComponent
   ],
   imports: [
     BrowserModule,

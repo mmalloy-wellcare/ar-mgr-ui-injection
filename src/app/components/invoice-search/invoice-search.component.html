@@ -1,0 +1,126 @@
+<mat-toolbar>
+  <i class="fa expansion-toggle" id="invoice-search-toggle" [class.expanded]="expandSearchCard"
+    aria-label="Expand user card" (click)="toggleSearchCard()"></i>
+  <lib-core-breadcrumbs product="Accounts Receivable" title="Search - Invoice" breadcrumbs>
+  </lib-core-breadcrumbs>
+</mat-toolbar>
+<div class="invoice-search-container" [class.expanded]="expandSearchCard">
+  <div class="invoice-search-card">
+    <form [formGroup]="invoiceSearchForm">
+      <div class="invoice-search-field-row">
+        <!--IssuerId-->
+        <mat-form-field>
+          <input matInput id="issuer-id" placeholder="Issuer ID"
+            [formControl]="invoiceSearchForm.get('primaryForm.IssuerID')">
+          <button matSuffix mat-icon-button type="button" (click)="clearField('primaryForm.IssuerID')"
+            *ngIf="invoiceSearchForm.get('primaryForm.IssuerID').value" [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+        </mat-form-field>
+
+        <!--Firstname-->
+        <mat-form-field>
+          <input matInput id="invoice-search-first-name" placeholder="First Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.FirstName')">
+          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.FirstName')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.FirstName').value" [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+        </mat-form-field>
+
+        <!--Middlename-->
+        <mat-form-field>
+          <input matInput id="invoice-search-middle-name" placeholder="Middle Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.MiddleName')">
+          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.MiddleName')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.MiddleName').value" [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+        </mat-form-field>
+        
+        <!--Lastname-->
+        <mat-form-field>
+          <input matInput id="invoice-search-last-name" placeholder="Last Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.LastName')">
+          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.LastName')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.LastName').value" [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+        </mat-form-field>
+      </div>
+
+      <div class="row invoice-search-field-row">
+        <!--CreateDateFrom-->
+        <mat-form-field>
+          <mat-label>Create Date From</mat-label>
+          <!-- hidden input for datepicker input -->
+          <input [matDatepicker]="invoiceSearchDateFrom" [hidden]="true" (dateChange)="onFromDateChange($event)"
+            [formControl]="invoiceSearchForm.get('secondaryForm.CreateDateFrom')">
+          <!-- visible input for mask input-->
+          <input matInput [value]="createDateFromValue" placeholder="MM/DD/YYYY"
+            [disabled]="invoiceSearchForm.get('secondaryForm.CreateDateFrom').disabled" mask="00/00/0000"
+            (keyup)="onDateFromKeyUp($event)">
+          <button matSuffix mat-icon-button type="button" id="create-date-from-clear"
+            (click)="clearField('secondaryForm.CreateDateFrom')" *ngIf="createDateFromValue"
+            [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+          <mat-datepicker-toggle matSuffix [for]="invoiceSearchDateFrom"
+            [disabled]="invoiceSearchForm.get('secondaryForm.CreateDateFrom').disabled">
+          </mat-datepicker-toggle>
+          <mat-datepicker #invoiceSearchDateFrom></mat-datepicker>
+        </mat-form-field>
+
+        <!--Create Date To-->
+        <mat-form-field>
+          <mat-label>Create Date To</mat-label>
+          <!-- hidden input for datepicker input -->
+          <input [matDatepicker]="invoiceSearchDateTo" [hidden]="true" (dateChange)="onToDateChange($event)"
+            [formControl]="invoiceSearchForm.get('secondaryForm.CreateDateTo')">
+          <!-- visible input for mask input-->
+          <input matInput [value]="createDateToValue" placeholder="MM/DD/YYYY"
+            [disabled]="invoiceSearchForm.get('secondaryForm.CreateDateTo').disabled" mask="00/00/0000"
+            (keyup)="onDateToKeyUp($event)">
+          <button matSuffix mat-icon-button type="button" id="create-date-to-clear"
+            (click)="clearField('secondaryForm.CreateDateTo')" *ngIf="createDateToValue"
+            [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+          <mat-datepicker-toggle matSuffix [for]="invoiceSearchDateTo"
+            [disabled]="invoiceSearchForm.get('secondaryForm.CreateDateTo').disabled">
+          </mat-datepicker-toggle>
+          <mat-datepicker #invoiceSearchDateTo></mat-datepicker>
+        </mat-form-field>
+
+        <!--InvoiceID-->
+        <mat-form-field>
+          <input matInput id="invoice-id" placeholder="Invoice ID"
+            [formControl]="invoiceSearchForm.get('primaryForm.InvoiceID')">
+          <button matSuffix mat-icon-button type="button" (click)="clearField('primaryForm.InvoiceID')"
+            *ngIf="invoiceSearchForm.get('primaryForm.InvoiceID').value" [disabled]="invoiceSearchForm.disabled">
+            <i class="fa fa-times"></i>
+          </button>
+        </mat-form-field>
+        
+        <div class="button-group-horizontal text-display">
+         
+            <button mat-button id="invoice-search-clear-btn" type="button" (click)="resetSearchCriteria()"
+              [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.disabled">
+              <i class="fa fa-times color" aria-hidden="true"></i> Clear All
+            </button>
+            <span
+              [matTooltip]="invoiceSearchForm.hasError('searchCriteria') ? 'User must enter either a unique identifier or at least two member information values' : ''">
+              <button mat-raised-button id="invoice-search-submit-btn" type="submit" color="primary"
+                [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.invalid || invoiceSearchForm.disabled">
+                <i class="fa" aria-hidden="true" [class.fa-search]="!invoiceSearchForm.disabled"
+                  [class.fa-spinner]="invoiceSearchForm.disabled" [class.fa-spin]="invoiceSearchForm.disabled"></i>
+                Search
+              </button>
+            </span>
+         
+        </div>
+       
+      </div>
+    </form>
+  </div>
+</div>
