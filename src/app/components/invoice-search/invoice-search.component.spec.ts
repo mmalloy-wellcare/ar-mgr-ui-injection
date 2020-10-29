@@ -2,14 +2,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { InvoiceSearchComponent } from './invoice-search.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { InvoiceService } from '@app/services/invoice.service';
+import { of } from 'rxjs';
 
 describe('InvoiceSearchComponent', () => {
   let component: InvoiceSearchComponent;
   let fixture: ComponentFixture<InvoiceSearchComponent>;
 
+  const invoiceService = {
+    getInvoiceSearchDetails() {
+      return of({});
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InvoiceSearchComponent],
+      providers: [{
+        provide: InvoiceService,
+        useValue: invoiceService
+      } ],
       imports: [HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -161,7 +173,7 @@ describe('InvoiceSearchComponent', () => {
       component.submitSearchCriteria(criteria);
 
       expect(component.searchCriteria.length).toEqual(mockISSUERSUBCRBID.length > 1 ? 2 : 0);
-      expect(component.invoiceSearchForm.disabled).toEqual(mockISSUERSUBCRBID.length > 1 ? true : false);
+      expect(component.invoiceSearchForm.disabled).toEqual(false);
     }
   });
 

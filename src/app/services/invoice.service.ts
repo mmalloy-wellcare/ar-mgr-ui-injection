@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
-import { DataService , Filter } from '@nextgen/web-care-portal-core-library';
+import { Sort, DataService, Filter } from '@nextgen/web-care-portal-core-library';
 import { map } from 'rxjs/operators';
-import { Invoice } from '../models/invoice.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class InvoiceService {
-  pageSize = 50;
+  private pageSize = 100;
+  private billingURI = 'premium-billing/ar-mgr/v1/ar';
 
   constructor(private dataService: DataService) { }
 
-  getInvoiceDetails(restartRowId: string, filter: Array<Filter>) {
+  public getInvoiceDetails(subId, restartRowId: string, sort: Array<Sort>, customHeaders) {
+    return this.dataService.getAllRecords(`${this.billingURI}/${subId}/invoices`, this.pageSize, restartRowId, sort, customHeaders);
+  }
+
+  getInvoiceSearchDetails(restartRowId: string, filter: Array<Filter>) {
     return this.dataService.getAllRecords({
       url: 'premium-billing/ar-mgr/v1/ar/invoice/search',
       pageSize: this.pageSize,

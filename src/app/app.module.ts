@@ -29,6 +29,8 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
 import { NgxMaskModule } from 'ngx-mask';
 import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-period-filter.component';
 import { InvoiceSearchComponent } from './components/invoice-search/invoice-search.component';
+import { InvoiceDataCardComponent } from './components/invoice-data-card/invoice-data-card.component';
+import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 import { InvoiceService } from './services/invoice.service';
 
 @NgModule({
@@ -41,7 +43,9 @@ import { InvoiceService } from './services/invoice.service';
     ColumnSelectionComponent,
     AccountDependentComponent,
     BillPeriodFilterComponent,
-    InvoiceSearchComponent
+    InvoiceSearchComponent,
+    InvoiceDataCardComponent,
+    InvoiceDetailsComponent
   ],
   imports: [
     BrowserModule,

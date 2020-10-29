@@ -100,4 +100,25 @@ router.get('/billing-period/:BlngPerSpanSk/transactions', (req, res) => {
     mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.transactions.json');
 });
 
+// get invoices for sub id
+router.get('/:SubscrbId/invoices' , (req,res) => {
+    req.headers.filter = JSON.stringify([{
+        operator: 'eq',
+        value: req.params.SubscrbId,
+        property: 'SubscrbId',
+        dataType: 'character'
+    }, {
+        operator: 'eq',
+        value: req.headers.includerejected,
+        property: 'includeRejected',
+        dataType: 'character'
+    }, {
+        operator: 'eq',
+        value: req.headers.includevoided,
+        property: 'includeVoided',
+        dataType: 'character'
+    }]);
+    mockLib.serveMock(req,res, 'ar-mgr/ar/list.of.invoices.json')
+});
+
 module.exports = router;

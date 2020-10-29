@@ -1,0 +1,221 @@
+:host {
+    border: 0.1rem solid #bdbdbd;
+    display: block;
+    border-radius: 0.5rem;
+    margin-bottom: 1.2rem;
+    overflow:hidden;
+    font-family: Calibri;
+  
+    .invoice-table {
+      border-collapse: collapse;
+      width: 100%;
+      table-layout: fixed;
+  
+      tr:nth-child(odd) {
+        background-color: #F2F2F2;
+      }
+  
+      th:nth-child(6),th:nth-child(10){
+        background-color: #e0e0e0;
+      }
+      
+      td:nth-child(6),td:nth-child(10){
+        background-color:#f2f2f2;
+      }
+      
+      td, th {
+        border: 0.1rem solid #bdbdbd;
+        text-align: left;
+        padding: 1.2rem;
+        font-size: 1.2rem;
+    
+        &:first-child {
+          border-left: none;
+        }
+        &:last-child {
+          border-right: none;
+        }
+      }
+  
+      td {
+        box-sizing: border-box;
+  
+        &.icon-cell {
+          text-align: center;
+          font-size: 1.4rem;
+        }
+  
+        &.icon-cell :hover{
+          cursor: pointer;
+        }
+  
+        &.notes-selected {
+          background-color:rgba(95,55,119,0.1);
+  
+          .fa {
+            color: #5f3777;
+          }
+        }
+  
+        &.number-cell {
+          text-align: right;
+        }
+      }
+    }
+  
+    .info-border {
+      border-top: 0.1rem solid #bdbdbd ;
+    }
+  
+    .info-bar {
+      .info-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #828282;
+      }
+      .info-value {
+        font-size: 1.6rem;
+        padding-left: 0.5rem;
+        padding-right: 1.8rem;
+  
+        .status-icon {
+          font-size: 1.2rem;
+          font-weight: bold;
+  
+          .fa {
+            padding-right:0.5rem;
+          }
+          
+          .success {
+            color:#2B7335;
+          }
+  
+          .rejected {
+            color:#BE1E2D;
+          }
+        }
+      }
+  
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      background-color:#F2F2F2 ;
+      padding:1.2rem;
+  
+      &.detail {
+        background: none;
+  
+        .yes-value {
+          font-weight: bold;
+          &.voided {
+            color: #BE1E2D;
+          }
+          &.revised {
+            color: #2B7335
+          }
+        }
+        .info-value {
+          font-size: 1.4rem;
+        }
+  
+        .expanded-details {
+          user-select: none;
+          color: #5f3777;
+          .fa {
+            color:#5f3777;
+          }
+        }
+  
+        .expanded-details:hover {
+          cursor: pointer;
+        }
+  
+        .less-details {
+          user-select: none;
+          color: #107ba4;
+  
+          .fa {
+            color:#107ba4;
+          }
+        }
+  
+        .less-details:hover{
+          cursor: pointer;
+        }
+  
+        .icon-details-label {
+          padding-left: 0.8rem;
+          font-weight: bold;
+          font-size: 1rem;
+          padding-right: 2rem;
+          
+        }
+        
+        .details-header {
+          font-size: 1rem;
+          font-weight: bold;
+          color: gray;
+          padding-right: 0.6rem;
+        }
+        
+        .details-deliveryDt{
+          width: 29%;
+          display: flex;
+          align-items: center;
+        }
+        
+        .details-autoPay{
+          width: 20%;
+          display: flex;
+          align-items: center;
+        }
+        
+        .details-createdBy {
+          width: 34%;
+          display: flex;
+          align-items: center;
+        }
+        
+        .details-revised {
+          padding-right: 1.5rem;
+        }
+      }
+    }
+  
+    .expanded-details-container {
+      background-image: linear-gradient(white, #f2f2f2);
+      padding: 1.2rem;
+      border-top: 0.1rem solid #bdbdbd;
+  
+  
+      .inner-details {
+        display: flex;
+      }
+  
+      table {
+        flex:1;
+  
+        td {
+          &.title, &.value {
+            vertical-align: text-top;
+          }
+  
+          &.title {
+            color: #828282;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width:13rem;
+          }
+  
+          &.value {
+            font-size: 1.4rem;
+          }
+        }
+      }
+    }
+  
+    .fa {
+      color:#107ba4;
+    }
+  } 
+     

@@ -1,64 +1,67 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { InvoiceService } from './invoice.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, TestBed, inject } from '@angular/core/testing';
+
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { DataService } from '@nextgen/web-care-portal-core-library';
 import { of } from 'rxjs';
+import { AllRecordsCriteria } from '@nextgen/web-care-portal-core-library/lib/services/data/models/all.records.criteria';
+import 'rxjs/add/observable/of';
+import { InvoiceService } from './invoice.service';
+
+let dataService: Partial<DataService>;
 
 describe('InvoiceService', () => {
-  let service: Partial<InvoiceService>;
-  const dataService: Partial<DataService> = {
-    getAllRecords(url, pageSize, restartRowId, sort) {
-      return of({
-        data: [
-            {
-              FirstName: 'John',
-              InvoiceCreateDate: '2020-10-23',
-              INVOICEID: '12345678',
-              InvoiceType: 'standard',
-              LastName: 'Walker',
-              MidName: 'Jenne',
-              SubscrbID: '32323232',
-              TtlAmtDue: '100.00',
-              VoidedInvoiceInd: true
-            },
-            {
-              FirstName: 'Nancy',
-              InvoiceCreateDate: '2020-05-23',
-              INVOICEID: '87654321',
-              InvoiceType: 'standard',
-              LastName: 'Jenny',
-              MidName: 'Jenne',
-              SubscrbID: '32323223',
-              TtlAmtDue: '1100.00',
-              VoidedInvoiceInd: true
-            }
-          ],
-        restartRowId: '0'
-      });
-    }
-  };
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [HttpClientTestingModule],
-    providers: [{
-      provide: DataService,
-      useValue: dataService
-    }]
+  let service: InvoiceService;
+
+  beforeEach(async(() => {
+    dataService = {
+      getAllRecords(critera: AllRecordsCriteria) {
+        return of({
+          data: [{}],
+          restartRowId: '0'
+        });
+      }
+    };
+
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule],
+      providers: [
+        InvoiceService,
+        {
+          provide: DataService,
+          useValue: dataService
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    }).compileComponents();
   }));
 
-  beforeEach(inject([InvoiceService], invoiceService => {
-    service = invoiceService;
+  beforeEach(inject([InvoiceService], invoiceServiceInject => {
+    service = invoiceServiceInject;
   }));
 
-  it('should be created', () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get invoice search data', () => {
-    service.getInvoiceDetails('0', []).subscribe((response) => {
+
+  it('should load reference data list details', () => {
+      const customHeaders = {
+        includeRejected: false,
+        includeVoided: false
+      };
+
+      service.getInvoiceDetails('827321841', '0', [], customHeaders).subscribe((response) => {
       expect(response).toBeDefined();
       expect(response.data).toBeDefined();
-      expect(response.data.length).toEqual(2);
     });
   });
 
+  it('should get invoice search data', () => {
+    service.getInvoiceSearchDetails('0', []).subscribe((response) => {
+      expect(response).toBeDefined();
+      expect(response.data).toBeDefined();
+      expect(response.data.length).toEqual(1);
+    });
+  });
 });

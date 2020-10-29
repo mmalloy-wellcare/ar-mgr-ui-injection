@@ -112,7 +112,7 @@ export class InvoiceSearchComponent implements OnInit {
       this.invoiceSearchForm.disable();
       this.searchCriteria = this.getSearchFilters();
       const savedRestartRowId = this.restartRowId;
-      this.invoiceService.getInvoiceDetails(savedRestartRowId, this.searchCriteria).subscribe
+      this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe
         ((invoice) => {
           this.searchResults = invoice.data;
           this.invoiceSearchForm.enable();
