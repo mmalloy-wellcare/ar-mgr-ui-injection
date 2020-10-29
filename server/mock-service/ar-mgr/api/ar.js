@@ -29,10 +29,53 @@ function getConvertedFilters(unconvertedFilters, accountId) {
     return JSON.stringify(filters);
 }
 
-// get accounts
-router.get('/member/search', (req, res) => {
-    req.headers.filter = getConvertedFilters(req.headers.filter);
-    mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.accounts.json');
+function getInvoiceConvertedFilters(unconvertedFilters) {
+    const filters = JSON.parse(unconvertedFilters);
+    // convert operators
+    filters.forEach((filter, index) => {
+        let filterField;
+        switch (filter.property) {
+            case 'ISSUERSUBCRBID':
+              filterField  = 'SubscrbID';
+              break;
+            case 'SUBCRBFIRSTNAME':
+              filterField  = 'FirstName';
+              break;
+            case 'SUBCRBLASTNAME':
+              filterField  = 'LastName';
+              break;
+            case 'SUBCRBMIDNAME':
+              filterField  = 'MidName';
+              break;
+            case 'INVOICEID':
+              filterField  = 'InvoiceId';
+              break;
+            default:
+              filterField = filter.property;
+              break;
+          } 
+        // backend requires operator to be uppercase
+        // node support requires operator to be lowercase
+        filters[index].operator = filter.operator.toLowerCase();
+        filters[index].value = filter.value.toLowerCase();
+        // backend requires '*' for wildcard search
+        // node support filter doesn't have wildcard
+        filters[index].value = filter.value.split('*')[0];
+        filters[index].property = filterField;
+    });
+    // return converted filters
+    return JSON.stringify(filters);
+}
+
+// get accounts/invoice
+router.get('/:searchType/search', (req, res) => {
+    if (req.params.searchType === "member") {
+        req.headers.filter = getConvertedFilters(req.headers.filter);
+        mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.accounts.json');
+    } else {
+        req.headers.filter = getInvoiceConvertedFilters(req.headers.filter);
+        mockLib.serveMock(req, res, 'ar-mgr/ar/list.of.invoice.details.json');
+    }
 });
 
 // get account by id

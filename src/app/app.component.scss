@@ -564,8 +564,6 @@ ar-mgr-ui {
             border: $cellBorder;
             background-color: $grayLightest;
             padding: 1.2rem;
-            margin-left: 20px;
-            margin-right: 20px;
 
             .invoice-search-field-row {
                 display: flex;
@@ -616,17 +614,8 @@ ar-mgr-ui {
             .text-display{
                  margin-left: auto;  
             }
-            
-            .color{
-                color : brown;
-            }
         }
-    }
-
-    #invoice-search-toggle{
-        margin-left : 10px;
-        margin-top : 10px;
-    }
+    }  
 }
 
 // overlays are outside of the ar-mgr-ui element

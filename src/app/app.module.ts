@@ -29,6 +29,7 @@ import { AccountDependentComponent } from './components/account-dependent/accoun
 import { NgxMaskModule } from 'ngx-mask';
 import { BillPeriodFilterComponent } from './components/bill-period-filter/bill-period-filter.component';
 import { InvoiceSearchComponent } from './components/invoice-search/invoice-search.component';
+import { InvoiceService } from './services/invoice.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { InvoiceSearchComponent } from './components/invoice-search/invoice-sear
   providers: [
     AlertsService,
     SortService,
-    BillingPeriodsService
+    BillingPeriodsService,
+    InvoiceService
   ],
   bootstrap: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
