@@ -1,0 +1,232 @@
+<mat-toolbar>
+  <i 
+    class="fa expansion-toggle"
+    id="payment-search-toggle"
+    [class.expanded]="expandSearchCard"
+    aria-label="Expand user card"
+    (click)="toggleSearchCard()"
+  ></i>
+  <span class="toolbar-title">Payment Search</span>
+</mat-toolbar>
+<div class="search-container" [class.expanded]="expandSearchCard">
+  <div class="search-card">
+    <form 
+      [formGroup]="paymentSearchForm"
+    >
+    <div class="search-field-row">
+      <mat-form-field>
+        <input matInput id="issuer-id" placeholder="Issuer ID">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="exchange-sub-id" placeholder="Exchange Sub ID">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="payment-search-first-name" placeholder="First Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="payment-search-last-name" placeholder="Last Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="payment-search-ssn" placeholder="Social Security #">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="redirect-payment-id" placeholder="Redirect Payment ID">
+      </mat-form-field>
+    </div>
+    <div class="search-field-row">
+      <mat-form-field>
+        <input matInput id="payment-id" placeholder="Payment ID">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="payment-search-pay-amount" placeholder="Payment Amount">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="payment-search-pay-token" placeholder="Payment Token">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Payment Source</mat-label>
+        <mat-select id="pay-search-pay-source" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field>  
+      <mat-form-field>
+        <mat-label>Payment Method</mat-label>
+        <mat-select id="pay-search-pay-method" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field>  
+      <mat-form-field>
+        <input matInput id="pay-search-confirmation-number" placeholder="Confirmation #">
+      </mat-form-field>
+    </div>
+    <div class="search-field-row">
+      <mat-form-field>
+        <input matInput id="transaction-id" placeholder="Transaction ID">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Transaction Type</mat-label>
+        <mat-select id="pay-search-transaction-type" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Transaction Date</mat-label>
+        <!-- hidden input for datepicker input -->
+        <input
+          [matDatepicker]="paymentSearchTransDate"
+          [hidden]="true"
+        >
+        <!-- visible input for mask input-->
+        <input
+          matInput
+          placeholder="MM/DD/YYYY"
+          [specialCharacters]="['/']" 
+          mask="00/00/0000"
+        >
+        <button 
+          matSuffix
+          mat-icon-button 
+          type="button"
+          id="payment-search-trans-clear"
+          *ngIf="false"
+          [disabled]="paymentSearchForm.disabled"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <mat-datepicker-toggle 
+          matSuffix 
+          [for]="paymentSearchTransDate"
+        >
+        </mat-datepicker-toggle>
+        <mat-datepicker #paymentSearchTransDate></mat-datepicker>
+      </mat-form-field>  
+      <mat-form-field>
+        <mat-label>Vendor/TPID</mat-label>
+        <mat-select id="pay-search-vendor-tpid" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field> 
+      <span class="spacer"></span>
+      <span class="spacer"></span>
+    </div>
+    <div class="search-field-row">
+      <mat-form-field>
+        <input matInput id="qhp-id" placeholder="QHP ID">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Create From</mat-label>
+        <!-- hidden input for datepicker input -->
+        <input
+          [matDatepicker]="paymentSearchCreateFrom"
+          [hidden]="true"
+        >
+        <!-- visible input for mask input-->
+        <input
+          matInput
+          placeholder="MM/DD/YYYY"
+          [specialCharacters]="['/']" 
+          mask="00/00/0000"
+        >
+        <button 
+          matSuffix
+          mat-icon-button 
+          type="button"
+          id="pay-search-createFrom-clear"
+          *ngIf="false"
+          [disabled]="paymentSearchForm.disabled"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <mat-datepicker-toggle 
+          matSuffix 
+          [for]="paymentSearchCreateFrom"
+        >
+        </mat-datepicker-toggle>
+        <mat-datepicker #paymentSearchCreateFrom></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Create To</mat-label>
+        <!-- hidden input for datepicker input -->
+        <input
+          [matDatepicker]="paymentSearchCreateTo"
+          [hidden]="true"
+        >
+        <!-- visible input for mask input-->
+        <input
+          matInput
+          placeholder="MM/DD/YYYY"
+          [specialCharacters]="['/']" 
+          mask="00/00/0000"
+        >
+        <button 
+          matSuffix
+          mat-icon-button 
+          type="button"
+          id="pay-search-createTo-clear"
+          *ngIf="false"
+          [disabled]="paymentSearchForm.disabled"
+        >
+          <i class="fa fa-times"></i>
+        </button>
+        <mat-datepicker-toggle 
+          matSuffix 
+          [for]="paymentSearchCreateTo"
+        >
+        </mat-datepicker-toggle>
+        <mat-datepicker #paymentSearchCreateTo></mat-datepicker>
+      </mat-form-field> 
+      <mat-form-field>
+        <mat-label>Sponsor Name</mat-label>
+        <mat-select id="pay-search-sponsor-name" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="spacer"></span>
+      <span class="spacer"></span> 
+    </div>
+    <div class="search-field-row">
+      <mat-form-field>
+        <input matInput id="check-number-id" placeholder="Check #">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="check-account-number" placeholder="Check Account #">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput id="check-routing-number" placeholder="Check Routing #">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Billee</mat-label>
+        <mat-select id="pay-search-billee" >
+          <mat-option [value]=null>No Selection</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="spacer"></span>
+      <span class="pay-search-button-group">
+        <button 
+          mat-button 
+          id="payment-search-clear-btn" 
+          type="button"
+          [disabled]="!paymentSearchForm.dirty || paymentSearchForm.disabled"
+        >
+          <i class="fa fa-times" aria-hidden="true"></i> Clear All
+        </button>
+        <span
+          [matTooltip]="''"
+        >
+          <button 
+          mat-raised-button
+          id="payment-search-submit-btn"
+          type="submit"
+          color="primary"
+          [disabled]="!paymentSearchForm.dirty || paymentSearchForm.invalid || paymentSearchForm.disabled"
+          >
+            <i class="fa" aria-hidden="true" [class.fa-search]="!paymentSearchForm.disabled" [class.fa-spinner]="paymentSearchForm.disabled"
+              [class.fa-spin]="paymentSearchForm.disabled"></i>
+            Search
+          </button>
+        </span>
+      </span>   
+    </div>
+    </form>
+  </div>
+</div>

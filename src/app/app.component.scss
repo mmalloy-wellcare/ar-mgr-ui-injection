@@ -163,22 +163,23 @@ ar-mgr-ui {
         }
     }
 
-    .account-search-container {
+    .search-container {
         max-height: 0;
         overflow: hidden;
         transition: all 0.2s;
 
         &.expanded {
-            max-height: 30rem;
+            max-height: 45rem;
             transition: all 0.2s;
         }
 
-        .account-search-card {
+        .search-card {
             border: $cellBorder;
             background-color: $grayLightest;
             padding: 1.2rem;
+            position: relative;
 
-            .account-search-field-row {
+            .search-field-row {
                 display: flex;
                 align-items: baseline;
 
@@ -186,8 +187,11 @@ ar-mgr-ui {
                     padding-top: 0.6rem;
                 }
 
-                .mat-form-field {
+                .mat-form-field, .spacer {
                     flex: 0 20%;
+                }
+
+                .mat-form-field {
                     padding: 0.6rem 1.2rem;
                 }
     
@@ -203,6 +207,14 @@ ar-mgr-ui {
                     margin-right: 3.1rem;
                 }
 
+                #create-date-from-clear {
+                    margin-right: 3.1rem;
+                }
+
+                #create-date-to-clear {
+                    margin-right: 3.1rem;
+                }
+
                 .last-form-field {
                     padding: 0.6rem 0 0.6rem 1.2rem;
                 }
@@ -213,10 +225,17 @@ ar-mgr-ui {
     
                 .button-group-horizontal {
                     padding: 0.6rem 1.2rem 0.6rem 0;
+                    margin-left:auto;
 
                     button ~ span {
                         margin-left: 0.8rem;
                     }
+                }
+
+                .pay-search-button-group {
+                    flex: 0 20%;
+                    position: relative;
+                    left: 5.5rem
                 }
             }    
         }
@@ -548,74 +567,6 @@ ar-mgr-ui {
             }
         }
     }
-
-    //invoice Search
-    .invoice-search-container {
-        max-height: 0;
-        overflow: hidden;
-        transition: all 0.2s;
-
-        &.expanded {
-            max-height: 30rem;
-            transition: all 0.2s;
-        }
-
-        .invoice-search-card {
-            border: $cellBorder;
-            background-color: $grayLightest;
-            padding: 1.2rem;
-
-            .invoice-search-field-row {
-                display: flex;
-                align-items: baseline;
-
-                &:first-child {
-                    padding-top: 0.6rem;
-                }
-
-                .mat-form-field {
-                    flex: 0 20%;
-                    padding: 0.6rem 1.2rem;
-                }
-    
-                button.mat-icon-button {
-                    color: #333;
-
-                    &:disabled {
-                        color: $gray;
-                    }
-                }
-
-                #create-date-from-clear {
-                    margin-right: 3.1rem;
-                }
-
-                #create-date-to-clear {
-                    margin-right: 3.1rem;
-                }
-
-                .last-form-field {
-                    padding: 0.6rem 0 0.6rem 1.2rem;
-                }
-    
-                &.long-field, .long-field {
-                    flex: 0 40%;
-                }
-    
-                .button-group-horizontal {
-                    padding: 0.6rem 1.2rem 0.6rem 0;
-
-                    button ~ span {
-                        margin-left: 0.8rem;
-                    }
-                }
-            }  
-            
-            .text-display{
-                 margin-left: auto;  
-            }
-        }
-    }  
 }
 
 // overlays are outside of the ar-mgr-ui element

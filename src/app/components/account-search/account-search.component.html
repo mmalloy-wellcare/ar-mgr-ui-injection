@@ -8,10 +8,10 @@
   ></i>
   <span class="toolbar-title">Account Search</span>
 </mat-toolbar>
-<div class="account-search-container" [class.expanded]="expandSearchCard">
-  <div class="account-search-card">
+<div class="search-container" [class.expanded]="expandSearchCard">
+  <div class="search-card">
     <form [formGroup]="accountSearchForm" (keydown.enter)="submitSearchCriteria($event)">
-      <div class="account-search-field-row">
+      <div class="search-field-row">
         <mat-form-field>
           <input
             matInput
@@ -120,7 +120,7 @@
           </mat-error>
         </mat-form-field>  
       </div>
-      <div class="account-search-field-row">
+      <div class="search-field-row">
         <mat-form-field>
           <input
             matInput
@@ -202,7 +202,7 @@
           <mat-datepicker #accountSearchDOB></mat-datepicker>
         </mat-form-field>
       </div>
-      <div class="account-search-field-row">
+      <div class="search-field-row">
         <mat-form-field class="long-field">
           <input
             matInput
@@ -245,7 +245,7 @@
             Input must be at least 2 characters
           </mat-error>
         </mat-form-field>
-        <span class="account-search-field-row long-field">
+        <span class="search-field-row long-field">
           <mat-form-field class="last-form-field">
             <mat-label>State</mat-label>
             <mat-select 

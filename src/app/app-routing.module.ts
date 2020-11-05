@@ -4,6 +4,7 @@ import { ConfigurationService, EmptyComponent } from '@nextgen/web-care-portal-c
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { AccountSearchComponent } from './components/account-search/account-search.component';
 import { InvoiceSearchComponent} from './components/invoice-search/invoice-search.component';
+import {PaymentSearchComponent} from './components/payment-search/payment-search.component';
 
 const routes: Routes = [{
   path: 'ar-mgr-ui/account-search',
@@ -12,6 +13,9 @@ const routes: Routes = [{
 {
   path: 'ar-mgr-ui/invoice-search',
   component: InvoiceSearchComponent
+}, {
+  path: 'ar-mgr-ui/payment-search',
+  component: PaymentSearchComponent
 },
 {
   path: 'ar-mgr-ui/account-search/details/:subscriberId',

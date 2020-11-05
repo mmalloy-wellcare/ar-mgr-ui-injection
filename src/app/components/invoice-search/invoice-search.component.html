@@ -4,10 +4,10 @@
   <span class="toolbar-title">Search - Invoice</span>
 </mat-toolbar>
 
-<div class="invoice-search-container" [class.expanded]="expandSearchCard">
-  <div class="invoice-search-card">
+<div class="search-container" [class.expanded]="expandSearchCard">
+  <div class="search-card">
     <form [formGroup]="invoiceSearchForm" (keydown.enter)="submitSearchCriteria($event)">
-      <div class="invoice-search-field-row">
+      <div class="search-field-row">
         <!--IssuerId-->
         <mat-form-field>
           <input matInput id="issuer-id" placeholder="Issuer ID"
@@ -58,7 +58,7 @@
         </mat-form-field>
       </div>
 
-      <div class="row invoice-search-field-row">
+      <div class="row search-field-row">
         <!--CreateDateFrom-->
         <mat-form-field>
           <mat-label>Create Date From</mat-label>

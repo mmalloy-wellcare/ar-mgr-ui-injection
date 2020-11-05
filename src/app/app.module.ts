@@ -32,6 +32,7 @@ import { InvoiceSearchComponent } from './components/invoice-search/invoice-sear
 import { InvoiceDataCardComponent } from './components/invoice-data-card/invoice-data-card.component';
 import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 import { InvoiceService } from './services/invoice.service';
+import { PaymentSearchComponent } from './components/payment-search/payment-search.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { InvoiceService } from './services/invoice.service';
     BillPeriodFilterComponent,
     InvoiceSearchComponent,
     InvoiceDataCardComponent,
-    InvoiceDetailsComponent
+    InvoiceDetailsComponent,
+    PaymentSearchComponent
   ],
   imports: [
     BrowserModule,
