@@ -1,17 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { InvoiceSearchComponent } from './invoice-search.component';
+import { SortService, AlertsService } from '@nextgen/web-care-portal-core-library';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InvoiceService } from '@app/services/invoice.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import mockInvoices from '@mocks/ar-mgr/ar/list.of.invoice.details.json';
+import { GridComponent } from '@progress/kendo-angular-grid';
 
 describe('InvoiceSearchComponent', () => {
   let component: InvoiceSearchComponent;
   let fixture: ComponentFixture<InvoiceSearchComponent>;
 
+  const sortService: Partial<SortService> = {
+    convertSort() { }
+  };
+  const alertsService: Partial<AlertsService> = {
+    showErrorSnackbar() { }
+  };
+
   const invoiceService = {
     getInvoiceSearchDetails() {
-      return of({});
+      return of({
+        data: mockInvoices,
+        restartRowId: '0'
+      });
     }
   };
 
@@ -21,7 +34,14 @@ describe('InvoiceSearchComponent', () => {
       providers: [{
         provide: InvoiceService,
         useValue: invoiceService
-      } ],
+      },
+      {
+        provide: SortService,
+        useValue: sortService
+      }, {
+        provide: AlertsService,
+        useValue: alertsService
+      }],
       imports: [HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -32,6 +52,15 @@ describe('InvoiceSearchComponent', () => {
     fixture = TestBed.createComponent(InvoiceSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.kendoGrid = {
+      expandRow(index: number) { },
+      collapseRow(index: number) { },
+      wrapper: {
+        nativeElement: {
+          querySelector() { }
+        }
+      }
+    } as GridComponent;
   });
 
   it('should create', () => {
@@ -149,20 +178,30 @@ describe('InvoiceSearchComponent', () => {
 
   describe('submitSearchCriteria', () => {
     it('should set searchCriteria to search filters without keypress event', () => {
-      testSubmitSearchCriteria('123456789');
+      testSubmitSearchCriteria('32323232');
+      expect(component.searchCriteria.length).toEqual(2);
     });
 
     it('should set searchCriteria to search filters with keypress event', () => {
-      testSubmitSearchCriteria('123456789', {
+      testSubmitSearchCriteria('32323232', {
         target: {
           type: 'submit'
         }
       });
+      expect(component.searchCriteria.length).toEqual(2);
     });
 
     it('should not set searchCriteria if form is invalid', () => {
       testSubmitSearchCriteria('1');
+      expect(component.searchCriteria.length).toEqual(0);
     });
+
+    it('should show error if search fails', inject([InvoiceService, AlertsService], (invoiceServiceInject, alertsServiceInject) => {
+      spyOn(alertsServiceInject, 'showErrorSnackbar');
+      spyOn(invoiceServiceInject, 'getInvoiceSearchDetails').and.returnValue(throwError({}));
+      testSubmitSearchCriteria('32323232');
+      expect(alertsServiceInject.showErrorSnackbar).toHaveBeenCalled();
+    }));
 
     function testSubmitSearchCriteria(mockISSUERSUBCRBID, criteria?) {
       component.searchCriteria = [];
@@ -171,9 +210,6 @@ describe('InvoiceSearchComponent', () => {
       component.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').setValue(new Date());
       component.invoiceSearchForm.markAsDirty();
       component.submitSearchCriteria(criteria);
-
-      expect(component.searchCriteria.length).toEqual(mockISSUERSUBCRBID.length > 1 ? 2 : 0);
-      expect(component.invoiceSearchForm.disabled).toEqual(false);
     }
   });
 
@@ -193,4 +229,37 @@ describe('InvoiceSearchComponent', () => {
     component.inputLengthValidator(control);
     expect(control.valid).toEqual(controlValid);
   }
+
+  describe('showNotes', () => {
+    it('should display the notes when expanded', () => {
+      spyOn(component.kendoGrid, 'expandRow');
+      component.notesMap.clear();
+      component.showNotes(0);
+      expect(component.kendoGrid.expandRow).toHaveBeenCalled();
+    });
+
+    it('should hide the notes when colapse', () => {
+      spyOn(component.kendoGrid, 'collapseRow');
+      component.notesMap.set(0, true);
+      component.showNotes(0);
+      expect(component.kendoGrid.collapseRow).toHaveBeenCalled();
+    });
+  });
+
+  describe('displayRecindedItems', () => {
+    it('should display the search results when isChecked is true', () => {
+      testDisplayRecindedItem(true, 3);
+    });
+
+    it('should display the search results when isChecked is true', () => {
+      testDisplayRecindedItem(false, 1);
+    });
+
+    function testDisplayRecindedItem(isChecked: boolean, expectedLength: number) {
+      component.tempGridData = mockInvoices;
+      component.gridData = mockInvoices;
+      component.displayRecindedItems(isChecked);
+      expect(component.gridData.length).toEqual(expectedLength);
+    }
+  });
 });

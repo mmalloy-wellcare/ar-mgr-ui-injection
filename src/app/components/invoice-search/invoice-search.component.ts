@@ -1,14 +1,16 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Filter, AlertsService, SortService, FormatterService, ScrollableGridComponent } from '@nextgen/web-care-portal-core-library';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { InvoiceService } from '@app/services/invoice.service';
-import { Filter, FormatterService } from '@nextgen/web-care-portal-core-library';
 import { Invoice } from '../../models/invoice.model';
+
 @Component({
   selector: 'ar-mgr-ui-invoice-search',
-  templateUrl: './invoice-search.component.html'
+  templateUrl: `./invoice-search.component.html`,
+  styleUrls: ['./invoice-search.component.scss']
 })
-export class InvoiceSearchComponent implements OnInit {
-  @HostBinding('class') componentClass = 'web-component-flex side-padding';
+export class InvoiceSearchComponent extends ScrollableGridComponent implements OnInit {
+  @HostBinding('class') componentClass = 'web-component-flex side-padding scrollable-grid';
   expandSearchCard = true;
   createDateFromValue = '';
   createDateToValue = '';
@@ -16,8 +18,10 @@ export class InvoiceSearchComponent implements OnInit {
   invoiceSearchDateTo: string;
   restartRowId = '0';
   searchCriteria: Array<Filter>;
-  searchResults: Array<Invoice>;
-
+  showSearchResults: boolean;
+  InvoiceId: string;
+  tempGridData: Array<Invoice>;
+  notesMap: Map<number, boolean> = new Map();
   invoiceSearchForm: FormGroup = new FormGroup({
     primaryForm: new FormGroup({
       ISSUERSUBCRBID: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
@@ -31,12 +35,13 @@ export class InvoiceSearchComponent implements OnInit {
       TOCREATEDT: new FormControl(String(), [this.dirtyValidator])
     })
   });
-
-
   constructor(
     public invoiceService: InvoiceService,
-    private formatterService: FormatterService
+    private formatterService: FormatterService,
+    public sortService: SortService,
+    public alertsService: AlertsService
   ) {
+    super(sortService, alertsService);
     this.invoiceSearchForm.valueChanges.subscribe(() => {
       /* if primary form is pristine but secondary form is dirty, then search criteria needs at least two
       secondary fields filled out. otherwise show error */
@@ -114,7 +119,12 @@ export class InvoiceSearchComponent implements OnInit {
       const savedRestartRowId = this.restartRowId;
       this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe
         ((invoice) => {
-          this.searchResults = invoice.data;
+          this.showSearchResults = true;
+          this.tempGridData = invoice.data;
+          this.gridData = invoice.data;
+          this.invoiceSearchForm.enable();
+        }, (error) => {
+          this.alertsService.showErrorSnackbar(error);
           this.invoiceSearchForm.enable();
         });
     }
@@ -134,7 +144,7 @@ export class InvoiceSearchComponent implements OnInit {
         searchFilters.push({
           operator: 'EQ',
           value: this.getFilterValue(childrenFormValues, fieldName),
-          property: fieldName === 'SubscrbID' ? 'IssuerSubID' : fieldName,
+          property: fieldName,
           dataType: fieldName === 'FROMCREATEDT' || fieldName === 'TOCREATEDT' ? 'date' : 'string'
         });
       }
@@ -189,8 +199,24 @@ export class InvoiceSearchComponent implements OnInit {
         invalidLength: true
       };
     }
-
     return null;
   }
 
+  showNotes(index) {
+    if (this.notesMap.get(index)) {
+      this.kendoGrid.collapseRow(index);
+      this.notesMap.delete(index);
+    } else {
+      this.kendoGrid.expandRow(index);
+      this.notesMap.set(index, true);
+    }
+  }
+
+  displayRecindedItems(isChecked) {
+    if (isChecked) {
+      this.gridData = this.tempGridData;
+    } else {
+      this.gridData = this.tempGridData.filter(data => !data.VoidedInvoiceInd);
+    }
+  }
 }

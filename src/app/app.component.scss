@@ -567,6 +567,36 @@ ar-mgr-ui {
             }
         }
     }
+    .notes-grid.k-grid .k-grid-aria-root {
+        .k-grid-header, .k-grid-container {
+            margin-left: -3.3rem;
+        }
+
+        .k-detail-row {
+            background: none;
+            padding: 0;
+        }
+    
+        .k-detail-cell {
+            padding: 0;
+        }
+
+        .notes-column {
+            text-align: center;
+
+            .fa {
+                color: #107ba4;
+                cursor: pointer;
+            }
+
+            .notes-selected {
+                .fa {
+                    color: #5f3777;
+                }
+            }
+        }
+    }
+
 }
 
 // overlays are outside of the ar-mgr-ui element

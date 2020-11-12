@@ -1,6 +1,11 @@
 <mat-toolbar>
-  <i class="fa expansion-toggle" id="invoice-search-toggle" [class.expanded]="expandSearchCard"
-    aria-label="Expand user card" (click)="toggleSearchCard()"></i>
+  <i
+    class="fa expansion-toggle"
+    id="invoice-search-toggle"
+    [class.expanded]="expandSearchCard"
+    aria-label="Expand user card"
+    (click)="toggleSearchCard()"
+  ></i>
   <span class="toolbar-title">Search - Invoice</span>
 </mat-toolbar>
 
@@ -10,10 +15,20 @@
       <div class="search-field-row">
         <!--IssuerId-->
         <mat-form-field>
-          <input matInput id="issuer-id" placeholder="Issuer ID"
-            [formControl]="invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID')">
-          <button matSuffix mat-icon-button type="button" (click)="clearField('primaryForm.ISSUERSUBCRBID')"
-            *ngIf="invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID').value" [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            id="issuer-id"
+            placeholder="Issuer ID"
+            [formControl]="invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID')"
+          >
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            (click)="clearField('primaryForm.ISSUERSUBCRBID')"
+            *ngIf="invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID').value"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID').hasError('invalidLength')">
@@ -23,10 +38,19 @@
 
         <!--Firstname-->
         <mat-form-field>
-          <input matInput id="invoice-search-first-name" placeholder="First Name"
-            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBFIRSTNAME')">
-          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.SUBCRBFIRSTNAME')"
-            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBFIRSTNAME').value" [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            id="invoice-search-first-name"
+            placeholder="First Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBFIRSTNAME')"
+          >
+          <button
+            matSuffix
+            mat-icon-button type="button"
+            (click)="clearField('secondaryForm.SUBCRBFIRSTNAME')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBFIRSTNAME').value"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBFIRSTNAME').hasError('invalidLength')">
@@ -36,20 +60,40 @@
 
         <!--Middlename-->
         <mat-form-field>
-          <input matInput id="invoice-search-middle-name" placeholder="Middle Name"
-            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBMIDNAME')">
-          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.SUBCRBMIDNAME')"
-            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBMIDNAME').value" [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            id="invoice-search-middle-name"
+            placeholder="Middle Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBMIDNAME')"
+          >
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            (click)="clearField('secondaryForm.SUBCRBMIDNAME')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBMIDNAME').value"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
         </mat-form-field>
-        
+
         <!--Lastname-->
         <mat-form-field>
-          <input matInput id="invoice-search-last-name" placeholder="Last Name"
-            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBLASTNAME')">
-          <button matSuffix mat-icon-button type="button" (click)="clearField('secondaryForm.SUBCRBLASTNAME')"
-            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBLASTNAME').value" [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            id="invoice-search-last-name"
+            placeholder="Last Name"
+            [formControl]="invoiceSearchForm.get('secondaryForm.SUBCRBLASTNAME')"
+          >
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            (click)="clearField('secondaryForm.SUBCRBLASTNAME')"
+            *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBLASTNAME').value"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
           <mat-error *ngIf="invoiceSearchForm.get('secondaryForm.SUBCRBLASTNAME').hasError('invalidLength')">
@@ -63,19 +107,36 @@
         <mat-form-field>
           <mat-label>Create Date From</mat-label>
           <!-- hidden input for datepicker input -->
-          <input [matDatepicker]="invoiceSearchDateFrom" [hidden]="true" (dateChange)="onDateChange($event, 'FROMCREATEDT' )"
-            [formControl]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT')">
+          <input
+            [matDatepicker]="invoiceSearchDateFrom"
+            [hidden]="true"
+            (dateChange)="onDateChange($event, 'FROMCREATEDT' )"
+            [formControl]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT')"
+          >
           <!-- visible input for mask input-->
-          <input matInput [value]="createDateFromValue" placeholder="MM/DD/YYYY"
-            [disabled]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').disabled" mask="00/00/0000"
-            (keyup)="onDateKeyUp($event, 'FROMCREATEDT')">
-          <button matSuffix mat-icon-button type="button" id="create-date-from-clear"
-            (click)="clearField('secondaryForm.FROMCREATEDT')" *ngIf="createDateFromValue"
-            [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            [value]="createDateFromValue"
+            placeholder="MM/DD/YYYY"
+            [disabled]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').disabled"
+            mask="00/00/0000"
+            (keyup)="onDateKeyUp($event, 'FROMCREATEDT')"
+          >
+          <button
+            matSuffix mat-icon-button
+            type="button"
+            id="create-date-from-clear"
+            (click)="clearField('secondaryForm.FROMCREATEDT')"
+            *ngIf="createDateFromValue"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
-          <mat-datepicker-toggle matSuffix [for]="invoiceSearchDateFrom"
-            [disabled]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').disabled">
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="invoiceSearchDateFrom"
+            [disabled]="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').disabled"
+          >
           </mat-datepicker-toggle>
           <mat-datepicker #invoiceSearchDateFrom></mat-datepicker>
         </mat-form-field>
@@ -84,49 +145,139 @@
         <mat-form-field>
           <mat-label>Create Date To</mat-label>
           <!-- hidden input for datepicker input -->
-          <input [matDatepicker]="invoiceSearchDateTo" [hidden]="true" (dateChange)="onDateChange($event, 'TOCREATEDT')"
-            [formControl]="invoiceSearchForm.get('secondaryForm.TOCREATEDT')">
+          <input
+            [matDatepicker]="invoiceSearchDateTo"
+            [hidden]="true"
+            (dateChange)="onDateChange($event, 'TOCREATEDT')"
+            [formControl]="invoiceSearchForm.get('secondaryForm.TOCREATEDT')"
+          >
           <!-- visible input for mask input-->
-          <input matInput [value]="createDateToValue" placeholder="MM/DD/YYYY"
-            [disabled]="invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled" mask="00/00/0000"
-            (keyup)="onDateKeyUp($event, 'TOCREATEDT')">
-          <button matSuffix mat-icon-button type="button" id="create-date-to-clear"
-            (click)="clearField('secondaryForm.TOCREATEDT')" *ngIf="createDateToValue"
-            [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            [value]="createDateToValue"
+            placeholder="MM/DD/YYYY"
+            [disabled]="invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled"
+            mask="00/00/0000"
+            (keyup)="onDateKeyUp($event, 'TOCREATEDT')"
+          >
+          <button
+            matSuffix
+            mat-icon-button
+            type="button"
+            id="create-date-to-clear"
+            (click)="clearField('secondaryForm.TOCREATEDT')"
+            *ngIf="createDateToValue"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
+
           <mat-datepicker-toggle matSuffix [for]="invoiceSearchDateTo"
-            [disabled]="invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled">
+            [disabled]="this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled ">
           </mat-datepicker-toggle>
           <mat-datepicker #invoiceSearchDateTo></mat-datepicker>
         </mat-form-field>
 
         <!--InvoiceID-->
         <mat-form-field>
-          <input matInput id="invoice-id" placeholder="Invoice ID"
-            [formControl]="invoiceSearchForm.get('primaryForm.INVOICEID')">
-          <button matSuffix mat-icon-button type="button" (click)="clearField('primaryForm.INVOICEID')"
-            *ngIf="invoiceSearchForm.get('primaryForm.INVOICEID').value" [disabled]="invoiceSearchForm.disabled">
+          <input
+            matInput
+            id="invoice-id"
+            placeholder="Invoice ID"
+            [formControl]="invoiceSearchForm.get('primaryForm.INVOICEID')"
+          >
+          <button
+            matSuffix
+            mat-icon-butto
+            type="button"
+            (click)="clearField('primaryForm.INVOICEID')"
+            *ngIf="invoiceSearchForm.get('primaryForm.INVOICEID').value"
+            [disabled]="invoiceSearchForm.disabled"
+          >
             <i class="fa fa-times"></i>
           </button>
         </mat-form-field>
-        
+
         <div class="button-group-horizontal text-display">
-            <button mat-button id="invoice-search-clear-btn" type="button" (click)="resetSearchCriteria()"
-              [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.disabled">
-              <i class="fa fa-times" aria-hidden="true"></i> Clear All
+          <button
+            mat-button id="invoice-search-clear-btn"
+            type="button"
+            (click)="resetSearchCriteria()"
+            [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.disabled"
+          >
+            <i class="fa fa-times" aria-hidden="true"></i> Clear All
+          </button>
+          <span
+            [matTooltip]="invoiceSearchForm.hasError('searchCriteria') ? 'User must enter either a unique identifier or at least two member information values' : ''"
+          >
+            <button
+              mat-raised-button id="invoice-search-submit-btn"
+              type="submit"
+              color="primary"
+              (click)="submitSearchCriteria()"
+              [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.invalid || invoiceSearchForm.disabled"
+            >
+              <i
+                class="fa"
+                aria-hidden="true"
+                [class.fa-search]="!invoiceSearchForm.disabled"
+                [class.fa-spinner]="invoiceSearchForm.disabled"
+                [class.fa-spin]="invoiceSearchForm.disabled"
+              ></i>
+              Search
             </button>
-            <span
-              [matTooltip]="invoiceSearchForm.hasError('searchCriteria') ? 'User must enter either a unique identifier or at least two member information values' : ''">
-              <button mat-raised-button id="invoice-search-submit-btn" type="submit" color="primary" (click)="submitSearchCriteria()"
-                [disabled]="!invoiceSearchForm.dirty || invoiceSearchForm.invalid || invoiceSearchForm.disabled">
-                <i class="fa" aria-hidden="true" [class.fa-search]="!invoiceSearchForm.disabled"
-                  [class.fa-spinner]="invoiceSearchForm.disabled" [class.fa-spin]="invoiceSearchForm.disabled"></i>
-                Search
-              </button>
-            </span> 
+          </span>
         </div>
       </div>
     </form>
   </div>
 </div>
+<ng-container *ngIf="!!showSearchResults">
+  <mat-toolbar>
+    <span class="toolbar-title">Invoice Search Results</span>
+    <span>
+      <mat-checkbox class="check-box-align" [checked]="true" (change)="displayRecindedItems($event.checked)"
+        color="primary">Include Recinded Items</mat-checkbox>
+    </span>
+  </mat-toolbar>
+  <kendo-grid class="notes-grid" id="pb-ar-ui-invoice-search-results" [data]="gridData" (scrollBottom)="loadMoreGridData()">
+    <kendo-grid-column field="SubscrbID" title="Issuer ID">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <a [id]="'invoice-search-subscriber-id-' + dataItem.SubscrbID">{{ dataItem.SubscrbID }}</a>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="FirstName" title="First Name"></kendo-grid-column>
+    <kendo-grid-column field="LastName" title="Last Name"></kendo-grid-column>
+    <kendo-grid-column field="InvoiceCreateDate" title="Create Date">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.InvoiceCreateDate | date: 'dd/yyyy' }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="InvoiceId" title="Invoice ID">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <a [id]="'invoice-search-invoice-id-' + dataItem.InvoiceId">{{ dataItem.InvoiceId }}</a>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="InvoiceType" title="Invoice Type"></kendo-grid-column>
+    <kendo-grid-column field="status" title="Status"></kendo-grid-column>
+    <kendo-grid-column field="TtlAmtDue" title="Total Amount Due" class="number-cell">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.InvoiceId | currency: 'USD' }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column title="Notes" width="60" class="notes-column">
+      <ng-template
+        kendoGridCellTemplate
+        let-dataItem
+        let-index="rowIndex"
+      >
+        <span class="invoice-notes" [ngClass]="{'notes-selected': this.notesMap.get(index)}">
+          <i (click)="showNotes(index)" class="fa fa-comment" aria-hidden="true"></i>
+        </span>
+      </ng-template>
+    </kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem>
+      <ss-notes-ui-notes-invoice-cmpnt [recPrimId]="dataItem.InvoiceId"></ss-notes-ui-notes-invoice-cmpnt>
+    </ng-template>
+  </kendo-grid>
+</ng-container>
