@@ -36,7 +36,15 @@
         "AccountName": "JOHN WALKER",
         "ExchngSubID": "8298572123",
         "SubscrbId": "32323232",
-        "TtlAmntDue": 100.00,
+        "TtlAmntDue": 100,
+        "LobTypeCode": "MARKETPLACE"
+    },
+    {
+        "AccountID": "4895798989",
+        "AccountName": "JOHN WALKER",
+        "ExchngSubID": "8298572123",
+        "SubscrbId": "567890123",
+        "TtlAmntDue": 150,
         "LobTypeCode": "MARKETPLACE"
     },
     {
@@ -44,7 +52,7 @@
         "AccountName": "NANCY JENNE",
         "ExchngSubID": "8298890456",
         "SubscrbId": "32323221",
-        "TtlAmntDue": 1100.00,
+        "TtlAmntDue": 1100,
         "LobTypeCode": "MEDICARE"
     }
 ]

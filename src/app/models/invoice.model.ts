@@ -8,5 +8,5 @@ export interface Invoice {
     MidName: string;
     SubscrbID: string;
     VoidedInvoiceInd: boolean;
-    TtlAmtDue: string;
+    TtlAmtDue: number;
 }

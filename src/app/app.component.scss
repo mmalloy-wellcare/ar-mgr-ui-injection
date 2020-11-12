@@ -203,16 +203,8 @@ ar-mgr-ui {
                     }
                 }
 
-                #account-search-dob-clear {
-                    margin-right: 3.1rem;
-                }
-
-                #create-date-from-clear {
-                    margin-right: 3.1rem;
-                }
-
-                #create-date-to-clear {
-                    margin-right: 3.1rem;
+                .dob-clear {
+                    margin-right: 0.6rem;
                 }
 
                 .last-form-field {
@@ -570,6 +562,10 @@ ar-mgr-ui {
     .notes-grid.k-grid .k-grid-aria-root {
         .k-grid-header, .k-grid-container {
             margin-left: -3.3rem;
+        }
+
+        .k-grid-table tr.recinded-record {
+            background-color: #DBDBDB;
         }
 
         .k-detail-row {

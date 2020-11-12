@@ -7,7 +7,7 @@
     "LastName": "walker",
     "MidName": "jenne",
     "SubscrbID": "32323232",
-    "TtlAmtDue": "100.00",
+    "TtlAmtDue": 100,
     "VoidedInvoiceInd": true
   },
   {
@@ -17,8 +17,8 @@
     "InvoiceType": "standard",
     "LastName": "walker",
     "MidName": "jenne",
-    "SubscrbID": "5678901234",
-    "TtlAmtDue": "150.00",
+    "SubscrbID": "567890123",
+    "TtlAmtDue": 150,
     "VoidedInvoiceInd": false
   },
   {
@@ -29,7 +29,7 @@
     "LastName": "jenny",
     "MidName": "jenne",
     "SubscrbID": "32323221",
-    "TtlAmtDue": "1100.00",
+    "TtlAmtDue": 1100,
     "VoidedInvoiceInd": true
   }
 ]

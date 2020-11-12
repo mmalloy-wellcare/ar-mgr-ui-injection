@@ -3,7 +3,9 @@ import { Filter, AlertsService, SortService, FormatterService, ScrollableGridCom
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { InvoiceService } from '@app/services/invoice.service';
 import { Invoice } from '../../models/invoice.model';
+import { RowClassArgs } from '@progress/kendo-angular-grid';
 
+// TODO: Create base search component so code is not duplicate
 @Component({
   selector: 'ar-mgr-ui-invoice-search',
   templateUrl: `./invoice-search.component.html`,
@@ -30,7 +32,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     secondaryForm: new FormGroup({
       SUBCRBFIRSTNAME: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
       SUBCRBLASTNAME: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
-      SUBCRBMIDNAME: new FormControl(String(), [this.dirtyValidator]),
+      SUBCRBMIDNAME: new FormControl(String(), [this.inputLengthValidator, this.dirtyValidator]),
       FROMCREATEDT: new FormControl(String(), [this.dirtyValidator]),
       TOCREATEDT: new FormControl(String(), [this.dirtyValidator])
     })
@@ -94,16 +96,19 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
   }
 
   clearField(fieldNames: string) {
-    this.invoiceSearchForm.get(fieldNames).setValue('');
+    this.invoiceSearchForm.get(fieldNames).reset();
     if (fieldNames === 'secondaryForm.FROMCREATEDT' || fieldNames === 'secondaryForm.TOCREATEDT') {
       this.createDateFromValue = '';
       this.createDateToValue = '';
+      this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').reset();
+      this.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').reset();
     }
   }
 
   resetSearchCriteria() {
     this.createDateFromValue = '';
     this.createDateToValue = '';
+    this.showSearchResults = false;
     this.invoiceSearchForm.reset();
   }
 
@@ -117,16 +122,18 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       this.invoiceSearchForm.disable();
       this.searchCriteria = this.getSearchFilters();
       const savedRestartRowId = this.restartRowId;
-      this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe
-        ((invoice) => {
+      this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe(
+        (invoice) => {
+          this.invoiceSearchForm.enable();
           this.showSearchResults = true;
           this.tempGridData = invoice.data;
           this.gridData = invoice.data;
+        },
+        (error) => {
           this.invoiceSearchForm.enable();
-        }, (error) => {
           this.alertsService.showErrorSnackbar(error);
-          this.invoiceSearchForm.enable();
-        });
+        }
+      );
     }
   }
 
@@ -218,5 +225,11 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     } else {
       this.gridData = this.tempGridData.filter(data => !data.VoidedInvoiceInd);
     }
+  }
+
+  recindedRecord(context: RowClassArgs) {
+    return {
+      'recinded-record': !!context.dataItem.VoidedInvoiceInd
+    };
   }
 }
