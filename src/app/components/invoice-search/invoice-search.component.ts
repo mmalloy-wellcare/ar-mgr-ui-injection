@@ -116,9 +116,12 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
 
     // set "to date" to be todays date if there is no value "to date"
     if (!fromDateControl.value) {
+      const currentDate = new Date();
+
+      currentDate.setHours(0, 0, 0, 0);
       fromDateControl.markAsDirty();
-      fromDateControl.setValue(new Date());
-      this.onDateChange({ value: new Date()}, 'FROMCREATEDT');
+      fromDateControl.setValue(currentDate);
+      this.onDateChange({ value: currentDate }, 'FROMCREATEDT');
     }
   }
 
