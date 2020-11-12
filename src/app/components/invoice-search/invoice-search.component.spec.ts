@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { InvoiceSearchComponent } from './invoice-search.component';
-import { SortService, AlertsService } from '@nextgen/web-care-portal-core-library';
+import { SortService, AlertsService, ValidationService } from '@nextgen/web-care-portal-core-library';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InvoiceService } from '@app/services/invoice.service';
@@ -18,7 +18,6 @@ describe('InvoiceSearchComponent', () => {
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() { }
   };
-
   const invoiceService = {
     getInvoiceSearchDetails() {
       return of({
@@ -27,21 +26,20 @@ describe('InvoiceSearchComponent', () => {
       });
     }
   };
+  const validationService = {
+    dateGreaterThan() {},
+    correctDate() {}
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InvoiceSearchComponent],
-      providers: [{
-        provide: InvoiceService,
-        useValue: invoiceService
-      },
-      {
-        provide: SortService,
-        useValue: sortService
-      }, {
-        provide: AlertsService,
-        useValue: alertsService
-      }],
+      providers: [
+        { provide: InvoiceService, useValue: invoiceService },
+        { provide: SortService, useValue: sortService },
+        { provide: AlertsService, useValue: alertsService},
+        { provide: ValidationService, useValue: validationService }
+      ],
       imports: [HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA]
     })
