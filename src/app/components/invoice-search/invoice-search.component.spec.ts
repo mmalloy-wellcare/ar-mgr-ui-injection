@@ -97,52 +97,6 @@ describe('InvoiceSearchComponent', () => {
     });
   });
 
-  describe('onCreateDateFromBlur', () => {
-    const expectedValue = new Date('04/14/2020');
-    it('should set date in Create Date From Date Picker', () => {
-      component.onDateKeyUp({ target: { value: '04/14/2020' } }, 'FROMCREATEDT');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT').value).toEqual(expectedValue);
-      expect(component.createDateFromValue).toEqual('04/14/2020');
-    });
-
-    it('should set error if the date is invalid', () => {
-      dobValidity({ target: { value: '04/14/20' } }, { dateFormControl: true });
-    });
-
-    it('should remove error if the dob field is empty', () => {
-      dobValidity({ target: { value: '' } }, null);
-    });
-
-    function dobValidity(mockData, result) {
-      component.onDateKeyUp(mockData, 'FROMCREATEDT');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT').value).toEqual('');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT').errors).toEqual(result);
-    }
-  });
-
-  describe('onCreateDateToBlur', () => {
-    const expectedValue = new Date('04/14/2020');
-    it('should set date in Create Date To Date Picker', () => {
-      component.onDateKeyUp({ target: { value: '04/14/2020' } }, 'TOCREATEDT');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT').value).toEqual(expectedValue);
-      expect(component.createDateToValue).toEqual('04/14/2020');
-    });
-
-    it('should set error if the date is invalid', () => {
-      dobValidity({ target: { value: '04/14/20' } }, { dateFormControl: true });
-    });
-
-    it('should remove error if the dob field is empty', () => {
-      dobValidity({ target: { value: '' } }, null);
-    });
-
-    function dobValidity(mockData, result) {
-      component.onDateKeyUp(mockData, 'TOCREATEDT');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT').value).toEqual('');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT').errors).toEqual(result);
-    }
-  });
-
   describe('onclearField', () => {
     it('should clear the field', () => {
       component.clearField('primaryForm.ISSUERSUBCRBID');

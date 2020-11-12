@@ -104,9 +104,10 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       if (dateType === 'TOCREATEDT') {
         this.setToDate();
       }
+    } else if (dateString.length >= 1 && dateString.length < 10) {
+      dateFormControl.setValue(new Date('01/01/1900'));
     } else {
       dateFormControl.setValue('');
-      dateFormControl.setErrors(!!dateString ? { dateFormControl: true } : null);
     }
   }
 
