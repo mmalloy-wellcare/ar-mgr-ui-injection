@@ -145,9 +145,12 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     this is so that if the user presses enter on the datepicker or state dropdown, they can
     choose their date or state without the form submitting */
     if ((targetType === 'text' || targetType === 'submit') && this.invoiceSearchForm.dirty && this.invoiceSearchForm.valid) {
-      this.invoiceSearchForm.disable();
-      this.searchCriteria = this.getSearchFilters();
       const savedRestartRowId = this.restartRowId;
+
+      this.invoiceSearchForm.disable();
+      this.showSearchResults = false;
+      this.searchCriteria = this.getSearchFilters();
+
       this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe(
         (invoice) => {
           this.invoiceSearchForm.enable();
