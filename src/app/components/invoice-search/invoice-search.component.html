@@ -271,8 +271,10 @@
         let-dataItem
         let-index="rowIndex"
       >
-        <span class="invoice-notes" [ngClass]="{'notes-selected': this.notesMap.get(index)}">
-          <i (click)="showNotes(index)" class="fa fa-comment" aria-hidden="true"></i>
+        <span class="notes-button-container" [ngClass]="{'notes-selected': this.notesMap.get(index)}">
+          <button mat-icon-button class="notes-button" id="invoice-notes-btn" (click)="showNotes(index)">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+          </button>
         </span>
       </ng-template>
     </kendo-grid-column>

@@ -33,6 +33,8 @@ import { InvoiceDataCardComponent } from './components/invoice-data-card/invoice
 import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 import { InvoiceService } from './services/invoice.service';
 import { PaymentSearchComponent } from './components/payment-search/payment-search.component';
+import { PaymentDetailsComponent } from './components/payment-details/payment-details.component';
+import { PaymentsService } from './services/payments.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { PaymentSearchComponent } from './components/payment-search/payment-sear
     InvoiceSearchComponent,
     InvoiceDataCardComponent,
     InvoiceDetailsComponent,
-    PaymentSearchComponent
+    PaymentSearchComponent,
+    PaymentDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { PaymentSearchComponent } from './components/payment-search/payment-sear
     AlertsService,
     SortService,
     BillingPeriodsService,
-    InvoiceService
+    InvoiceService,
+    PaymentsService
   ],
   bootstrap: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

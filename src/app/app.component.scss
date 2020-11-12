@@ -579,19 +579,36 @@ ar-mgr-ui {
     
         .k-detail-cell {
             padding: 0;
+            border-bottom: 0;
         }
 
         .notes-column {
+            position: relative;
             text-align: center;
 
-            .fa {
-                color: #107ba4;
-                cursor: pointer;
-            }
+            .notes-button-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
 
-            .notes-selected {
-                .fa {
-                    color: #5f3777;
+                .notes-button {
+                    .fa {
+                        color: #107ba4;
+                        cursor: pointer;
+                    }      
+                }
+
+                &.notes-selected {
+                    background-color: #efebf1;
+
+                    .fa {
+                        color: #5f3777;
+                    }
                 }
             }
         }

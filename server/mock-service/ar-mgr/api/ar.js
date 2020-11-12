@@ -121,4 +121,14 @@ router.get('/:SubscrbId/invoices' , (req,res) => {
     mockLib.serveMock(req,res, 'ar-mgr/ar/list.of.invoices.json')
 });
 
+router.get('/:SubscrbId/payments' , (req,res) => {
+    req.headers.filter = JSON.stringify([{
+        operator: 'eq',
+        value: req.params.SubscrbId,
+        property: 'SubscrbId',
+        dataType: 'character'
+    }]);
+    mockLib.serveMock(req,res, 'ar-mgr/ar/list.of.payment.details.json')
+});
+
 module.exports = router;

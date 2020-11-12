@@ -1,0 +1,35 @@
+[
+    {
+      "SubscrbId":"827321841",
+      "AppliedPymtAmt": 0,
+      "CntOfActions": 0,
+      "CreatedTs": "2020-11-10T13:46:22.381Z",
+      "LastModifiedBy": "string",
+      "LastModifiedDt": "2020-11-10T13:46:22.381Z",
+      "PymtAmt": 0,
+      "PymtSrcTypeCode": "string",
+      "PymtStagingSk": 0,
+      "PymtTxnDt": "2020-11-10",
+      "PymtTxnId": "string",
+      "PymtTxnTypeCode": "string",
+      "PymtTypeCode": "string",
+      "ThirdPartyPayorId": "string",
+      "VndrId": "string"
+    }, {
+      "SubscrbId":"827321841",
+      "AppliedPymtAmt": 100,
+      "CntOfActions": 21,
+      "CreatedTs": "2020-11-10T13:46:22.381Z",
+      "LastModifiedBy": "string2",
+      "LastModifiedDt": "2020-11-10T13:46:22.381Z",
+      "PymtAmt": 0,
+      "PymtSrcTypeCode": "string2",
+      "PymtStagingSk": 12,
+      "PymtTxnDt": "2020-11-10",
+      "PymtTxnId": "string2",
+      "PymtTxnTypeCode": "string2",
+      "PymtTypeCode": "string2",
+      "ThirdPartyPayorId": "string2",
+      "VndrId": "string2"
+    }
+  ]

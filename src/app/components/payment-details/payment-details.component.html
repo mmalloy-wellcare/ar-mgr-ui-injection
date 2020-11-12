@@ -1,0 +1,103 @@
+<mat-toolbar>
+  <strong>Payment Details</strong>
+</mat-toolbar>
+<kendo-grid
+  class="notes-grid"
+  id="ar-mgr-ui-payment-tab"
+  [data]="paymentDetails"
+  (scrollBottom)="loadMoreGridData()"
+  [loading]="loadingPaymentDetails"
+  [sortable]="!gridEditMode"
+  [sort]="sort"
+  (sortChange)="onSortChange($event)"
+  >
+    <ng-template kendoGridNoRecordsTemplate>
+      {{ paymentDetails.length === 0 && loadingPaymentDetails === false ? 'No records available.' : ''}}
+    </ng-template>
+    <kendo-grid-column field="PymtStagingSk" title="Payment ID" width="120">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        <a>{{dataItem.PymtStagingSk}}</a>
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtAmt" title="Full Payment Amount" width="175" [style]="{'text-align': 'right'}" >
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtAmt | currency:'USD'}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="AppliedPymtAmt" title="Applied Payment" width="145" [style]="{'text-align': 'right'}">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.AppliedPymtAmt | currency:'USD'}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtTxnDt" title="Transaction Date" width="145">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtTxnDt | date: 'MM/dd/yyyy' }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtTxnId" title="Transaction Number" width="170">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtTxnId}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtTxnTypeCode" title="Transaction Type" width="145">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtTxnTypeCode}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtTypeCode" title="Payment Method" width="150">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtTypeCode}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="PymtSrcTypeCode" title="Payment Source" width="145">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.PymtSrcTypeCode}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="VndrId" title="Vendor/TPID" width="125">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.VndrId}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CntOfActions" title="Count of Actions" width="145" [style]="{'text-align': 'right'}">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.CntOfActions}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="ThirdPartyPayorId" title="Third Party Payor" width="150">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.ThirdPartyPayorId}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="CreatedTs" title="Create Date" width="120">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.CreatedTs | date: 'MM/dd/yyyy'}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="LastModifiedDt" title="Modified Date" width="130">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.LastModifiedDt | date: 'MM/dd/yyyy'}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="LastModifiedBy" title="Modified By" width="120">
+      <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
+        {{dataItem.LastModifiedBy}}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column title="Notes" width="60" class="notes-column">
+      <ng-template
+        kendoGridCellTemplate
+        let-dataItem
+        let-index="rowIndex"
+      >
+        <span class="notes-button-container" [ngClass]="{'notes-selected': this.isNotesExpandedMap.get(index)}">
+          <button mat-icon-button class="notes-button" id="invoice-notes-btn" (click)="toggleNotes(index)">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+          </button>
+        </span>
+      </ng-template>
+    </kendo-grid-column>
+    <ng-template kendoGridDetailTemplate let-dataItem>
+        <ss-notes-ui-notes-invoice-cmpnt [recPrimId]="dataItem.PymtStagingSk"></ss-notes-ui-notes-invoice-cmpnt>
+    </ng-template>
+</kendo-grid>
