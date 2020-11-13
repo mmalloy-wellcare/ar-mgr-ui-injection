@@ -122,12 +122,37 @@ router.get('/:SubscrbId/invoices' , (req,res) => {
 });
 
 router.get('/:SubscrbId/payments' , (req,res) => {
+    //convert sort property name back to correct field name to enable sort locally
+    if(JSON.parse(req.headers.sort).length > 0){
+        tempSort = JSON.parse(req.headers.sort)
+
+        //full payment amount has the same sort field as applied payment amount. So it has been left out of convert swtich statement.
+        switch (tempSort[0].property) {
+            case 'pymt.pymtStagingSk':
+                req.headers.sort = JSON.stringify([{property: 'PymtStagingSk', direction: tempSort[0].direction}]);
+                break;
+            case 'ApldPymtAmt':
+                req.headers.sort = JSON.stringify([{property: 'AppliedPymtAmt', direction: tempSort[0].direction}]);
+                break;
+            case 'pymtStagingCreatedTs':
+                req.headers.sort = JSON.stringify([{property: 'CreatedTs', direction: tempSort[0].direction}]);
+                break;
+            case 'pymtStagingLastModfdTs':
+                req.headers.sort = JSON.stringify([{property: 'LastModifiedDt', direction: tempSort[0].direction}]);
+                break;
+            case 'pymtStagingLastModfdBy':
+               req.headers.sort = JSON.stringify([{property: 'LastModifiedBy', direction: tempSort[0].direction}]);
+              break;
+          }
+    }
+
     req.headers.filter = JSON.stringify([{
         operator: 'eq',
         value: req.params.SubscrbId,
         property: 'SubscrbId',
         dataType: 'character'
     }]);
+
     mockLib.serveMock(req,res, 'ar-mgr/ar/list.of.payment.details.json')
 });
 

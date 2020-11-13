@@ -1,6 +1,7 @@
 import { Component, HostBinding, Input } from '@angular/core';
 import { PaymentsService } from '@app/services/payments.service';
 import { AlertsService, ScrollableGridComponent, SortService } from '@nextgen/web-care-portal-core-library';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 @Component({
   selector: 'ar-mgr-ui-payment-details',
@@ -50,6 +51,36 @@ export class PaymentDetailsComponent extends ScrollableGridComponent {
       this.kendoGrid.expandRow(index);
       this.isNotesExpandedMap.set(index, true);
     }
+  }
 
+  onSortChange(sort: SortDescriptor[]) {
+    this.sort = sort;
+    const tempSort = { ...sort[0] };
+
+    switch (tempSort.field) {
+      case 'PymtStagingSk':
+        tempSort.field = 'pymt.pymtStagingSk';
+        break;
+      case 'AppliedPymtAmt':
+        tempSort.field = 'ApldPymtAmt';
+        break;
+      case 'PymtAmt':
+        tempSort.field = 'ApldPymtAmt';
+        break;
+      case 'CreatedTs':
+        tempSort.field = 'pymtStagingCreatedTs';
+        break;
+      case 'LastModifiedDt':
+        tempSort.field = 'pymtStagingLastModfdTs';
+        break;
+      case 'LastModifiedBy':
+        tempSort.field = 'pymtStagingLastModfdBy';
+        break;
+    }
+
+    this.convertedSort = this.sortService.convertSort([tempSort]);
+    this.restartRowId = '0';
+    this.gridData = [];
+    this.loadGridData();
   }
 }

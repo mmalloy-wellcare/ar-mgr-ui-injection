@@ -19,12 +19,12 @@
         <a>{{dataItem.PymtStagingSk}}</a>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="PymtAmt" title="Full Payment Amount" width="175" [style]="{'text-align': 'right'}" >
+    <kendo-grid-column field="PymtAmt" title="Full Payment Amount" width="175" class="number-cell" >
       <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
         {{dataItem.PymtAmt | currency:'USD'}}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="AppliedPymtAmt" title="Applied Payment" width="145" [style]="{'text-align': 'right'}">
+    <kendo-grid-column field="AppliedPymtAmt" title="Applied Payment" width="145" class="number-cell">
       <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
         {{dataItem.AppliedPymtAmt | currency:'USD'}}
       </ng-template>
@@ -59,7 +59,7 @@
         {{dataItem.VndrId}}
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="CntOfActions" title="Count of Actions" width="145" [style]="{'text-align': 'right'}">
+    <kendo-grid-column field="CntOfActions" title="Count of Actions" width="145" class="number-cell">
       <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem="dataItem">
         {{dataItem.CntOfActions}}
       </ng-template>
