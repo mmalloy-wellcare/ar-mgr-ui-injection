@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountDetailsComponent } from './components/account-details/account-details.component';
 import { createCustomElement } from '@angular/elements';
-import { EmptyModule, AlertsService, SortService, BreadcrumbsModule } from '@nextgen/web-care-portal-core-library';
+import { EmptyModule, AlertsService, SortService, BreadcrumbsModule, ValidationService } from '@nextgen/web-care-portal-core-library';
 import { GridModule } from '@progress/kendo-angular-grid';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -80,7 +80,8 @@ import { PaymentsService } from './services/payments.service';
     SortService,
     BillingPeriodsService,
     InvoiceService,
-    PaymentsService
+    PaymentsService,
+    ValidationService
   ],
   bootstrap: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

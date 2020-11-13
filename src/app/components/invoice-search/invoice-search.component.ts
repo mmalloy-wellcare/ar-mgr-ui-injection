@@ -1,6 +1,8 @@
 import { Component, OnInit, HostBinding, ViewContainerRef, ViewEncapsulation } from '@angular/core';
-import { Filter, AlertsService, SortService, FormatterService, ScrollableGridComponent } from '@nextgen/web-care-portal-core-library';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import {
+  Filter, AlertsService, SortService, FormatterService, ScrollableGridComponent, ValidationService
+} from '@nextgen/web-care-portal-core-library';
+import { FormGroup, FormControl, AbstractControl, ValidatorFn } from '@angular/forms';
 import { InvoiceService } from '@app/services/invoice.service';
 import { Invoice } from '../../models/invoice.model';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
@@ -36,10 +38,16 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       FROMCREATEDT: new FormControl(String(), [this.dirtyValidator]),
       TOCREATEDT: new FormControl(String(), [this.dirtyValidator])
     })
+  }, {
+    validators: [
+      this.validateEffectiveDates('secondaryForm', 'FROMCREATEDT', 'TOCREATEDT'),
+    ]
   });
+
   constructor(
     public invoiceService: InvoiceService,
     private formatterService: FormatterService,
+    private validationService: ValidationService,
     public sortService: SortService,
     public alertsService: AlertsService
   ) {
@@ -72,26 +80,48 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       this.createDateFromValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
     } else {
       this.createDateToValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
+      this.setToDate();
     }
   }
 
   onDateKeyUp(event, dateType) {
     // to set value to the date picker on Blur event
     // tslint:disable-next-line: max-line-length
-    const dateFormControl = dateType === 'FROMCREATEDT' ? this.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT') :
-      this.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT');
+    const dateFormControl = this.invoiceSearchForm.get('secondaryForm').get(dateType);
     const dateString = event.target.value;
+
+    dateFormControl.markAsDirty();
+
     if (dateType === 'FROMCREATEDT') {
       this.createDateFromValue = dateString;
     } else {
       this.createDateToValue = dateString;
     }
+
     if (dateString.length === 10) {
-      dateFormControl.markAsDirty();
       dateFormControl.setValue(new Date(dateString));
+
+      if (dateType === 'TOCREATEDT') {
+        this.setToDate();
+      }
+    } else if (dateString.length >= 1 && dateString.length < 10) {
+      dateFormControl.setValue(new Date('01/01/1900'));
     } else {
       dateFormControl.setValue('');
-      dateFormControl.setErrors(!!dateString ? { dateFormControl: true } : null);
+    }
+  }
+
+  setToDate() {
+    const fromDateControl = this.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT');
+
+    // set "to date" to be todays date if there is no value "to date"
+    if (!fromDateControl.value) {
+      const currentDate = new Date();
+
+      currentDate.setHours(0, 0, 0, 0);
+      fromDateControl.markAsDirty();
+      fromDateControl.setValue(currentDate);
+      this.onDateChange({ value: currentDate }, 'FROMCREATEDT');
     }
   }
 
@@ -119,12 +149,16 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     this is so that if the user presses enter on the datepicker or state dropdown, they can
     choose their date or state without the form submitting */
     if ((targetType === 'text' || targetType === 'submit') && this.invoiceSearchForm.dirty && this.invoiceSearchForm.valid) {
-      this.invoiceSearchForm.disable();
-      this.searchCriteria = this.getSearchFilters();
       const savedRestartRowId = this.restartRowId;
+
+      this.invoiceSearchForm.disable();
+      this.showSearchResults = false;
+      this.searchCriteria = this.getSearchFilters();
+
       this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe(
         (invoice) => {
           this.invoiceSearchForm.enable();
+          this.invoiceSearchForm.markAsDirty();
           this.showSearchResults = true;
           this.tempGridData = invoice.data;
           this.gridData = invoice.data;
@@ -188,6 +222,15 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     }
 
     return dirtyCount;
+  }
+
+  private validateEffectiveDates(parentFormName: string, startControlName: string, endControlName: string): ValidatorFn {
+    return (form: FormGroup): { [key: string]: any } | null => {
+      const startControl = form.get(parentFormName).get(startControlName);
+      const endControl = form.get(parentFormName).get(endControlName);
+      this.validationService.dateGreaterThan(startControl, endControl);
+      return;
+    };
   }
 
   dirtyValidator(control: AbstractControl) {
