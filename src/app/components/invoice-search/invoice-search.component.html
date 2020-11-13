@@ -276,9 +276,21 @@
         </a>
       </ng-template>
     </kendo-grid-column>
-    <kendo-grid-column field="FirstName" title="First Name"></kendo-grid-column>
-    <kendo-grid-column field="MidName" title="Middle Name"></kendo-grid-column>
-    <kendo-grid-column field="LastName" title="Last Name"></kendo-grid-column>
+    <kendo-grid-column field="FirstName" title="First Name">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.FirstName | uppercase }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="MidName" title="Middle Name">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.MidName | uppercase }}
+      </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column field="LastName" title="Last Name">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        {{ dataItem.LastName | uppercase }}
+      </ng-template>
+    </kendo-grid-column>
     <kendo-grid-column field="InvoiceCreateDate" title="Create Date">
       <ng-template kendoGridCellTemplate let-dataItem>
         {{ dataItem.InvoiceCreateDate | date: 'dd/yyyy' }}

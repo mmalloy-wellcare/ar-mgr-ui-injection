@@ -106,8 +106,10 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       if (dateType === 'FROMCREATEDT') {
         this.setToDate();
       }
-    } else {
+    } else if (dateString.length >= 1 && dateString.length < 10) {
       dateFormControl.setValue('');
+    } else if (dateString.length === 0 && dateType === 'FROMCREATEDT') {
+      this.clearField('secondaryForm.FROMCREATEDT');
     }
   }
 
@@ -126,17 +128,22 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     }
   }
 
-  clearField(fieldNames: string) {
-    this.invoiceSearchForm.get(fieldNames).reset();
+  clearField(fieldName: string) {
+    this.invoiceSearchForm.get(fieldName).reset();
 
-    if (fieldNames === 'secondaryForm.FROMCREATEDT' || fieldNames === 'secondaryForm.TOCREATEDT') {
+    // if field is "from date", reset both "from date" and "to date" control, and disable "to date"
+    // otherwise, if field is "to date", just reset "to date"
+    if (fieldName === 'secondaryForm.FROMCREATEDT') {
       const toDateControl = this.invoiceSearchForm.get('secondaryForm.TOCREATEDT');
+      const fromDateControl = this.invoiceSearchForm.get('secondaryForm.FROMCREATEDT');
 
       this.createDateFromValue = '';
       this.createDateToValue = '';
       toDateControl.reset();
       toDateControl.disable();
-      this.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').reset();
+      fromDateControl.reset();
+    } else if (fieldName === 'secondaryForm.TOCREATEDT') {
+      this.createDateToValue = '';
     }
   }
 

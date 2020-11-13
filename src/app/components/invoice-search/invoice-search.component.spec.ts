@@ -97,19 +97,6 @@ describe('InvoiceSearchComponent', () => {
     });
   });
 
-  describe('onclearField', () => {
-    it('should clear the field', () => {
-      component.clearField('primaryForm.ISSUERSUBCRBID');
-      expect(component.invoiceSearchForm.get('primaryForm').get('ISSUERSUBCRBID').value).toEqual(null);
-    });
-    it('should clear the Create Date From field', () => {
-      component.clearField('secondaryForm.FROMCREATEDT');
-      expect(component.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT').value).toEqual(null);
-      expect(component.createDateFromValue).toEqual('');
-      expect(component.createDateToValue).toEqual('');
-    });
-  });
-
   describe('dirtyValidator', () => {
     it('should mark control as pristine if control value is empty', () => {
       testDirtyValidator(null, false);
