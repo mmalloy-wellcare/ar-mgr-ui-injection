@@ -19,6 +19,7 @@ ar-mgr-ui {
     $grayOpacityMedium: rgba(0, 0, 0, 0.097);
     $grayOpacity: rgba(0, 0, 0, 0.12);
     $cellBorder: 0.1rem solid $gray;
+    $error: #be1e2d;
     height: 100%;
 
     .mat-raised-button.mat-primary:hover:not([disabled]) {
@@ -193,6 +194,30 @@ ar-mgr-ui {
 
                 .mat-form-field {
                     padding: 0.6rem 1.2rem;
+
+                    &.date-form {
+                        position: relative;
+
+                        &.date-form-error {
+                            .mat-form-field-label {
+                                color: $error;
+                            }
+
+                            .mat-form-field-underline {
+                                background-color: $error;
+                            }
+                        }
+
+                        .date-error {
+                            position: absolute;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            top: 40px;
+                            font-size: 12px;
+                            color: $error;
+                        }
+                    }
                 }
     
                 button.mat-icon-button {

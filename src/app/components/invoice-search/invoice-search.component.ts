@@ -8,6 +8,7 @@ import { Invoice } from '../../models/invoice.model';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
 
 // TODO: Create base search component so code is not duplicate
+// TODO: PBP-6111 Finish writing unit tests to reach full coverage for Invoice Search
 @Component({
   selector: 'ar-mgr-ui-invoice-search',
   templateUrl: `./invoice-search.component.html`,
@@ -67,6 +68,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
 
   ngOnInit() {
     this.invoiceSearchForm.markAsPristine();
+    this.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT').disable();
   }
 
   toggleSearchCard() {
@@ -78,9 +80,9 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     const dateISOString = event.value.toISOString().split('T')[0].split('-');
     if (dateType === 'FROMCREATEDT') {
       this.createDateFromValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
+      this.setToDate();
     } else {
       this.createDateToValue = `${dateISOString[1]}/${dateISOString[2]}/${dateISOString[0]}`;
-      this.setToDate();
     }
   }
 
@@ -101,18 +103,16 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     if (dateString.length === 10) {
       dateFormControl.setValue(new Date(dateString));
 
-      if (dateType === 'TOCREATEDT') {
+      if (dateType === 'FROMCREATEDT') {
         this.setToDate();
       }
-    } else if (dateString.length >= 1 && dateString.length < 10) {
-      dateFormControl.setValue(new Date('01/01/1900'));
     } else {
       dateFormControl.setValue('');
     }
   }
 
   setToDate() {
-    const fromDateControl = this.invoiceSearchForm.get('secondaryForm').get('FROMCREATEDT');
+    const fromDateControl = this.invoiceSearchForm.get('secondaryForm').get('TOCREATEDT');
 
     // set "to date" to be todays date if there is no value "to date"
     if (!fromDateControl.value) {
@@ -121,16 +121,21 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       currentDate.setHours(0, 0, 0, 0);
       fromDateControl.markAsDirty();
       fromDateControl.setValue(currentDate);
-      this.onDateChange({ value: currentDate }, 'FROMCREATEDT');
+      fromDateControl.enable();
+      this.onDateChange({ value: currentDate }, 'TOCREATEDT');
     }
   }
 
   clearField(fieldNames: string) {
     this.invoiceSearchForm.get(fieldNames).reset();
+
     if (fieldNames === 'secondaryForm.FROMCREATEDT' || fieldNames === 'secondaryForm.TOCREATEDT') {
+      const toDateControl = this.invoiceSearchForm.get('secondaryForm.TOCREATEDT');
+
       this.createDateFromValue = '';
       this.createDateToValue = '';
-      this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').reset();
+      toDateControl.reset();
+      toDateControl.disable();
       this.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').reset();
     }
   }
@@ -140,6 +145,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     this.createDateToValue = '';
     this.showSearchResults = false;
     this.invoiceSearchForm.reset();
+    this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').disable();
   }
 
   submitSearchCriteria(event?: any) {
@@ -157,17 +163,25 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
 
       this.invoiceService.getInvoiceSearchDetails(savedRestartRowId, this.searchCriteria).subscribe(
         (invoice) => {
-          this.invoiceSearchForm.enable();
+          this.reenableForm();
           this.invoiceSearchForm.markAsDirty();
           this.showSearchResults = true;
           this.tempGridData = invoice.data;
           this.gridData = invoice.data;
         },
         (error) => {
-          this.invoiceSearchForm.enable();
+          this.reenableForm();
           this.alertsService.showErrorSnackbar(error);
         }
       );
+    }
+  }
+
+  reenableForm() {
+    this.invoiceSearchForm.enable();
+
+    if (!this.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').value) {
+      this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').disable();
     }
   }
 

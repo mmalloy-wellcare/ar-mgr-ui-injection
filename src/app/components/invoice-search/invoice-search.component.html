@@ -107,11 +107,15 @@
 
       <div class="row search-field-row">
         <!--CreateDateFrom-->
-        <mat-form-field>
+        <mat-form-field
+          [ngClass]="{
+            'date-form': true,
+            'date-form-error': invoiceSearchForm.get('secondaryForm.FROMCREATEDT').hasError('greaterThan')
+          }"
+        >
           <mat-label>Create Date From</mat-label>
           <!-- hidden input for datepicker input -->
           <input
-            matInput
             [matDatepicker]="invoiceSearchDateFrom"
             [hidden]="true"
             (dateChange)="onDateChange($event, 'FROMCREATEDT' )"
@@ -143,17 +147,21 @@
           >
           </mat-datepicker-toggle>
           <mat-datepicker #invoiceSearchDateFrom></mat-datepicker>
-          <mat-error *ngIf="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').hasError('greaterThan')">
+          <span class="date-error" *ngIf="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').hasError('greaterThan')">
             From Date cannot be after To Date
-          </mat-error>
+          </span>
         </mat-form-field>
 
         <!--Create Date To-->
-        <mat-form-field>
+        <mat-form-field
+          [ngClass]="{
+            'date-form': true,
+            'date-form-error': invoiceSearchForm.get('secondaryForm.TOCREATEDT').hasError('greaterThan')
+          }"
+        >
           <mat-label>Create Date To</mat-label>
           <!-- hidden input for datepicker input -->
           <input
-            matInput
             [matDatepicker]="invoiceSearchDateTo"
             [hidden]="true"
             (dateChange)="onDateChange($event, 'TOCREATEDT')"
@@ -184,9 +192,9 @@
             [disabled]="this.invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled ">
           </mat-datepicker-toggle>
           <mat-datepicker #invoiceSearchDateTo></mat-datepicker>
-          <mat-error *ngIf="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').hasError('greaterThan')">
+          <span class="date-error" *ngIf="invoiceSearchForm.get('secondaryForm.FROMCREATEDT').hasError('greaterThan')">
             To Date cannot be before From Date
-          </mat-error>
+          </span>
         </mat-form-field>
 
         <!--InvoiceID-->
