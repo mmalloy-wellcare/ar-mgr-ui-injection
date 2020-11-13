@@ -18,7 +18,7 @@ export class PaymentDetailsComponent extends ScrollableGridComponent {
     return this.subscribId;
   }
 
-  isNotesExpandedMap: Map<string, boolean> = new Map();
+  isNotesExpandedMap: Map<number, boolean> = new Map();
   paymentDetails = [];
   loadingPaymentDetails = false;
   private subscribId;

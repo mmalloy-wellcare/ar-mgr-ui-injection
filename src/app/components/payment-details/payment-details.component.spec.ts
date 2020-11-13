@@ -6,7 +6,8 @@ import { AlertsService, SortService } from '@nextgen/web-care-portal-core-librar
 import { of, throwError } from 'rxjs';
 import { PaymentDetailsComponent } from './payment-details.component';
 import mockPaymentDetails from '@mocks/ar-mgr/ar/list.of.payment.details.json';
-import { GridComponent as KendoGridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent as KendoGridComponent, GridComponent } from '@progress/kendo-angular-grid';
+import { SortDescriptor } from '@progress/kendo-data-query';
 
 describe('PaymentDetailsComponent', () => {
   let component: PaymentDetailsComponent;
@@ -26,7 +27,12 @@ describe('PaymentDetailsComponent', () => {
   };
 
   const sortService: Partial<SortService> = {
-    convertSort() {}
+    convertSort(sort: SortDescriptor[]) {
+      return [{
+        property: sort[0].field,
+        direction: sort[0].dir
+      }];
+    }
   };
 
   beforeEach(async(() => {
@@ -52,8 +58,16 @@ describe('PaymentDetailsComponent', () => {
     fixture = TestBed.createComponent(PaymentDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    component.kendoGrid = {
+      expandRow(index: number) { },
+      collapseRow(index: number) { },
+      wrapper: {
+        nativeElement: {
+          querySelector() {}
+        }
+      }
+    } as GridComponent;
   });
-
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -76,4 +90,60 @@ describe('PaymentDetailsComponent', () => {
       expect(alertsServiceInject.showErrorSnackbar).toHaveBeenCalled();
     })
   );
+
+  describe('toggleNotes', () => {
+    it('should display the notes when expanded', () => {
+      spyOn(component.kendoGrid, 'expandRow');
+      component.isNotesExpandedMap.clear();
+      component.toggleNotes(0);
+      expect(component.kendoGrid.expandRow).toHaveBeenCalled();
+    });
+
+    it('should hide the notes when colapse', () => {
+      spyOn(component.kendoGrid, 'collapseRow');
+      component.isNotesExpandedMap.set(0, true);
+      component.toggleNotes(0);
+      expect(component.kendoGrid.collapseRow).toHaveBeenCalled();
+    });
+  });
+
+  describe('onSortChange', () => {
+    it('should update "PymtStagingSk"', () => {
+      testOnSortChange('PymtStagingSk', 'pymt.pymtStagingSk');
+    });
+
+    it('should update "AppliedPymtAmt"', () => {
+      testOnSortChange('AppliedPymtAmt', 'ApldPymtAmt');
+    });
+
+    it('should update "PymtAmt"', () => {
+      testOnSortChange('PymtAmt', 'ApldPymtAmt');
+    });
+
+    it('should update "CreatedTs"', () => {
+      testOnSortChange('CreatedTs', 'pymtStagingCreatedTs');
+    });
+
+    it('should update "LastModifiedDt"', () => {
+      testOnSortChange('LastModifiedDt', 'pymtStagingLastModfdTs');
+    });
+
+    it('should update "LastModifiedBy"', () => {
+      testOnSortChange('LastModifiedBy', 'pymtStagingLastModfdBy');
+    });
+
+    it('should update "ThirdPartyPayorId"', () => {
+      testOnSortChange('ThirdPartyPayorId', 'ThirdPartyPayerId');
+    });
+
+    function testOnSortChange(initialField: string, expectedField: string) {
+      const sortDescriptor = [{
+        field: initialField,
+        dir: 'asc'
+      }] as SortDescriptor[];
+
+      component.onSortChange(sortDescriptor);
+      expect(component.convertedSort[0].property).toEqual(expectedField);
+    }
+  });
 });
