@@ -12,7 +12,8 @@
     "mock-services": "nodemon server/webserver.js --watch server",
     "bundle-web-component": "ng build --prod=true --extraWebpackConfig=webpack.externals.js --output-hashing=none --single-bundle=true",
     "build": "npm run bundle-web-component && node -e 'require(\"@nextgen/node-support\").deploy.microBundle()'",
-    "test": "ng test --codeCoverage=true --watch=false",
+    "test": "ng test --codeCoverage=true --watch=false --source-map=false",
+    "test:local": "ng test --codeCoverage=true --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
