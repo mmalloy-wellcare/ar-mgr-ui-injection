@@ -76,6 +76,9 @@ export class PaymentDetailsComponent extends ScrollableGridComponent {
       case 'LastModifiedBy':
         tempSort.field = 'pymtStagingLastModfdBy';
         break;
+      case 'ThirdPartyPayorId':
+        tempSort.field = 'ThirdPartyPayerId';
+        break;
     }
 
     this.convertedSort = this.sortService.convertSort([tempSort]);

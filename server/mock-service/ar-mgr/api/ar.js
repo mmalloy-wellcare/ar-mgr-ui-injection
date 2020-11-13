@@ -141,8 +141,11 @@ router.get('/:SubscrbId/payments' , (req,res) => {
                 req.headers.sort = JSON.stringify([{property: 'LastModifiedDt', direction: tempSort[0].direction}]);
                 break;
             case 'pymtStagingLastModfdBy':
-               req.headers.sort = JSON.stringify([{property: 'LastModifiedBy', direction: tempSort[0].direction}]);
-              break;
+                req.headers.sort = JSON.stringify([{property: 'LastModifiedBy', direction: tempSort[0].direction}]);
+                break;
+            case 'ThirdPartyPayerId':
+                req.headers.sort = JSON.stringify([{property: 'ThirdPartyPayorId', direction: tempSort[0].direction}]);
+                break;
           }
     }
 
