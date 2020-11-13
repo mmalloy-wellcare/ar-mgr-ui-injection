@@ -1,6 +1,6 @@
 {
   "name": "ar-mgr-ui",
-  "version": "1.0.1-9",
+  "version": "1.0.1-10",
   "scripts": {
     "ng": "ng",
     "start": "concurrently \"npm run mock-services\" \"npm run ui\"",
