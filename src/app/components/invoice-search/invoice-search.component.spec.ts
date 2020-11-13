@@ -6,7 +6,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { InvoiceService } from '@app/services/invoice.service';
 import { of, throwError } from 'rxjs';
 import mockInvoices from '@mocks/ar-mgr/ar/list.of.invoice.details.json';
-import { GridComponent } from '@progress/kendo-angular-grid';
+import { GridComponent, RowClassArgs } from '@progress/kendo-angular-grid';
 
 describe('InvoiceSearchComponent', () => {
   let component: InvoiceSearchComponent;
@@ -81,19 +81,87 @@ describe('InvoiceSearchComponent', () => {
     });
   });
 
-  describe('onFromDateChange', () => {
-    const mockDateChangeEvent = { value: new Date('04/15/2020') };
+  describe('onDateChange', () => {
     it('should set date to FROMCREATEDT field', () => {
-      component.onDateChange(mockDateChangeEvent, 'FROMCREATEDT');
-      expect(component.createDateFromValue).toEqual('04/15/2020');
+      testOnDateChange('FROMCREATEDT', new Date('01/01/1900'), 'createDateFromValue');
+    });
+
+    it('should set date to TOCREATEDT field', () => {
+      testOnDateChange('TOCREATEDT', new Date('01/01/1900'), 'createDateToValue');
+    });
+
+    function testOnDateChange(dateType: string, date: Date, createDateProperty: string) {
+      const mockDateChangeEvent = { value: date };
+      component.onDateChange(mockDateChangeEvent, dateType);
+      expect(component[createDateProperty]).toEqual('01/01/1900');
+    }
+  });
+
+  describe('onDateKeyUp', () => {
+    it('should call setToDate if dateType is FROMCREATEDT', () => {
+      testOnDateKeyUp('FROMCREATEDT', '01/01/1900');
+      expect(component.setToDate).toHaveBeenCalled();
+    });
+
+    it('should not call setToDate if dateType is FROMCREATEDT and input length is greater than 10', () => {
+      testOnDateKeyUp('FROMCREATEDT', '01/01/11000');
+      expect(component.setToDate).not.toHaveBeenCalled();
+    });
+
+    it('should not call setToDate if dateType is TOCREATEDT', () => {
+      testOnDateKeyUp('TOCREATEDT', '01/01/1900');
+      expect(component.setToDate).not.toHaveBeenCalled();
+    });
+
+    it('should set value to blank string if input length is less than 10 but more than 0', () => {
+      testOnDateKeyUp('TOCREATEDT', '01/01/1');
+      expect(component.invoiceSearchForm.get('secondaryForm.TOCREATEDT').value).toEqual('');
+    });
+
+    it('should call clearField if dateType is FROMCREATEDT and input length is 0', () => {
+      spyOn(component, 'clearField');
+      testOnDateKeyUp('FROMCREATEDT', '');
+      expect(component.clearField).toHaveBeenCalled();
+    });
+
+    function testOnDateKeyUp(dateType: string, value: string) {
+      spyOn(component, 'setToDate');
+      const event = {
+        target: {
+          value
+        }
+      };
+      component.onDateKeyUp(event, dateType);
+    }
+  });
+
+  describe('setToDate', () => {
+    it('should not call onDateChange if "to date" is filled', () => {
+      spyOn(component, 'onDateChange');
+      component.invoiceSearchForm.get('secondaryForm.TOCREATEDT').setValue(new Date());
+      component.setToDate();
+      expect(component.onDateChange).not.toHaveBeenCalled();
     });
   });
 
-  describe('onToDateChange', () => {
-    const mockDateChangeEvent = { value: new Date('05/15/2020') };
-    it('should set date to TOCREATEDT field', () => {
-      component.onDateChange(mockDateChangeEvent, 'TOCREATEDT');
-      expect(component.createDateToValue).toEqual('05/15/2020');
+  describe('clearField', () => {
+    it('should clear the field', () => {
+      component.clearField('primaryForm.ISSUERSUBCRBID');
+      expect(component.invoiceSearchForm.get('primaryForm.ISSUERSUBCRBID').value).toEqual(null);
+    });
+
+    it('should clear "from date" and "to date"', () => {
+      component.clearField('secondaryForm.FROMCREATEDT');
+      expect(component.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').value).toEqual(null);
+      expect(component.createDateFromValue).toEqual('');
+      expect(component.invoiceSearchForm.get('secondaryForm.TOCREATEDT').value).toEqual(null);
+      expect(component.createDateFromValue).toEqual('');
+    });
+
+    it('should clear "to date"', () => {
+      component.clearField('secondaryForm.TOCREATEDT');
+      expect(component.invoiceSearchForm.get('secondaryForm.TOCREATEDT').value).toEqual(null);
+      expect(component.createDateFromValue).toEqual('');
     });
   });
 
@@ -152,6 +220,23 @@ describe('InvoiceSearchComponent', () => {
     }
   });
 
+  describe('reenableForm', () => {
+    it('should enable "to date" if "from date" is filled out', () => {
+      testReenableForm(new Date(), false);
+    });
+
+    it('should disabled "to date" if "from date" is not filled out', () => {
+      testReenableForm(null, true);
+    });
+
+    function testReenableForm(dateValue: Date, isDisabled: boolean) {
+      component.invoiceSearchForm.disable();
+      component.invoiceSearchForm.get('secondaryForm.FROMCREATEDT').setValue(dateValue);
+      component.reenableForm();
+      expect(component.invoiceSearchForm.get('secondaryForm.TOCREATEDT').disabled).toEqual(isDisabled);
+    }
+  });
+
   describe('inputLengthValidator', () => {
     it('should control as valid if length is greater than or equal to 2', () => {
       testValidator('primaryForm', 'ISSUERSUBCRBID', '12', true);
@@ -199,6 +284,26 @@ describe('InvoiceSearchComponent', () => {
       component.gridData = mockInvoices;
       component.displayRecindedItems(isChecked);
       expect(component.gridData.length).toEqual(expectedLength);
+    }
+  });
+
+  describe('recindedRecord', () => {
+    it('should show "recinded-record" class if "VoidedInvoiceInd" if true', () => {
+      testRecindedRecord(true);
+    });
+
+    it('should not "recinded-record" class if "VoidedInvoiceInd" if false', () => {
+      testRecindedRecord(false);
+    });
+
+    function testRecindedRecord(recinded: boolean) {
+      const context = {
+        dataItem: {
+          VoidedInvoiceInd: recinded
+        }
+      } as RowClassArgs;
+
+      expect(component.recindedRecord(context)['recinded-record']).toEqual(recinded);
     }
   });
 });

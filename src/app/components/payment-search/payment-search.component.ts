@@ -1,6 +1,7 @@
-import { Component, OnInit,  HostBinding} from '@angular/core';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { Component,  HostBinding} from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
+// TODO: Create base search component so code is not duplicate
 @Component({
   selector: 'ar-mgr-ui-payment-search',
   templateUrl: './payment-search.component.html'

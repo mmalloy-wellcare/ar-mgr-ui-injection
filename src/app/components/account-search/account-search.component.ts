@@ -3,6 +3,7 @@ import { FormatterService, Filter } from '@nextgen/web-care-portal-core-library'
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import accountSearchStates from './states.json';
 
+// TODO: Create base search component so code is not duplicate
 @Component({
   selector: 'ar-mgr-ui-account-search',
   templateUrl: './account-search.component.html'

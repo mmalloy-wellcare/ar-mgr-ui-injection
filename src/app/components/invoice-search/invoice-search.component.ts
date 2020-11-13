@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, ViewContainerRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 import {
   Filter, AlertsService, SortService, FormatterService, ScrollableGridComponent, ValidationService
 } from '@nextgen/web-care-portal-core-library';
@@ -6,15 +6,15 @@ import { FormGroup, FormControl, AbstractControl, ValidatorFn } from '@angular/f
 import { InvoiceService } from '@app/services/invoice.service';
 import { Invoice } from '../../models/invoice.model';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
+import { Subscription } from 'rxjs';
 
 // TODO: Create base search component so code is not duplicate
-// TODO: PBP-6111 Finish writing unit tests to reach full coverage for Invoice Search
 @Component({
   selector: 'ar-mgr-ui-invoice-search',
   templateUrl: `./invoice-search.component.html`,
   styleUrls: ['./invoice-search.component.scss']
 })
-export class InvoiceSearchComponent extends ScrollableGridComponent implements OnInit {
+export class InvoiceSearchComponent extends ScrollableGridComponent implements OnInit, OnDestroy {
   @HostBinding('class') componentClass = 'web-component-flex side-padding scrollable-grid';
   expandSearchCard = true;
   createDateFromValue = '';
@@ -44,6 +44,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
       this.validateEffectiveDates('secondaryForm', 'FROMCREATEDT', 'TOCREATEDT'),
     ]
   });
+  valueChangesSubscription: Subscription;
 
   constructor(
     public invoiceService: InvoiceService,
@@ -53,7 +54,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     public alertsService: AlertsService
   ) {
     super(sortService, alertsService);
-    this.invoiceSearchForm.valueChanges.subscribe(() => {
+    this.valueChangesSubscription = this.invoiceSearchForm.valueChanges.subscribe(() => {
       /* if primary form is pristine but secondary form is dirty, then search criteria needs at least two
       secondary fields filled out. otherwise show error */
       if (!this.invoiceSearchForm.get('primaryForm').dirty && this.getChildFormDirtyCount('secondaryForm') === 1) {
@@ -75,7 +76,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     this.expandSearchCard = !this.expandSearchCard;
   }
 
-  onDateChange(event, dateType) {
+  onDateChange(event: any, dateType: string) {
     // to set value to the Create Date From, Create Date To field when date selected on the Date Picker
     const dateISOString = event.value.toISOString().split('T')[0].split('-');
     if (dateType === 'FROMCREATEDT') {
@@ -86,7 +87,7 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     }
   }
 
-  onDateKeyUp(event, dateType) {
+  onDateKeyUp(event: any, dateType: string) {
     // to set value to the date picker on Blur event
     // tslint:disable-next-line: max-line-length
     const dateFormControl = this.invoiceSearchForm.get('secondaryForm').get(dateType);
@@ -295,5 +296,9 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
     return {
       'recinded-record': !!context.dataItem.VoidedInvoiceInd
     };
+  }
+
+  ngOnDestroy() {
+    this.valueChangesSubscription.unsubscribe();
   }
 }
