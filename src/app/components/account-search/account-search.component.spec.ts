@@ -3,17 +3,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountSearchComponent } from './account-search.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SortService, AlertsService } from '@nextgen/web-care-portal-core-library';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { GemsAuthorizedDirective } from 'gems-core';
+import { GemsService } from 'gems-core';
 
 describe('AccountSearchComponent', () => {
   let component: AccountSearchComponent;
   let fixture: ComponentFixture<AccountSearchComponent>;
+  let gemsService: GemsService;
   const sortService: Partial<SortService> = {};
   const alertsService: Partial<AlertsService> = {};
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountSearchComponent ],
-      providers: [{
+      declarations: [ AccountSearchComponent, GemsAuthorizedDirective],
+      imports: [HttpClientTestingModule],
+      providers: [
+        GemsService,
+        HttpClientTestingModule,
+        {
         provide: SortService,
         useValue: sortService
       }, {
@@ -29,6 +36,7 @@ describe('AccountSearchComponent', () => {
     fixture = TestBed.createComponent(AccountSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    gemsService = TestBed.get(GemsService);
   });
 
   it('should create', () => {

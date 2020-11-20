@@ -2,6 +2,7 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormatterService, Filter } from '@nextgen/web-care-portal-core-library';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import accountSearchStates from './states.json';
+import { GemsService, GemsAuth } from 'gems-core';
 
 // TODO: Create base search component so code is not duplicate
 @Component({
@@ -35,7 +36,17 @@ export class AccountSearchComponent implements OnInit {
     })
   });
 
-  constructor(private formatterService: FormatterService) {
+  public gemsAuthAccountView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'search-account-view'
+  };
+
+  public gemsAuthAccountSearch: GemsAuth = {
+    accessType: this.gemsService.UPDATE,
+    componentId: 'search-account-search'
+  };
+
+  constructor(private formatterService: FormatterService, private gemsService: GemsService) {
     this.accountSearchForm.valueChanges.subscribe(() => {
       /* if primary form is pristine but secondary form is dirty, then search criteria needs at least two
       secondary fields filled out. otherwise show error */
