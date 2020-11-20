@@ -1,5 +1,6 @@
 import { Component,  HostBinding} from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { GemsService, GemsAuth } from 'gems-core';
 
 // TODO: Create base search component so code is not duplicate
 @Component({
@@ -13,7 +14,17 @@ export class PaymentSearchComponent {
 
   });
 
-  constructor() { }
+  constructor(private gemsService: GemsService) { }
+
+  public gemsAuthPaymentView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'search-payment-view'
+  };
+
+  public gemsAuthPaymentSearch: GemsAuth = {
+    accessType: this.gemsService.UPDATE,
+    componentId: 'search-payment-search'
+  };
 
   toggleSearchCard() {
     this.expandSearchCard = !this.expandSearchCard;
