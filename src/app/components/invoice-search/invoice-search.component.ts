@@ -7,6 +7,7 @@ import { InvoiceService } from '@app/services/invoice.service';
 import { Invoice } from '../../models/invoice.model';
 import { RowClassArgs } from '@progress/kendo-angular-grid';
 import { Subscription } from 'rxjs';
+import { GemsService, GemsAuth } from 'gems-core';
 
 // TODO: Create base search component so code is not duplicate
 @Component({
@@ -46,12 +47,24 @@ export class InvoiceSearchComponent extends ScrollableGridComponent implements O
   });
   valueChangesSubscription: Subscription;
 
+  public gemsAuthInvoiceView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'search-invoice-view'
+  };
+
+  public gemsAuthInvoiceSearch: GemsAuth = {
+    accessType: this.gemsService.UPDATE,
+    componentId: 'search-invoice-search'
+  };
+
+
   constructor(
     public invoiceService: InvoiceService,
     private formatterService: FormatterService,
     private validationService: ValidationService,
     public sortService: SortService,
-    public alertsService: AlertsService
+    public alertsService: AlertsService,
+    private gemsService: GemsService
   ) {
     super(sortService, alertsService);
     this.valueChangesSubscription = this.invoiceSearchForm.valueChanges.subscribe(() => {

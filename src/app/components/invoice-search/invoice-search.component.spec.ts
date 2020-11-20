@@ -7,10 +7,13 @@ import { InvoiceService } from '@app/services/invoice.service';
 import { of, throwError } from 'rxjs';
 import mockInvoices from '@mocks/ar-mgr/ar/list.of.invoice.details.json';
 import { GridComponent, RowClassArgs } from '@progress/kendo-angular-grid';
+import { GemsAuthorizedDirective } from 'gems-core';
+import { GemsService } from 'gems-core';
 
 describe('InvoiceSearchComponent', () => {
   let component: InvoiceSearchComponent;
   let fixture: ComponentFixture<InvoiceSearchComponent>;
+  let gemsService: GemsService;
 
   const sortService: Partial<SortService> = {
     convertSort() { }
@@ -33,8 +36,10 @@ describe('InvoiceSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InvoiceSearchComponent],
+      declarations: [InvoiceSearchComponent, GemsAuthorizedDirective ],
       providers: [
+        GemsService,
+        HttpClientTestingModule,
         { provide: InvoiceService, useValue: invoiceService },
         { provide: SortService, useValue: sortService },
         { provide: AlertsService, useValue: alertsService},
@@ -50,6 +55,7 @@ describe('InvoiceSearchComponent', () => {
     fixture = TestBed.createComponent(InvoiceSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    gemsService = TestBed.get(GemsService);
     component.kendoGrid = {
       expandRow(index: number) { },
       collapseRow(index: number) { },
