@@ -7,10 +7,13 @@ import { of, throwError } from 'rxjs';
 import mockInvoices from '@mocks/ar-mgr/ar/list.of.invoices.json';
 import { AlertsService } from '@nextgen/web-care-portal-core-library';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { GemsAuthorizedDirective } from 'gems-core';
+import { GemsService } from 'gems-core';
 
 describe('InvoiceDetailsComponent', () => {
   let component: InvoiceDetailsComponent;
   let fixture: ComponentFixture<InvoiceDetailsComponent>;
+  let gemsService: GemsService;
 
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() {},
@@ -27,10 +30,13 @@ describe('InvoiceDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InvoiceDetailsComponent ],
+      declarations: [ InvoiceDetailsComponent, GemsAuthorizedDirective ],
       imports: [HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{
+      providers: [
+        GemsService,
+        HttpClientTestingModule,
+        {
         provide: AlertsService,
         useValue: alertsService
       }, {
@@ -45,6 +51,7 @@ describe('InvoiceDetailsComponent', () => {
     fixture = TestBed.createComponent(InvoiceDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    gemsService = TestBed.get(GemsService);
     component.filter.voided = false;
     component.filter.rejected = false;
     component.customHeaders = {includeRejected: 'false', includeVoided: 'false'};

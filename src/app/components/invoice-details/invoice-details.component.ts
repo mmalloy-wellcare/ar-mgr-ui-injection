@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { InvoiceService } from '@app/services/invoice.service';
 import { AlertsService } from '@nextgen/web-care-portal-core-library';
+import { GemsService, GemsAuth } from 'gems-core';
 
 @Component({
   selector: 'ar-mgr-ui-invoice-details',
@@ -28,10 +29,23 @@ export class InvoiceDetailsComponent {
     includeVoided : 'false'
   };
   private subscribId;
+
+  public gemsAuthAccountInvoiceView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'account-billing-invoices-view'
+  };
+
+  public gemsAuthAccountInvoiceGenerate: GemsAuth = {
+    accessType: this.gemsService.UPDATE,
+    componentId: 'account-billing-invoices-generate'
+  };
+
+
   constructor(
     private invoiceService: InvoiceService,
     private alertService: AlertsService,
-    private changeDectorRef: ChangeDetectorRef
+    private changeDectorRef: ChangeDetectorRef,
+    private gemsService: GemsService
   ) { }
 
   loadInvoiceDetails(customHeaders) {
