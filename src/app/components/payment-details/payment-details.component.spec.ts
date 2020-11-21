@@ -8,10 +8,13 @@ import { PaymentDetailsComponent } from './payment-details.component';
 import mockPaymentDetails from '@mocks/ar-mgr/ar/list.of.payment.details.json';
 import { GridComponent as KendoGridComponent, GridComponent } from '@progress/kendo-angular-grid';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { GemsAuthorizedDirective } from 'gems-core';
+import { GemsService } from 'gems-core';
 
 describe('PaymentDetailsComponent', () => {
   let component: PaymentDetailsComponent;
   let fixture: ComponentFixture<PaymentDetailsComponent>;
+  let gemsService: GemsService;
 
   const alertsService: Partial<AlertsService> = {
     showErrorSnackbar() {},
@@ -37,10 +40,13 @@ describe('PaymentDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PaymentDetailsComponent ],
+      declarations: [ PaymentDetailsComponent, GemsAuthorizedDirective ],
       imports: [HttpClientTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [{
+      providers: [
+        GemsService,
+        HttpClientTestingModule,
+        {
         provide: AlertsService,
         useValue: alertsService
       }, {
@@ -58,6 +64,7 @@ describe('PaymentDetailsComponent', () => {
     fixture = TestBed.createComponent(PaymentDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    gemsService = TestBed.get(GemsService);
     component.kendoGrid = {
       expandRow(index: number) { },
       collapseRow(index: number) { },

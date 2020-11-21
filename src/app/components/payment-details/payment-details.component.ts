@@ -2,6 +2,7 @@ import { Component, HostBinding, Input } from '@angular/core';
 import { PaymentsService } from '@app/services/payments.service';
 import { AlertsService, ScrollableGridComponent, SortService } from '@nextgen/web-care-portal-core-library';
 import { SortDescriptor } from '@progress/kendo-data-query';
+import { GemsService, GemsAuth } from 'gems-core';
 
 @Component({
   selector: 'ar-mgr-ui-payment-details',
@@ -23,10 +24,16 @@ export class PaymentDetailsComponent extends ScrollableGridComponent {
   loadingPaymentDetails = false;
   private subscribId;
 
+  public gemsAuthAccountPaymentView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'account-payment-view'
+  };
+
   constructor(
     public sortService: SortService,
     public alertsService: AlertsService,
-    public paymentsService: PaymentsService
+    public paymentsService: PaymentsService,
+    private gemsService: GemsService
   ) {
     super(sortService, alertsService);
   }
