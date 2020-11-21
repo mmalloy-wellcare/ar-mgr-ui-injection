@@ -13,10 +13,13 @@ import { GroupResult } from '@progress/kendo-data-query';
 import mockBillingPeriods from '@mocks/ar-mgr/ar/list.of.billing.periods.json';
 import mockMetadata from '@mocks/ar-mgr/ar/list.of.metadata.json';
 import mockTransactions from '@mocks/ar-mgr/ar/list.of.transactions.json';
+import { GemsAuthorizedDirective } from 'gems-core';
+import { GemsService } from 'gems-core';
 
 describe('ActivityComponent', () => {
   let component: ActivityComponent;
   let fixture: ComponentFixture<ActivityComponent>;
+  let gemsService: GemsService;
   const billingPeriodsService: Partial<BillingPeriodsService> = {
     getBillingPeriods(accountId: string, restartRowId: string, includeVoidedRows: boolean, sort: Array<Sort>) {
       return of({
@@ -99,9 +102,12 @@ describe('ActivityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ActivityComponent ],
+      declarations: [ ActivityComponent, GemsAuthorizedDirective ],
       imports: [HttpClientTestingModule],
-      providers: [{
+      providers: [
+        GemsService,
+        HttpClientTestingModule,
+        {
         provide: BillingPeriodsService,
         useValue: billingPeriodsService
       }, {
@@ -124,6 +130,7 @@ describe('ActivityComponent', () => {
     component.overlayRef = mockOverlayRef as OverlayRef;
     component.accountData = mockAccountData;
     fixture.detectChanges();
+    gemsService = TestBed.get(GemsService);
     component.accountBillingPeriodsGrid = mockAccountBillingPeriodsGrid as KendoGridComponent;
   });
 

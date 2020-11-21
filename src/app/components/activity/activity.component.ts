@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { AccountDetail } from '@app/models/account-detail.model';
 import activityColumns from './activity-columns.json';
+import { GemsService, GemsAuth } from 'gems-core';
 
 @Component({
   selector: 'ar-mgr-ui-activity',
@@ -82,12 +83,23 @@ export class ActivityComponent extends ToggleableColumnsGridComponent implements
   groupCellDataMap: Map<string, any> = new Map();
   includeVoidedRows: boolean;
 
+  public gemsAuthAccountActivityView: GemsAuth = {
+    accessType: this.gemsService.READ,
+    componentId: 'account-activity-view'
+  };
+
+  public gemsAuthAccountActivityExport: GemsAuth = {
+    accessType: this.gemsService.UPDATE,
+    componentId: 'account-activity-export'
+  };
+
   constructor(
     public alertsService: AlertsService,
     public sortService: SortService,
     public overlay: Overlay,
     public viewContainerRef: ViewContainerRef,
-    public billingPeriodsService: BillingPeriodsService
+    public billingPeriodsService: BillingPeriodsService,
+    private gemsService: GemsService
   ) {
     super(sortService, alertsService, overlay, viewContainerRef);
   }
