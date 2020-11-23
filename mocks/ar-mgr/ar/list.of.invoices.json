@@ -45,7 +45,8 @@
           "RvsdInvoiceInd": false,
           "DlvryRteTypeCode": "Route123",
           "EmailAddr": "test@abc.com",
-          "BnftPlanName": "TEST BENEFITPLAB"
+          "BnftPlanName": "TEST BENEFITPLAB",
+          "InvoiceTypeCode": "RECURRING"
         },
         {
           "OnAutopayInd": false,
@@ -87,7 +88,8 @@
           "RvsdInvoiceInd": false,
           "DlvryRteTypeCode": "RouteABC",
           "EmailAddr": "test@abc.com",
-          "BnftPlanName": "TEST BENEFITPLAB"
+          "BnftPlanName": "TEST BENEFITPLAB",
+          "InvoiceTypeCode": "BINDER"
         }
       ]
     },
@@ -138,7 +140,8 @@
           "RvsdInvoiceInd": false,
           "DlvryRteTypeCode": "RouteXYZ",
           "EmailAddr": "test@abc.com",
-          "BnftPlanName": "BENEFITPLAN"
+          "BnftPlanName": "BENEFITPLAN",
+          "InvoiceTypeCode": "TEST"
         }
       ]
     },
@@ -190,7 +193,8 @@
           "RvsdInvoiceInd": false,
           "DlvryRteTypeCode": "RouteXYZ",
           "EmailAddr": "something@abmockc.com",
-          "BnftPlanName": "BENEFITPLAN"
+          "BnftPlanName": "BENEFITPLAN",
+          "InvoiceTypeCode": "OTHER TEST"
         }
       ]
     },
@@ -240,7 +244,8 @@
           "RvsdInvoiceInd": false,
           "DlvryRteTypeCode": "Route123",
           "EmailAddr": "test@123.com",
-          "BnftPlanName": "TEST BENEFITPLAN"
+          "BnftPlanName": "TEST BENEFITPLAN",
+          "InvoiceTypeCode": "RECURRING"
         },
         {
           "OnAutopayInd": true,
@@ -282,7 +287,8 @@
           "RvsdInvoiceInd": true,
           "DlvryRteTypeCode": "Route13A",
           "EmailAddr": "test@xyz.com",
-          "BnftPlanName": "TEST BENEFIT PLA"
+          "BnftPlanName": "TEST BENEFIT PLAN",
+          "InvoiceTypeCode": "RECURRING"
         }
       ]
     }

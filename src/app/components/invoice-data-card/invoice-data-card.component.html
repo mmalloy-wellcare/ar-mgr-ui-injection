@@ -13,8 +13,8 @@
       {{invoice.InvoiceDueDt | date: 'MM/dd/yyyy'}}
     </span>
     <span class="spacer"></span>
-    <span class="info-value">
-      Recurring Invoice: 
+    <span class="info-value status-container">
+      {{ invoice.InvoiceTypeCode | titlecase }} Invoice: 
       <span class="status-icon">
         <ng-container *ngIf="!(invoice.RejectedInvoiceInd || invoice.ExceptionInd ) && !invoice.VoidedInvoiceInd">
           <i class="fa fa-check-circle success" aria-hidden="true"></i>
@@ -52,7 +52,7 @@
     <tr>
       <td class=""><a>{{invoice.InvoiceSk}}</a></td>
       <td class="">{{invoice.InvoiceDt | date: 'MM/dd/yyyy'}}</td>
-      <td class="number-cell">{{invoice.PremAmt | currency:'USD'}}</td>
+      <td class="number-cell">{{invoice.PrevInvoiceAmt | currency:'USD'}}</td>
       <td class="number-cell">{{invoice.PymtRcvdAmt | currency:'USD'}}</td>
       <td class="number-cell">{{invoice.BalForwardAmt | currency:'USD'}}</td>
       <td class="number-cell">{{invoice.PremAmt | currency:'USD'}}</td>

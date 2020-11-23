@@ -99,8 +99,12 @@
             color:#BE1E2D;
           }
         }
+
+        &.status-container {
+          padding: 0 0.5rem;
+        }
       }
-  
+
       display: flex;
       align-items: center;
       flex-direction: row;
