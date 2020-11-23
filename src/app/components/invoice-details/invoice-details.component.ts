@@ -11,14 +11,13 @@ import { GemsService, GemsAuth } from 'gems-core';
 export class InvoiceDetailsComponent {
   @Input() set subscriberId(subId: string) {
     this.subscribId = subId;
-    this.loadInvoiceDetails(this.customHeaders);
+    this.loadInvoiceDetails();
   }
   get subscriberId() {
     return this.subscribId;
   }
-
-  invoiceData;
-  loadingInvoices;
+  invoiceData: any;
+  loadingInvoices: boolean;
   filter = {
     rejected: false,
     voided: false
@@ -28,18 +27,16 @@ export class InvoiceDetailsComponent {
     includeRejected: 'false',
     includeVoided : 'false'
   };
-  private subscribId;
-
-  public gemsAuthAccountInvoiceView: GemsAuth = {
+  showInException: boolean;
+  gemsAuthAccountInvoiceView: GemsAuth = {
     accessType: this.gemsService.READ,
     componentId: 'account-billing-invoices-view'
   };
-
-  public gemsAuthAccountInvoiceGenerate: GemsAuth = {
+  gemsAuthAccountInvoiceGenerate: GemsAuth = {
     accessType: this.gemsService.UPDATE,
     componentId: 'account-billing-invoices-generate'
   };
-
+  private subscribId: string;
 
   constructor(
     private invoiceService: InvoiceService,
@@ -48,13 +45,12 @@ export class InvoiceDetailsComponent {
     private gemsService: GemsService
   ) { }
 
-  loadInvoiceDetails(customHeaders) {
+  loadInvoiceDetails() {
     this.loadingInvoices = true;
-    this.invoiceService.getInvoiceDetails(this.subscriberId, '0', [],
-      customHeaders).subscribe(res => {
-        this.invoiceData = res.data;
-        this.loadingInvoices = false;
-        this.changeDectorRef.detectChanges();
+    this.invoiceService.getInvoiceDetails(this.subscriberId, '0', [], this.customHeaders).subscribe(res => {
+      this.invoiceData = res.data;
+      this.loadingInvoices = false;
+      this.changeDectorRef.detectChanges();
     }, (error) => {
       this.alertService.showErrorSnackbar(error);
       this.loadingInvoices = false;
@@ -67,7 +63,32 @@ export class InvoiceDetailsComponent {
       includeRejected: `${this.filter.rejected}`,
       includeVoided: `${this.filter.voided}`
     };
-    this.loadInvoiceDetails(this.customHeaders);
+    this.loadInvoiceDetails();
     this.changeDectorRef.detectChanges();
+  }
+
+  toggleInException() {
+    this.showInException = !this.showInException;
+
+    /* if showInException is true, loop through each invoice. Inside of each invoice, find an inner invoice
+     * that shows an exception indicator. If an inner invoice contains an exception indicator, show that invoice,
+     * otherwise, hide it*/
+
+    /* if showInExcpetion is false, reload grid without filtering for an exception indicator */
+    if (this.showInException) {
+      this.loadingInvoices = true;
+
+      this.invoiceData = this.invoiceData.filter((invoice) => {
+        invoice.Invoices = invoice.Invoices.filter((innerInvoice) => {
+          return innerInvoice.ExceptionInd;
+        });
+
+        return invoice.Invoices.length > 0;
+      });
+
+      this.loadingInvoices = false;
+    } else {
+      this.loadInvoiceDetails();
+    }
   }
 }

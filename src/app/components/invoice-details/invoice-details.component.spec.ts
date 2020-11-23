@@ -67,24 +67,43 @@ describe('InvoiceDetailsComponent', () => {
       spyOn(alertsServiceInject, 'showErrorSnackbar');
       spyOn(invoiceServiceInject, 'getInvoiceDetails').and.returnValue(throwError({ status: 404 }));
 
-      component.loadInvoiceDetails(component.customHeaders);
+      component.loadInvoiceDetails();
       expect(alertsServiceInject.showErrorSnackbar).toHaveBeenCalled();
     })
   );
 
   it('should load the invoice data on success', () => {
     component.subscriberId = '827321841';
-    component.loadInvoiceDetails(component.customHeaders);
+    component.loadInvoiceDetails();
 
-    expect(component.invoiceData.length).toEqual(3);
+    expect(component.invoiceData.length).toEqual(4);
   });
 
   it('should filter based upon the custom headers', () => {
     spyOn(component , 'loadInvoiceDetails');
     component.filterInvoices('rejected');
 
-    expect(component.loadInvoiceDetails).toHaveBeenCalledWith(component.customHeaders);
+    expect(component.loadInvoiceDetails).toHaveBeenCalled();
     expect(component.customHeaders.includeRejected).toEqual('true');
     expect(component.customHeaders.includeVoided).toEqual('false');
+  });
+
+  describe('toggleInException', () => {
+    it('should not call loadInvoiceDetails when showInException is switched to true', () => {
+      testToggleInException(false);
+      expect(component.loadInvoiceDetails).not.toHaveBeenCalled();
+    });
+
+    it('should call loadInvoiceDetails when showInException is switched to false', () => {
+      testToggleInException(true);
+      expect(component.loadInvoiceDetails).toHaveBeenCalled();
+    });
+
+    function testToggleInException(initialException: boolean) {
+      spyOn(component, 'loadInvoiceDetails');
+      component.showInException = initialException;
+      component.invoiceData = JSON.parse(JSON.stringify(mockInvoices));
+      component.toggleInException();
+    }
   });
 });

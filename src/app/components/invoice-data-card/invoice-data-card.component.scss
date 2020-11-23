@@ -83,13 +83,18 @@
           font-weight: bold;
   
           .fa {
-            padding-right:0.5rem;
+            font-size: 1.4rem;
+            padding: 0 0.6rem 0 0.4rem;
           }
           
           .success {
-            color:#2B7335;
+            color: #5A992A;
           }
   
+          .in-exception {
+            color: #D07D00;
+          }
+
           .rejected {
             color:#BE1E2D;
           }

@@ -2,16 +2,17 @@
   <div><strong>Invoice Details</strong></div>
   <span class="toolbar-subtext">Viewing:</span>
   <span class="checkbox-group-horizontal">
-    <mat-checkbox color="primary">In Exception</mat-checkbox>
+    <mat-checkbox color="primary" (click)="toggleInException()">In Exception</mat-checkbox>
     <mat-checkbox color="primary" (click)="filterInvoices('rejected')">Rejected</mat-checkbox>
-    <mat-checkbox color="primary" (click)="filterInvoices('voided')">Voided</mat-checkbox>  
+    <mat-checkbox color="primary" (click)="filterInvoices('voided')">Rescinded</mat-checkbox>  
   </span>
 </mat-toolbar>
 <ng-container *ngIf="!loadingInvoices">
   <ar-mgr-ui-invoice-data-card 
     class="invoice-card" 
     *ngFor="let invoice of invoiceData" 
-    [invoices]="invoice">
+    [invoices]="invoice"
+  >
   </ar-mgr-ui-invoice-data-card>
 </ng-container>
 <ng-container *ngIf="invoiceData ? invoiceData.length === 0 : false">
