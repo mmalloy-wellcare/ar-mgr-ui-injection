@@ -52,14 +52,14 @@
     <tr>
       <td class=""><a>{{invoice.InvoiceSk}}</a></td>
       <td class="">{{invoice.InvoiceDt | date: 'MM/dd/yyyy'}}</td>
-      <td class="number-cell">{{invoice.PrevInvoiceAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.PymtRcvdAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.BalForwardAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.PremAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.AptcAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.OthPayerAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.TtlAdjAmt | currency:'USD'}}</td>
-      <td class="number-cell">{{invoice.TtlAmtDue | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.PrevInvoiceAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.PymtRcvdAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.BalForwardAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.PremAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.AptcAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.OthPayerAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.TtlAdjAmt || 0) | currency:'USD'}}</td>
+      <td class="number-cell">{{ (invoice.TtlAmtDue || 0) | currency:'USD'}}</td>
       <td [ngClass]="{'icon-cell': true, 'notes-selected': !!moreDetails[i].notes}">
         <i 
           (click)="openNotes(i)"

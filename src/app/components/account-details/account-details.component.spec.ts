@@ -78,4 +78,21 @@ describe('AccountDetailsComponent', () => {
       expect(component.accountData).toEqual(expectedResult);
     }
   });
+
+  describe('onSelectedIndexChange', () => {
+    it('should set index to map if index has not been set yet', () => {
+      testOnSelectedIndexChange(0);
+      expect(component.loadedTabsMap.set).toHaveBeenCalled();
+    });
+
+    it('should not set index to map if index has already been set', () => {
+      testOnSelectedIndexChange(1);
+      expect(component.loadedTabsMap.set).not.toHaveBeenCalled();
+    });
+
+    function testOnSelectedIndexChange(index: number) {
+      spyOn(component.loadedTabsMap, 'set');
+      component.onSelectedIndexChange(index);
+    }
+  });
 });

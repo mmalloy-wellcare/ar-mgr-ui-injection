@@ -29,30 +29,23 @@
         >
     </mat-form-field>
 </div>
-<mat-tab-group selectedIndex="1" *ngIf="accountData.LobTypeCode">
+<mat-tab-group selectedIndex="1" *ngIf="accountData.LobTypeCode" (selectedIndexChange)="onSelectedIndexChange($event)">
     <mat-tab label="Billing Invoices">
         <ng-template mat-tab-label>
-            <i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp;
-            Billing Invoices 
+            <i class="fa fa-file-text-o" aria-hidden="true"></i> &nbsp; Billing Invoices 
         </ng-template>
-        <ar-mgr-ui-invoice-details
-            [subscriberId]= "subscriberId"
-        ></ar-mgr-ui-invoice-details>
+        <ar-mgr-ui-invoice-details *ngIf="loadedTabsMap.has(0)" [subscriberId]= "subscriberId"></ar-mgr-ui-invoice-details>
     </mat-tab>
     <mat-tab label="Activity">
         <ng-template mat-tab-label>
-            <i class="fa fa-newspaper-o" aria-hidden="true"></i> &nbsp;
-            Activity
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i> &nbsp; Activity
         </ng-template>
-        <ar-mgr-ui-activity [accountData]="accountData"></ar-mgr-ui-activity>
+        <ar-mgr-ui-activity *ngIf="loadedTabsMap.has(1)" [accountData]="accountData"></ar-mgr-ui-activity>
     </mat-tab>
     <mat-tab label="Payments">
         <ng-template mat-tab-label>
-            <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp;
-            Payments
+            <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp; Payments
         </ng-template>
-        <ar-mgr-ui-payment-details 
-            [subscriberId]= "subscriberId">
-        </ar-mgr-ui-payment-details>
+        <ar-mgr-ui-payment-details *ngIf="loadedTabsMap.has(2)" [subscriberId]= "subscriberId"></ar-mgr-ui-payment-details>
     </mat-tab>
 </mat-tab-group>

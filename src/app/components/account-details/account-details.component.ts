@@ -13,6 +13,7 @@ export class AccountDetailsComponent implements OnInit {
   accountData: any = {
     AccountName: '---'
   };
+  loadedTabsMap = new Map();
 
   constructor(
     private route: ActivatedRoute,
@@ -26,10 +27,26 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    // add index 1 to map on init since the second tab starts out as shown
+    this.loadedTabsMap.set(1, true);
+
     this.accountsService.getAccountById(this.subscriberId).subscribe((account) => {
       this.accountData = account || {};
     }, (error) => {
       this.alertsService.showErrorSnackbar(error);
     });
+  }
+
+  onSelectedIndexChange(index: number) {
+    /**
+     * Right now, all components inside all tabs initialize when the screen loads.
+     * We only want to initialize them when the tab is clicked.
+     * To do this, the tab will check if it has already been clicked (index is in map).
+     * If the tab hasn't been clicked (index is not in map), set the index to map on selected index change.
+     * Once the index has been set to map, the component will be inialized and displayed.
+     */
+    if (!this.loadedTabsMap.has(index)) {
+      this.loadedTabsMap.set(index, true);
+    }
   }
 }
