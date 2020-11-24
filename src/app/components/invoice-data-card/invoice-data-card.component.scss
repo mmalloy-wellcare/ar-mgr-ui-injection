@@ -123,24 +123,20 @@
             color: #2B7335
           }
         }
+
         .info-value {
           font-size: 1.4rem;
         }
   
         .expanded-details {
-          user-select: none;
           color: #5f3777;
+
           .fa {
             color:#5f3777;
           }
         }
-  
-        .expanded-details:hover {
-          cursor: pointer;
-        }
-  
+    
         .less-details {
-          user-select: none;
           color: #107ba4;
   
           .fa {
@@ -148,8 +144,16 @@
           }
         }
   
-        .less-details:hover{
-          cursor: pointer;
+        .expanded-details, .less-details {
+          user-select: none;
+  
+          &:hover{
+            cursor: pointer;
+          }
+
+          &.fa {
+            font-size: 1.2rem;
+          }
         }
   
         .icon-details-label {

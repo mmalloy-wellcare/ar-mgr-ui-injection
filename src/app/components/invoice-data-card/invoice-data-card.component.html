@@ -16,21 +16,17 @@
     <span class="info-value status-container">
       {{ invoice.InvoiceTypeCode | titlecase }} Invoice: 
       <span class="status-icon">
-        <ng-container *ngIf="!(invoice.RejectedInvoiceInd || invoice.ExceptionInd ) && !invoice.VoidedInvoiceInd">
+        <ng-container *ngIf="!(invoice.RejectedInvoiceInd || invoice.ExceptionInd)">
           <i class="fa fa-check-circle success" aria-hidden="true"></i>
           <span>Successful</span>
         </ng-container>
-        <ng-container *ngIf="invoice.RejectedInvoiceInd && !invoice.VoidedInvoiceInd  && !invoice.ExceptionInd">
+        <ng-container *ngIf="invoice.RejectedInvoiceInd && !invoice.ExceptionInd">
           <i class="fa fa-times-circle-o rejected" aria-hidden="true"></i>
           <span>Rejected</span>
         </ng-container>
-        <ng-container *ngIf="invoice.ExceptionInd && !invoice.VoidedInvoiceInd && !invoice.RejectedInvoiceInd">
+        <ng-container *ngIf="invoice.ExceptionInd && !invoice.RejectedInvoiceInd">
           <i class="fa fa-exclamation-circle in-exception" aria-hidden="true"></i>
           <span>In Exception</span>
-        </ng-container>
-        <ng-container *ngIf="invoice.VoidedInvoiceInd && !invoice.RejectedInvoiceInd && !invoice.ExceptionInd">
-          <i class="fa fa-ban rejected" aria-hidden="true"></i>
-          <span>Rescinded</span>
         </ng-container>
       </span>
     </span>
@@ -75,8 +71,13 @@
     <div>
       <i
         (click)="openDetails(i)" 
-        [ngClass]="{'fa': true, 'fa-plus-square': !moreDetails[i].details, 'fa-minus-square': moreDetails[i].details, 
-                  'fa-2x':true,'expanded-details': moreDetails[i].details , 'less-details': !moreDetails[i].details}" 
+        [ngClass]="{
+          'fa': true,
+          'fa-plus-square': !moreDetails[i].details,
+          'fa-minus-square': moreDetails[i].details, 
+          'expanded-details': moreDetails[i].details,
+          'less-details': !moreDetails[i].details
+        }"
         aria-hidden="true">
       </i>
     </div>
