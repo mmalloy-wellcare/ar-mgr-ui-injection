@@ -1,7 +1,7 @@
 {
   "name": "ar-mgr-ui",
-  "version": "2.0.1-11",
-  "scripts": {
+  "version": "2.1.0",
+  "scripts":   {
     "ng": "ng",
     "start": "concurrently \"npm run mock-services\" \"npm run ui\"",
     "ui": "ng serve --aot=true --proxyConfig=src/proxy.conf.local.json --extraWebpackConfig=webpack.externals.js --single-bundle=true",
@@ -17,11 +17,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "browserslist": [
-    "> 5%"
-  ],
+  "browserslist": ["> 5%"],
   "private": true,
-  "dependencies": {
+  "dependencies":   {
     "@angular/animations": "8.x",
     "@angular/cdk": "8.x",
     "@angular/common": "8.x",
@@ -60,7 +58,7 @@
     "@ngx-translate/core": "^12.1.2",
     "gems-core": "0.0.1"
   },
-  "devDependencies": {
+  "devDependencies":   {
     "@angular-devkit/build-angular": "~0.803.25",
     "@angular/cli": "8.x",
     "@angular/compiler-cli": "8.x",
