@@ -38,6 +38,10 @@ export class AccountDetailsComponent implements OnInit {
   }
 
   onSelectedIndexChange(index: number) {
+
+    if (this.loadedTabsMap.has(3)) {
+      this.loadedTabsMap.delete(3);
+    }
     /**
      * Right now, all components inside all tabs initialize when the screen loads.
      * We only want to initialize them when the tab is clicked.
@@ -48,5 +52,6 @@ export class AccountDetailsComponent implements OnInit {
     if (!this.loadedTabsMap.has(index)) {
       this.loadedTabsMap.set(index, true);
     }
+
   }
 }
