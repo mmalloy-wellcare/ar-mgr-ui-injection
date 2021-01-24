@@ -90,6 +90,17 @@ describe('AccountDetailsComponent', () => {
       expect(component.loadedTabsMap.set).not.toHaveBeenCalled();
     });
 
+    it('should delete index 3 from map even if index 3 has already been set', () => {
+      component.loadedTabsMap.set(3, true);
+      testOnSelectedIndexDelete(3);
+      expect(component.loadedTabsMap.delete).toHaveBeenCalled();
+    });
+
+    function testOnSelectedIndexDelete(index: number) {
+      spyOn(component.loadedTabsMap, 'delete');
+      component.onSelectedIndexChange(index);
+    }
+
     function testOnSelectedIndexChange(index: number) {
       spyOn(component.loadedTabsMap, 'set');
       component.onSelectedIndexChange(index);
